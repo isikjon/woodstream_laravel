@@ -20,94 +20,45 @@
     </div>
 </div>
 
-@php
-$telegramModal = \App\Models\Modal::where('slug', 'telegram-info')->where('is_active', true)->first();
-$promoModals = \App\Models\Modal::where('slug', '!=', 'telegram-info')->where('is_active', true)->orderBy('order')->get();
-@endphp
-
-@if($telegramModal)
-<div class="modal modal-info" data-modal-id="{{ $telegramModal->id }}" data-delay="{{ $telegramModal->delay_seconds }}" data-active="true">
-    <div class="modal-content">
-        <div class="modal-top">
-            <h3 class="modal-title">Ваша винтажная мечта близко!</h3>
-            <div class="modal-close modal-info__close"><img src="{{ asset('images/icons/moda-close.svg') }}" alt=""></div>
-        </div>
-        <div class="modal-info__body">
-            <h2 class="section-title">Вся коллекция Woodstream теперь в Telegram!</h2>
-            <p>
-                Больше не нужно ждать! В нашем Telegram-боте @woodstream63bot представлен полный и актуальный
-                каталог винтажной мебели. Выбирайте, добавляйте в избранное и оформляйте заказ в пару касаний. <br>
-                <br>
-                А чтобы всегда быть в курсе самых горячих новинок, скидок и эксклюзивных поступлений, подпишитесь
-                на наш канал @woodstream.
-            </p>
-            <img src="{{ asset('images/content/modal-info.png') }}" alt="" class="modal-info__img">
-            <p class="modal-info__add">Мы ежедневно делимся красотой и полезными советами!</p>
-        </div>
-        <div class="modal-bottom">
-            <a href="https://t.me/woodstream" class="modal-info__btn modal-info__btn--watch" target="_blank">Следить за новинками</a>
-            <a href="https://t.me/woodstream63bot" class="modal-info__btn modal-info__btn--order" target="_blank">Выбирать и заказывать</a>
-        </div>
-    </div>
-</div>
-@endif
-
-@foreach($promoModals as $index => $modal)
-@php
-$buttonUrl1 = $modal->button_1_url;
-$buttonUrl2 = $modal->button_2_url;
-
-if ($modal->button_1_type === 'whatsapp' && $modal->button_1_url) {
-    $buttonUrl1 = 'https://wa.me/' . preg_replace('/\D/', '', $modal->button_1_url);
-} elseif ($modal->button_1_type === 'telegram' && $modal->button_1_url) {
-    $buttonUrl1 = 'https://t.me/' . ltrim($modal->button_1_url, '@');
-}
-
-if ($modal->button_2_type === 'whatsapp' && $modal->button_2_url) {
-    $buttonUrl2 = 'https://wa.me/' . preg_replace('/\D/', '', $modal->button_2_url);
-} elseif ($modal->button_2_type === 'telegram' && $modal->button_2_url) {
-    $buttonUrl2 = 'https://t.me/' . ltrim($modal->button_2_url, '@');
-}
-
-$imageDesktop = $modal->image ? asset($modal->image) : null;
-$imageMobile = $modal->image_mobile ? asset($modal->image_mobile) : $imageDesktop;
-@endphp
-
-<div class="modal modal-promo modal-promo-{{ $index }}" 
-     data-modal-id="{{ $modal->id }}" 
-     data-delay="{{ $modal->delay_seconds }}" 
-     data-order="{{ $modal->order }}" 
+<div class="modal modal-promo modal-promo-0" 
+     data-modal-id="1" 
+     data-delay="3" 
+     data-order="0" 
      data-active="true"
-     data-index="{{ $index }}">
+     data-index="0">
     <div class="modal-content">
-        <div class="modal-close modal-promo__close" data-modal-index="{{ $index }}">
+        <div class="modal-close modal-promo__close" data-modal-index="0">
             <img src="{{ asset('images/icons/moda-close.svg') }}" alt="Close">
         </div>
         
         <a href="https://t.me/woodstream63bot" target="_blank" class="modal-promo__body">
-            @if($imageDesktop || $imageMobile)
-                <picture class="modal-promo__image">
-                    @if($imageMobile && $imageDesktop !== $imageMobile)
-                        <source media="(max-width: 768px)" srcset="{{ $imageMobile }}">
-                    @endif
-                    <img src="{{ $imageDesktop }}" alt="{{ $modal->title }}">
-                </picture>
-            @endif
+            <picture class="modal-promo__image">
+                <source media="(max-width: 768px)" srcset="{{ asset('images/mobile1.png') }}">
+                <img src="{{ asset('images/desktop1.png') }}" alt="Woodstream в Telegram">
+            </picture>
         </a>
-        
-        @if($modal->button_1_text || $modal->button_2_text)
-        <div class="modal-bottom">
-            @if($modal->button_1_text && $buttonUrl1)
-                <a href="{{ $buttonUrl1 }}" class="modal-info__btn {{ $modal->button_1_type === 'whatsapp' ? 'modal-info__btn--whatsapp' : 'modal-info__btn--watch' }}" target="_blank">{{ $modal->button_1_text }}</a>
-            @endif
-            @if($modal->button_2_text && $buttonUrl2)
-                <a href="{{ $buttonUrl2 }}" class="modal-info__btn {{ $modal->button_2_type === 'whatsapp' ? 'modal-info__btn--whatsapp' : 'modal-info__btn--order' }}" target="_blank">{{ $modal->button_2_text }}</a>
-            @endif
-        </div>
-        @endif
     </div>
 </div>
-@endforeach
+
+<div class="modal modal-promo modal-promo-1" 
+     data-modal-id="2" 
+     data-delay="5" 
+     data-order="1" 
+     data-active="true"
+     data-index="1">
+    <div class="modal-content">
+        <div class="modal-close modal-promo__close" data-modal-index="1">
+            <img src="{{ asset('images/icons/moda-close.svg') }}" alt="Close">
+        </div>
+        
+        <a href="https://t.me/woodstream63bot" target="_blank" class="modal-promo__body">
+            <picture class="modal-promo__image">
+                <source media="(max-width: 768px)" srcset="{{ asset('images/mobile2.png') }}">
+                <img src="{{ asset('images/desktop2.png') }}" alt="Больше не нужно ждать">
+            </picture>
+        </a>
+    </div>
+</div>
 
 <div class="modal modal-login ">
     <div class="modal-content">
