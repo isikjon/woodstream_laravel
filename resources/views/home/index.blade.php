@@ -178,9 +178,9 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="antique-item">
-                                <a href="#" class="antique-item__image">
+                                <div class="antique-item__image">
                                     <img src="{{ asset('images/content/antique_1.png') }}" alt="">
-                                </a>
+                                </div>
                                 <div class="antique-item__content">
                                     <div class="antique-item__info">
                                         <span class="antique-item__code">Арт-И24211</span>
@@ -196,9 +196,9 @@
                         </div>
                         <div class="swiper-slide">
                             <div class="antique-item">
-                                <a href="#" class="antique-item__image">
+                                <div class="antique-item__image">
                                     <img src="{{ asset('images/content/antique_2.png') }}" alt="">
-                                </a>
+                                </div>
                                 <div class="antique-item__content">
                                     <div class="antique-item__info">
                                         <span class="antique-item__code">Арт-И24211</span>
@@ -214,9 +214,9 @@
                         </div>
                         <div class="swiper-slide">
                             <div class="antique-item">
-                                <a href="#" class="antique-item__image">
+                                <div class="antique-item__image">
                                     <img src="{{ asset('images/content/antique_3.png') }}" alt="">
-                                </a>
+                                </div>
                                 <div class="antique-item__content">
                                     <div class="antique-item__info">
                                         <span class="antique-item__code">Арт-И24211</span>
@@ -232,9 +232,9 @@
                         </div>
                         <div class="swiper-slide">
                             <div class="antique-item">
-                                <a href="#" class="antique-item__image">
+                                <div class="antique-item__image">
                                     <img src="{{ asset('images/content/antique_1.png') }}" alt="">
-                                </a>
+                                </div>
                                 <div class="antique-item__content">
                                     <div class="antique-item__info">
                                         <span class="antique-item__code">Арт-И24211</span>
@@ -250,9 +250,9 @@
                         </div>
                         <div class="swiper-slide">
                             <div class="antique-item">
-                                <a href="#" class="antique-item__image">
+                                <div class="antique-item__image">
                                     <img src="{{ asset('images/content/antique_2.png') }}" alt="">
-                                </a>
+                                </div>
                                 <div class="antique-item__content">
                                     <div class="antique-item__info">
                                         <span class="antique-item__code">Арт-И24211</span>
@@ -268,9 +268,9 @@
                         </div>
                         <div class="swiper-slide">
                             <div class="antique-item">
-                                <a href="#" class="antique-item__image">
+                                <div class="antique-item__image">
                                     <img src="{{ asset('images/content/antique_3.png') }}" alt="">
-                                </a>
+                                </div>
                                 <div class="antique-item__content">
                                     <div class="antique-item__info">
                                         <span class="antique-item__code">Арт-И24211</span>
@@ -299,7 +299,7 @@
         <h2 class="section-title">Новинки недели</h2>
         <div class="weekly-grid">
             @foreach($weeklyProducts as $product)
-            <div class="weekly-product">
+            <a href="{{ route('product.show', $product->id) }}" class="weekly-product">
                 <div class="weekly-product__image">
                     <img src="{{ $product->main_image }}" alt="{{ $product->name }}">
                 </div>
@@ -333,7 +333,7 @@
                     </div>
                     <h3 class="weekly-product__title">{{ $product->name }}</h3>
                 </div>
-            </div>
+            </a>
             @endforeach
         </div>
         <button class="weekly-all">
