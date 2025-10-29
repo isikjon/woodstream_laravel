@@ -21,10 +21,38 @@
 </div>
 
 @php
-$activeModals = \App\Models\Modal::getActiveModals();
+$telegramModal = \App\Models\Modal::where('slug', 'telegram-info')->where('is_active', true)->first();
+$promoModals = \App\Models\Modal::where('slug', '!=', 'telegram-info')->where('is_active', true)->orderBy('order')->get();
 @endphp
 
-@foreach($activeModals as $index => $modal)
+@if($telegramModal)
+<div class="modal modal-info" data-modal-id="{{ $telegramModal->id }}" data-delay="{{ $telegramModal->delay_seconds }}" data-active="true">
+    <div class="modal-content">
+        <div class="modal-top">
+            <h3 class="modal-title">Ваша винтажная мечта близко!</h3>
+            <div class="modal-close modal-info__close"><img src="{{ asset('images/icons/moda-close.svg') }}" alt=""></div>
+        </div>
+        <div class="modal-info__body">
+            <h2 class="section-title">Вся коллекция Woodstream теперь в Telegram!</h2>
+            <p>
+                Больше не нужно ждать! В нашем Telegram-боте @woodstream63bot представлен полный и актуальный
+                каталог винтажной мебели. Выбирайте, добавляйте в избранное и оформляйте заказ в пару касаний. <br>
+                <br>
+                А чтобы всегда быть в курсе самых горячих новинок, скидок и эксклюзивных поступлений, подпишитесь
+                на наш канал @woodstream.
+            </p>
+            <img src="{{ asset('images/content/modal-info.png') }}" alt="" class="modal-info__img">
+            <p class="modal-info__add">Мы ежедневно делимся красотой и полезными советами!</p>
+        </div>
+        <div class="modal-bottom">
+            <a href="https://t.me/woodstream" class="modal-info__btn modal-info__btn--watch" target="_blank">Следить за новинками</a>
+            <a href="https://t.me/woodstream63bot" class="modal-info__btn modal-info__btn--order" target="_blank">Выбирать и заказывать</a>
+        </div>
+    </div>
+</div>
+@endif
+
+@foreach($promoModals as $index => $modal)
 @php
 $buttonUrl1 = $modal->button_1_url;
 $buttonUrl2 = $modal->button_2_url;
@@ -45,37 +73,24 @@ $imageDesktop = $modal->image ? asset('storage/' . $modal->image) : null;
 $imageMobile = $modal->image_mobile ? asset('storage/' . $modal->image_mobile) : $imageDesktop;
 @endphp
 
-<div class="modal modal-custom modal-custom-{{ $index }}" 
+<div class="modal modal-promo modal-promo-{{ $index }}" 
      data-modal-id="{{ $modal->id }}" 
      data-delay="{{ $modal->delay_seconds }}" 
      data-order="{{ $modal->order }}" 
      data-active="true"
      data-index="{{ $index }}">
     <div class="modal-content">
-        @if($modal->title)
-        <div class="modal-top">
-            <h3 class="modal-title">{{ $modal->title }}</h3>
-            <div class="modal-close modal-custom__close" data-modal-index="{{ $index }}">
-                <img src="{{ asset('images/icons/moda-close.svg') }}" alt="">
-            </div>
-        </div>
-        @else
-        <div class="modal-close modal-custom__close" data-modal-index="{{ $index }}" style="position: absolute; top: 10px; right: 10px; cursor: pointer; z-index: 10;">
+        <div class="modal-close modal-promo__close" data-modal-index="{{ $index }}" style="position: absolute; top: 10px; right: 10px; cursor: pointer; z-index: 10;">
             <img src="{{ asset('images/icons/moda-close.svg') }}" alt="">
         </div>
-        @endif
         
-        <div class="modal-custom__body">
-            @if($modal->content && !$modal->image)
-                {!! nl2br(e($modal->content)) !!}
-            @endif
-            
+        <div class="modal-promo__body">
             @if($imageDesktop || $imageMobile)
-                <picture class="modal-custom__image">
+                <picture class="modal-promo__image">
                     @if($imageMobile && $imageDesktop !== $imageMobile)
                         <source media="(max-width: 768px)" srcset="{{ $imageMobile }}">
                     @endif
-                    <img src="{{ $imageDesktop }}" alt="{{ $modal->title }}" style="width: 100%; height: auto; display: block;">
+                    <img src="{{ $imageDesktop }}" alt="{{ $modal->title }}" style="width: 100%; height: auto; display: block; border-radius: 14px;">
                 </picture>
             @endif
         </div>

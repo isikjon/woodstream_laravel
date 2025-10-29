@@ -274,9 +274,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Modal system with queue and close counter
-    const customModals = document.querySelectorAll('.modal-custom');
+    const modalInfo = document.querySelector('.modal-info');
+    const promoModals = document.querySelectorAll('.modal-promo');
+    const allModals = [];
     
-    if (customModals.length > 0) {
+    if (modalInfo) allModals.push(modalInfo);
+    promoModals.forEach(modal => allModals.push(modal));
+    
+    if (allModals.length > 0) {
         let currentModalIndex = 0;
         const CLOSE_LIMIT = 3;
         
@@ -298,9 +303,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         function showNextModal() {
-            if (currentModalIndex >= customModals.length) return;
+            if (currentModalIndex >= allModals.length) return;
             
-            const modal = customModals[currentModalIndex];
+            const modal = allModals[currentModalIndex];
             const isActive = modal.dataset.active === 'true';
             const delay = parseInt(modal.dataset.delay || 0) * 1000;
             
@@ -314,8 +319,39 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        customModals.forEach((modal, index) => {
-            const closeBtn = modal.querySelector('.modal-custom__close');
+        // Обработчик для modal-info
+        if (modalInfo) {
+            const closeBtn = modalInfo.querySelector('.modal-info__close');
+            const modalId = modalInfo.dataset.modalId;
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    modalInfo.classList.remove('modal--show');
+                    
+                    const closeCount = getModalCloseCount()[modalId] || 0;
+                    setModalCloseCount(modalId, closeCount + 1);
+                    
+                    currentModalIndex++;
+                    setTimeout(() => showNextModal(), 500);
+                });
+            }
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === modalInfo) {
+                    modalInfo.classList.remove('modal--show');
+                    
+                    const closeCount = getModalCloseCount()[modalId] || 0;
+                    setModalCloseCount(modalId, closeCount + 1);
+                    
+                    currentModalIndex++;
+                    setTimeout(() => showNextModal(), 500);
+                }
+            });
+        }
+        
+        // Обработчики для promo модалок
+        promoModals.forEach((modal) => {
+            const closeBtn = modal.querySelector('.modal-promo__close');
             const modalId = modal.dataset.modalId;
             
             if (closeBtn) {
