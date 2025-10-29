@@ -43,7 +43,8 @@
     .header__nav-dropdown-item-new-menu:hover {
         opacity: 0.8;
     }
-    .header__nav-dropdown:hover .header__nav-dropdown-list-new-menu {
+    .header__nav-dropdown:hover .header__nav-dropdown-list-new-menu,
+    .header__nav-dropdown-list-new-menu:hover {
         display: block;
     }
 </style>
