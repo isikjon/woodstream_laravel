@@ -53,7 +53,7 @@
         transition: opacity 0.2s ease;
     }
     .header__nav-dropdown-item-new-menu:hover {
-        opacity: 0.8;
+        opacity: 0.5;
     }
     .header__nav:has(.header__nav-dropdown:hover) .header__nav-dropdown-list-new-menu,
     .header__nav-dropdown-list-new-menu:hover {
