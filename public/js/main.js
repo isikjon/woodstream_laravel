@@ -273,30 +273,77 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // modal info with time
-    const modalInfo = document.querySelector('.modal-info');
-    const modalInfoClose = document.querySelector('.modal-info__close');
-
-    if (modalInfo && modalInfoClose) {
-        const modalClosed = localStorage.getItem('woodstream_modal_closed');
+    // Modal system with queue and close counter
+    const customModals = document.querySelectorAll('.modal-custom');
+    
+    if (customModals.length > 0) {
+        let currentModalIndex = 0;
+        const CLOSE_LIMIT = 3;
         
-        if (!modalClosed) {
-            setTimeout(() => {
-                modalInfo.classList.add('modal--show');
-            }, 500);
+        function getModalCloseCount() {
+            const closeData = localStorage.getItem('modal_close_count');
+            return closeData ? JSON.parse(closeData) : {};
         }
-
-        modalInfoClose.addEventListener('click', () => {
-            modalInfo.classList.remove('modal--show');
-            localStorage.setItem('woodstream_modal_closed', 'true');
-        });
-
-        window.addEventListener('click', (e) => {
-            if (e.target === modalInfo) {
-                modalInfo.classList.remove('modal--show');
-                localStorage.setItem('woodstream_modal_closed', 'true');
+        
+        function setModalCloseCount(modalId, count) {
+            const closeData = getModalCloseCount();
+            closeData[modalId] = count;
+            localStorage.setItem('modal_close_count', JSON.stringify(closeData));
+        }
+        
+        function shouldShowModal(modal) {
+            const modalId = modal.dataset.modalId;
+            const closeCount = getModalCloseCount()[modalId] || 0;
+            return closeCount < CLOSE_LIMIT;
+        }
+        
+        function showNextModal() {
+            if (currentModalIndex >= customModals.length) return;
+            
+            const modal = customModals[currentModalIndex];
+            const isActive = modal.dataset.active === 'true';
+            const delay = parseInt(modal.dataset.delay || 0) * 1000;
+            
+            if (isActive && shouldShowModal(modal)) {
+                setTimeout(() => {
+                    modal.classList.add('modal--show');
+                }, delay);
+            } else {
+                currentModalIndex++;
+                showNextModal();
             }
+        }
+        
+        customModals.forEach((modal, index) => {
+            const closeBtn = modal.querySelector('.modal-custom__close');
+            const modalId = modal.dataset.modalId;
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    modal.classList.remove('modal--show');
+                    
+                    const closeCount = getModalCloseCount()[modalId] || 0;
+                    setModalCloseCount(modalId, closeCount + 1);
+                    
+                    currentModalIndex++;
+                    setTimeout(() => showNextModal(), 500);
+                });
+            }
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('modal--show');
+                    
+                    const closeCount = getModalCloseCount()[modalId] || 0;
+                    setModalCloseCount(modalId, closeCount + 1);
+                    
+                    currentModalIndex++;
+                    setTimeout(() => showNextModal(), 500);
+                }
+            });
         });
+        
+        showNextModal();
     }
 
     const header = document.querySelector('.header');
