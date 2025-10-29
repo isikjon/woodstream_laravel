@@ -10,12 +10,12 @@ $contacts = cache()->remember('active_contacts', 3600, function () {
         if (strlen($digits) === 10) {
             $digits = '7' . $digits;
         }
-        if (strlen($digits) === 11 && $digits[0] === '7') {
-            $digits[0] = '8';
+        if (strlen($digits) === 11 && $digits[0] === '8') {
+            $digits = '7' . substr($digits, 1);
         }
         $display = $digits;
-        if (strlen($digits) === 11) {
-            $display = '8 (' . substr($digits, 1, 3) . ') ' . substr($digits, 4, 3) . '-' . substr($digits, 7, 2) . '-' . substr($digits, 9, 2);
+        if (strlen($digits) === 11 && $digits[0] === '7') {
+            $display = '+7 (' . substr($digits, 1, 3) . ') ' . substr($digits, 4, 3) . '-' . substr($digits, 7, 2) . '-' . substr($digits, 9, 2);
         }
             return [
                 'display' => $display,
