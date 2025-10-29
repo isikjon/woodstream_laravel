@@ -1,11 +1,4 @@
 <style>
-    .header__nav-dropdown-item-new-menu {
-        color: #1d2229;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 140%;
-    }
     .header {
         position: relative !important;
     }
@@ -23,6 +16,16 @@
         border-radius: 8px !important;
         z-index: 1000 !important;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
+    }
+    .header__nav-dropdown-item-new-menu {
+        color: #1d2229;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 140%;
+    }
+    .header__nav-dropdown-item-new-menu:hover {
+        opacity: 0.8;
     }
 </style>
 <header class="header">
