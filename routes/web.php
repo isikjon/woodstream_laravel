@@ -18,6 +18,7 @@ use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\OldProductController;
 use App\Http\Controllers\OldBlogController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ModalController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -47,3 +48,5 @@ Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 Route::get('/repair', [RepairController::class, 'index'])->name('repair');
 Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews');
 Route::post('/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
+
+Route::get('/admin/modals', [ModalController::class, 'index'])->name('modals.index');

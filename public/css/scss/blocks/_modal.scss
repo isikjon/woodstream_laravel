@@ -217,6 +217,32 @@
         }
     }
 
+    &-promo {
+        .modal-content {
+            max-width: 886px;
+
+            @include respond(mobile) {
+                max-width: 520px;
+                margin-top: 40px;
+            }
+        }
+
+        &__body {
+            padding: 30px;
+            background-color: var(--bg-color);
+            border-radius: 14px;
+
+            @include respond(mobile) {
+                padding: 16px;
+            }
+        }
+
+        .modal-bottom {
+            background-color: var(--bg-color);
+            border-radius: 0 0 14px 14px;
+        }
+    }
+
     &-bottom {
         display: flex;
         align-items: center;

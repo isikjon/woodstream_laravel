@@ -69,8 +69,8 @@ if ($modal->button_2_type === 'whatsapp' && $modal->button_2_url) {
     $buttonUrl2 = 'https://t.me/' . ltrim($modal->button_2_url, '@');
 }
 
-$imageDesktop = $modal->image ? asset('storage/' . $modal->image) : null;
-$imageMobile = $modal->image_mobile ? asset('storage/' . $modal->image_mobile) : $imageDesktop;
+$imageDesktop = $modal->image ? asset($modal->image) : null;
+$imageMobile = $modal->image_mobile ? asset($modal->image_mobile) : $imageDesktop;
 @endphp
 
 <div class="modal modal-promo modal-promo-{{ $index }}" 
@@ -80,20 +80,20 @@ $imageMobile = $modal->image_mobile ? asset('storage/' . $modal->image_mobile) :
      data-active="true"
      data-index="{{ $index }}">
     <div class="modal-content">
-        <div class="modal-close modal-promo__close" data-modal-index="{{ $index }}" style="position: absolute; top: 10px; right: 10px; cursor: pointer; z-index: 10;">
-            <img src="{{ asset('images/icons/moda-close.svg') }}" alt="">
+        <div class="modal-close modal-promo__close" data-modal-index="{{ $index }}">
+            <img src="{{ asset('images/icons/moda-close.svg') }}" alt="Close">
         </div>
         
-        <div class="modal-promo__body">
+        <a href="https://t.me/woodstream63bot" target="_blank" class="modal-promo__body">
             @if($imageDesktop || $imageMobile)
                 <picture class="modal-promo__image">
                     @if($imageMobile && $imageDesktop !== $imageMobile)
                         <source media="(max-width: 768px)" srcset="{{ $imageMobile }}">
                     @endif
-                    <img src="{{ $imageDesktop }}" alt="{{ $modal->title }}" style="width: 100%; height: auto; display: block; border-radius: 14px;">
+                    <img src="{{ $imageDesktop }}" alt="{{ $modal->title }}">
                 </picture>
             @endif
-        </div>
+        </a>
         
         @if($modal->button_1_text || $modal->button_2_text)
         <div class="modal-bottom">

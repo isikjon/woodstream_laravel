@@ -357,7 +357,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const modalId = modal.dataset.modalId;
             
             if (closeBtn) {
-                closeBtn.addEventListener('click', () => {
+                closeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     modal.classList.remove('modal--show');
                     
                     const closeCount = getModalCloseCount()[modalId] || 0;
