@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="{{ asset('css/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fancybox.css') }}">
     <link rel="stylesheet" href="{{ asset('css/search-dropdown.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modal-promo.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/modal-promo.css') }}?v={{ time() }}">
     <title>@yield('title', 'WoodStream')</title>
     @stack('styles')
 </head>
