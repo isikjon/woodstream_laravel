@@ -1,0 +1,62 @@
+:root {
+    // scroll-behavior: smooth;
+    --color-green: #4CAF50;
+    --color-red: #FF543E;
+    --color-light-red: #FFE7E7;
+    --color-dark: #2C3640;
+    --color-text: #1D2229;
+    --color-muted: #475769;
+    --color-light-muted: #CDD1D7;
+    --color-grey: #909CAB;
+    --color-yellow: #EFDEBC;
+    --color-btn-text-light: #F0F4FF;
+    --color-menu-active: #F3F3F3;
+    --color-white: #fff;
+    --bg-color: #FAFAFA;
+    --go-page: #7B7B7B;
+    --footer-contacts: #EEF0F3;
+    --breadcrumbs-active: #B1B4B9;
+    --filter-bg: #F5F5F5;
+}
+
+body.dark {
+    --color-green: #4CAF50;
+    --color-red: #FF543E;
+    --color-light-red: #FFE7E7;
+    --color-dark: #2C3640;
+    --color-text: #fff;
+    --color-muted: #CDD1D7;
+    --color-light-muted: #CDD1D7;
+    --color-grey: #C6C9CF;
+    --color-yellow: #EFDEBC;
+    --color-btn-text-light: #F0F4FF;
+    --color-menu-active: #F3F3F3;
+    --color-white: #3F4650;
+    --bg-color: #2C3640;
+    --go-page: #BEBEBE;
+    --footer-contacts: #313D49;
+    --breadcrumbs-active: #6E7B88;
+    --filter-bg: #394551;
+}
+
+// 🎨 Colors
+$color-green: #4CAF50;
+$color-red: #FF543E;
+$color-light-red: #FFE7E7;
+$color-dark: #2C3640;
+$color-light: #FAFAFA;
+$color-text: #1D2229;
+$color-muted: #475769;
+$color-light-muted: #CDD1D7;
+$color-grey: #909CAB;
+$color-yellow: #EFDEBC;
+$color-btn-text-light: #F0F4FF;
+$color-menu-active: #F3F3F3;
+$color-white: #fff;
+$footer-contacts: #EEF0F3;
+// 🖋 Fonts
+$font-main: "Manrope", sans-serif;
+
+
+// 📱 Breakpoints
+$bp-mobile: 1190px;

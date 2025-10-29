@@ -1,0 +1,50 @@
+.breadcrumbs {
+    padding-top: 27px;
+    padding-bottom: 36px;
+
+    @include respond(mobile) {
+        padding-top: 17px;
+        padding-bottom: 18px;
+    }
+
+    &-list {
+        display: flex;
+        gap: 8px;
+        list-style: none;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    &-item {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    &-link {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        color: var(--color-text);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 140%;
+
+        path {
+
+            body.dark & {
+                fill: #C6C9CF;
+            }
+        }
+
+
+        &--active {
+            color: var(--breadcrumbs-active);
+        }
+
+        @include respond(mobile) {
+            font-size: 12px;
+        }
+    }
+}

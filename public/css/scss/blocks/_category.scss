@@ -1,0 +1,221 @@
+.category {
+    padding-bottom: 80px;
+
+    @include respond(mobile) {
+        padding-bottom: 50px;
+    }
+
+    &-block {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+
+        @include respond(mobile) {
+            margin-top: 20px;
+        }
+    }
+
+    &-item {
+        border-radius: 14px;
+        background: #EEF0F3;
+        width: 170px;
+        height: 96px;
+        position: relative;
+        padding: 10px;
+        color: var(--color-text);
+
+        @include respond(mobile) {
+            padding-top: 3px;
+        }
+
+        body.dark & {
+            background-color: #394551;
+
+            &.category-item--discount {
+                background-color: var(--color-light-red);
+            }
+        }
+
+        img {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        &__title {
+            position: relative;
+            z-index: 2;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 140%;
+        }
+
+        &--discount {
+            background-color: var(--color-light-red);
+            color: var(--color-red);
+        }
+
+        &--small {
+            width: 131px;
+        }
+
+        &--big {
+            width: 210px;
+        }
+
+        &--bigger {
+            width: 219px;
+        }
+
+        @include respond(mobile) {
+            &--third {
+                width: calc((100% - 2 * 8px) / 3);
+            }
+
+            &--two--fifths {
+                width: calc(40% - 4px);
+            }
+
+            &--three--fifths {
+                width: calc(60% - 4px);
+            }
+
+            &--half {
+                width: calc(50% - 4px);
+            }
+
+            // orders
+
+            &--cabinets {
+                order: 1;
+            }
+
+            &--buffets {
+                order: 2;
+            }
+
+            &--furniture {
+                order: 3;
+            }
+
+            &--tables {
+                order: 4;
+            }
+
+            &--vitrines {
+                order: 5;
+            }
+
+            &--offices {
+                order: 6;
+            }
+
+            &--rooms {
+                order: 7;
+
+                img {
+                    width: 75px;
+                }
+            }
+
+            &--sculptures {
+                order: 8;
+            }
+
+            &--bedrooms {
+                order: 9;
+            }
+
+            &--lights {
+                order: 10;
+
+                img {
+                    width: 87px;
+                }
+            }
+
+            &--dinning {
+                order: 11;
+            }
+
+            &--mirrors {
+                order: 12;
+
+                img {
+                    width: 80px;
+                }
+            }
+
+            &--watches {
+                order: 13;
+            }
+
+            &--stoves {
+                order: 14;
+
+                img {
+                    width: 71px;
+                }
+            }
+
+            &--chests {
+                order: 15;
+            }
+
+            &--gifts {
+                order: 16;
+            }
+
+            &--paintings {
+                order: 17;
+            }
+
+            &--antiques {
+                order: 18;
+            }
+
+            &--discount {
+                order: 19;
+            }
+
+            &--small-mabel {
+                order: 20;
+            }
+
+            &--hallway {
+                order: 21;
+            }
+
+            &--clothes {
+                order: 22;
+
+                img {
+                    width: 59px;
+                }
+            }
+
+            &--other {
+                order: 23;
+            }
+
+            &--toys {
+                order: 24;
+            }
+
+            &--chinoise {
+                order: 25;
+            }
+
+            &--archive {
+                order: 26;
+            }
+
+            &--vases {
+                order: 27;
+            }
+        }
+
+    }
+}

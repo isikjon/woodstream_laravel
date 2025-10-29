@@ -1,0 +1,26 @@
+// Variables & mixins first
+@import "variables";
+@import "mixins";
+
+// Base
+@import "base";
+
+// blocks
+@import "blocks/header";
+@import "blocks/hero";
+@import "blocks/category";
+@import "blocks/antique";
+@import "blocks/weekly";
+@import "blocks/blog";
+@import "blocks/interior";
+@import "blocks/ceo";
+@import "blocks/footer";
+
+@import "blocks/modal";
+@import "blocks/breadcrumbs";
+@import "blocks/product";
+@import "blocks/similar";
+@import "blocks/catalog";
+@import "blocks/content";
+@import "blocks/reviews";
+@import "blocks/pagination";
