@@ -3,7 +3,7 @@
         position: relative !important;
     }
     .header__nav-dropdown-list-new-menu {
-        display: flex; 
+        display: none; 
         gap: 5px; 
         color: #000; 
         justify-content: space-between; 
@@ -26,6 +26,9 @@
     }
     .header__nav-dropdown-item-new-menu:hover {
         opacity: 0.8;
+    }
+    .header__nav-more:hover .header__nav-dropdown-list-new-menu {
+        display: flex;
     }
 </style>
 <header class="header">
