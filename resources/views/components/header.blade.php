@@ -8,7 +8,7 @@
     .header__nav-dropdown-list-new-menu {
         display: none; 
         position: fixed !important;
-        top: 160px !important;
+        top: 185px !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
