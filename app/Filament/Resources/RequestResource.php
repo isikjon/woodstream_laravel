@@ -26,6 +26,18 @@ class RequestResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Section::make('Информация о товаре')
+                    ->schema([
+                        Forms\Components\Placeholder::make('product_name')
+                            ->label('Название товара')
+                            ->content(fn ($record) => $record?->product?->name ?? 'Не указан'),
+                        Forms\Components\Placeholder::make('product_price')
+                            ->label('Цена товара')
+                            ->content(fn ($record) => $record?->product ? number_format($record->product->price, 0, '.', ' ') . ' ₽' : 'Не указана'),
+                    ])
+                    ->columns(2)
+                    ->collapsible(),
+                
                 Forms\Components\TextInput::make('offer')
                     ->label('Описание заявки')
                     ->required()
@@ -61,8 +73,21 @@ class RequestResource extends Resource
                     ->label('Описание')
                     ->limit(50)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('product_id')
-                    ->label('Товар ID')
+                Tables\Columns\TextColumn::make('product.name')
+                    ->label('Товар')
+                    ->limit(40)
+                    ->searchable()
+                    ->sortable()
+                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
+                        $state = $column->getState();
+                        if (strlen($state) <= 40) {
+                            return null;
+                        }
+                        return $state;
+                    }),
+                Tables\Columns\TextColumn::make('product.price')
+                    ->label('Цена')
+                    ->money('RUB')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Статус')

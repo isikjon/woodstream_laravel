@@ -54,6 +54,15 @@ class OldProductResource extends Resource
                         Forms\Components\RichEditor::make('description')
                             ->label('Описание')
                             ->columnSpanFull(),
+                        
+                        Forms\Components\Select::make('categories')
+                            ->label('Категории')
+                            ->multiple()
+                            ->relationship('categories', 'name')
+                            ->preload()
+                            ->searchable()
+                            ->columnSpanFull()
+                            ->helperText('Выберите одну или несколько категорий для товара'),
                     ])
                     ->columns(2),
                 
@@ -80,15 +89,38 @@ class OldProductResource extends Resource
                                 9 => 'Забронировано',
                                 11 => 'Под реставрацию',
                             ])
-                            ->default(7),
+                            ->default(7)
+                            ->live()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                if ($state !== 9) {
+                                    $set('booked_by', null);
+                                    $set('booked_at', null);
+                                    $set('booked_expire', null);
+                                }
+                            }),
                         
-                        Forms\Components\Toggle::make('status')
-                            ->label('Активен')
-                            ->default(true),
+                        Forms\Components\Select::make('booked_by')
+                            ->label('Менеджер')
+                            ->relationship('manager', 'name', fn ($query) => $query->active()->ordered())
+                            ->searchable()
+                            ->preload()
+                            ->visible(fn (callable $get) => $get('availability') === 9)
+                            ->helperText('Выберите менеджера, который забронировал товар'),
+                        
+                        Forms\Components\DateTimePicker::make('booked_at')
+                            ->label('Дата бронирования')
+                            ->visible(fn (callable $get) => $get('availability') === 9)
+                            ->default(now()),
+                        
+                        Forms\Components\DateTimePicker::make('booked_expire')
+                            ->label('Бронь до')
+                            ->visible(fn (callable $get) => $get('availability') === 9)
+                            ->helperText('Дата окончания бронирования'),
                         
                         Forms\Components\Toggle::make('online')
                             ->label('Показывать на сайте')
-                            ->default(true),
+                            ->default(true)
+                            ->helperText('Включите чтобы показывать товар на сайте'),
                         
                         Forms\Components\TextInput::make('priority')
                             ->label('Приоритет')
@@ -112,9 +144,13 @@ class OldProductResource extends Resource
                             ->label('Размеры')
                             ->maxLength(255),
                         
-                        Forms\Components\TextInput::make('material')
-                            ->label('Материал')
-                            ->maxLength(255),
+                        Forms\Components\Select::make('materials')
+                            ->label('Материалы')
+                            ->multiple()
+                            ->relationship('materials', 'name')
+                            ->preload()
+                            ->searchable()
+                            ->helperText('Выберите один или несколько материалов'),
                         
                         Forms\Components\TextInput::make('century')
                             ->label('Век')
@@ -144,18 +180,33 @@ class OldProductResource extends Resource
                 
                 Forms\Components\Section::make('Изображения')
                     ->schema([
-                        Forms\Components\TextInput::make('avatar')
-                            ->label('Главное изображение (URL)')
-                            ->maxLength(3000)
-                            ->url()
-                            ->suffixIcon('heroicon-m-photo')
-                            ->helperText('Полный URL изображения'),
+                        Forms\Components\Group::make([
+                            Forms\Components\TextInput::make('avatar')
+                                ->label('Главное изображение (URL)')
+                                ->maxLength(3000)
+                                ->url()
+                                ->suffixIcon('heroicon-m-photo')
+                                ->helperText('Полный URL изображения')
+                                ->live(onBlur: true),
+                            
+                            Forms\Components\ViewField::make('avatar_preview')
+                                ->label('Превью главного изображения')
+                                ->view('filament.forms.components.image-preview')
+                                ->visible(fn ($get) => !empty($get('avatar'))),
+                        ])->columnSpanFull(),
                         
-                        Forms\Components\Textarea::make('images')
-                            ->label('Галерея изображений (JSON)')
-                            ->rows(3)
-                            ->columnSpanFull()
-                            ->helperText('JSON массив с URL изображений'),
+                        Forms\Components\Group::make([
+                            Forms\Components\Textarea::make('images')
+                                ->label('Галерея изображений (JSON)')
+                                ->rows(3)
+                                ->helperText('JSON массив с URL изображений')
+                                ->live(onBlur: true),
+                            
+                            Forms\Components\ViewField::make('images_preview')
+                                ->label('Превью галереи')
+                                ->view('filament.forms.components.gallery-preview')
+                                ->visible(fn ($get) => !empty($get('images'))),
+                        ])->columnSpanFull(),
                         
                         Forms\Components\TextInput::make('video')
                             ->label('Видео (URL)')
@@ -186,11 +237,6 @@ class OldProductResource extends Resource
                     ->label('Фото')
                     ->circular(),
                 
-                Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable()
-                    ->searchable(),
-                
                 Tables\Columns\TextColumn::make('name')
                     ->label('Название')
                     ->searchable()
@@ -204,31 +250,28 @@ class OldProductResource extends Resource
                         return $state;
                     }),
                 
-                Tables\Columns\TextColumn::make('comment')
-                    ->label('Заметки')
-                    ->limit(50)
-                    ->searchable()
-                    ->wrap()
-                    ->formatStateUsing(fn (string $state = null): string => strip_tags($state ?? ''))
-                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
-                        $state = $column->getState();
-                        $cleaned = strip_tags($state ?? '');
-                        if (strlen($cleaned) <= 50) {
-                            return null;
-                        }
-                        return $cleaned;
-                    })
-                    ->toggleable(isToggledHiddenByDefault: false),
-                
                 Tables\Columns\TextColumn::make('model')
                     ->label('Артикул')
                     ->searchable()
                     ->sortable(),
                 
+                Tables\Columns\TextColumn::make('categories.name')
+                    ->label('Категории')
+                    ->badge()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                
+                Tables\Columns\TextColumn::make('materials.name')
+                    ->label('Материалы')
+                    ->badge()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                
                 Tables\Columns\TextColumn::make('price')
                     ->label('Цена')
                     ->money('RUB')
-                    ->sortable(),
+                    ->sortable()
+                    ->width('120px'),
                 
                 Tables\Columns\TextColumn::make('special')
                     ->label('Спец. цена')
@@ -253,9 +296,16 @@ class OldProductResource extends Resource
                         'warning' => fn ($state) => in_array($state, [10, 8, 9, 11]),
                     ]),
                 
-                Tables\Columns\IconColumn::make('status')
-                    ->label('Активен')
-                    ->boolean()
+                Tables\Columns\TextColumn::make('manager.name')
+                    ->label('Менеджер')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->placeholder('—'),
+                
+                Tables\Columns\TextColumn::make('booked_at')
+                    ->label('Дата брони')
+                    ->dateTime('d.m.Y H:i')
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 
                 Tables\Columns\IconColumn::make('online')
@@ -314,12 +364,6 @@ class OldProductResource extends Resource
                     ->placeholder('Все товары')
                     ->trueLabel('На сайте')
                     ->falseLabel('Скрыты'),
-                
-                Tables\Filters\TernaryFilter::make('status')
-                    ->label('Активность')
-                    ->placeholder('Все товары')
-                    ->trueLabel('Активные')
-                    ->falseLabel('Неактивные'),
                 
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label('Город')

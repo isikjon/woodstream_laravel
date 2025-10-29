@@ -30,6 +30,11 @@ class Request extends Model
         return $this->belongsTo(Manager::class);
     }
 
+    public function product()
+    {
+        return $this->belongsTo(OldProduct::class, 'product_id');
+    }
+
     public function getMessageAttribute()
     {
         return $this->comment ?: '';
