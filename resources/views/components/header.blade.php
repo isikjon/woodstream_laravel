@@ -7,7 +7,7 @@
         font-weight: 500;
         line-height: 140%;
     }
-    .header__nav {
+    .header {
         position: relative !important;
     }
     .header__nav-dropdown-list-new-menu {
@@ -100,8 +100,9 @@
                     Ещё
                     <img src="{{ asset('images/icons/arrow_down.svg') }}" alt="">
                 </button>
-
-                <nav class="header__nav-dropdown-list-new-menu">
+            </div>
+        </nav>
+        <nav class="header__nav-dropdown-list-new-menu">
                     <a href="{{ route('catalog.category', 'podarki') }}" class="header__nav-dropdown-item-new-menu">Подарки</a>
                     <a href="{{ route('catalog.category', 'v-nalichii-v-rossii') }}" class="header__nav-dropdown-item-new-menu">Старинная мебель</a>
                     <a href="{{ route('catalog.category', 'skidki') }}" class="header__nav-dropdown-item-new-menu">Антикварная мебель</a>
@@ -115,9 +116,6 @@
                     <a href="{{ route('catalog.category', 'raznoe') }}" class="header__nav-dropdown-item-new-menu">Разное</a>
                     <a href="{{ route('catalog.category', 'kartiny-gobeleny') }}" class="header__nav-dropdown-item-new-menu">Картины</a>
                     <a href="{{ route('catalog.category', 'prodano-arhiv') }}" class="header__nav-dropdown-item-new-menu">Продано/Архив</a>
-
-                </nav>
-            </div>
         </nav>
     </div>
     <div class="header-catalog__modal">
