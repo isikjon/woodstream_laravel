@@ -125,6 +125,25 @@
                 </div>
                 @endif
 
+                @if($priceRanges->isNotEmpty())
+                <div class="catalog-filter__item catalog-filter__item--active">
+                    <div class="catalog-filter__head">
+                        <h4 class="catalog-filter__title">Цена</h4>
+                        <span class="catalog-filter__arrow">
+                            <img src="{{ asset('images/icons/arrow_down.svg') }}" alt="">
+                        </span>
+                    </div>
+                    <div class="catalog-filter__body">
+                        @foreach($priceRanges as $range)
+                        <label class="catalog-filter__label">
+                            <input type="checkbox" name="price_range[]" value="{{ $range['key'] }}" {{ in_array($range['key'], (array)request('price_range', [])) ? 'checked' : '' }}>
+                            <span></span>
+                            <p>{{ $range['label'] }} <span style="color: #999;">({{ $range['count'] }})</span></p>
+                        </label>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
 
                 @if($countries->isNotEmpty())
                 <div class="catalog-filter__item">

@@ -8,9 +8,16 @@ use App\Models\OldCategory;
 use App\Models\OldCity;
 use App\Models\OldCountry;
 use App\Models\OldStyle;
+use App\Services\PriceRangeService;
 
 class CatalogController extends Controller
 {
+    protected $priceRangeService;
+
+    public function __construct(PriceRangeService $priceRangeService)
+    {
+        $this->priceRangeService = $priceRangeService;
+    }
     public function index(Request $request, $categorySlug = null)
     {
         try {
@@ -83,12 +90,16 @@ class CatalogController extends Controller
                 }
             }
 
-            if ($request->has('price_from') && $request->price_from) {
-                $query->where('price', '>=', $request->price_from);
-            }
+            if ($request->has('price_range') && is_array($request->price_range)) {
+                $this->priceRangeService->applyFilter($query, $request->price_range);
+            } elseif ($request->has('price_from') || $request->has('price_to')) {
+                if ($request->has('price_from') && $request->price_from) {
+                    $query->where('price', '>=', $request->price_from);
+                }
 
-            if ($request->has('price_to') && $request->price_to) {
-                $query->where('price', '<=', $request->price_to);
+                if ($request->has('price_to') && $request->price_to) {
+                    $query->where('price', '<=', $request->price_to);
+                }
             }
 
             $products = $query
@@ -112,6 +123,7 @@ class CatalogController extends Controller
             ->filter();
             $styles = OldStyle::orderBy('name')->pluck('name')->filter();
             $countries = OldCountry::orderBy('name')->pluck('name')->filter();
+            $priceRanges = $this->priceRangeService->getRanges();
 
             return view('catalog.index', compact(
                 'products',
@@ -119,7 +131,8 @@ class CatalogController extends Controller
                 'categories',
                 'cities',
                 'styles',
-                'countries'
+                'countries',
+                'priceRanges'
             ));
         } catch (\Exception $e) {
             \Log::error('CatalogController: Ошибка подключения к продакшн БД: ' . $e->getMessage());
