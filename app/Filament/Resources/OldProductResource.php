@@ -203,6 +203,20 @@ class OldProductResource extends Resource
                         return $state;
                     }),
                 
+                Tables\Columns\TextColumn::make('comment')
+                    ->label('Заметки')
+                    ->limit(30)
+                    ->searchable()
+                    ->wrap()
+                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
+                        $state = $column->getState();
+                        if (strlen($state) <= 30) {
+                            return null;
+                        }
+                        return $state;
+                    })
+                    ->toggleable(isToggledHiddenByDefault: false),
+                
                 Tables\Columns\TextColumn::make('model')
                     ->label('Артикул')
                     ->searchable()
@@ -260,19 +274,6 @@ class OldProductResource extends Resource
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                
-                Tables\Columns\TextColumn::make('comment')
-                    ->label('Заметки')
-                    ->limit(50)
-                    ->searchable()
-                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
-                        $state = $column->getState();
-                        if (strlen($state) <= 50) {
-                            return null;
-                        }
-                        return $state;
-                    })
-                    ->toggleable(isToggledHiddenByDefault: false),
                 
                 Tables\Columns\TextColumn::make('arrived_at')
                     ->label('Дата поступления')
