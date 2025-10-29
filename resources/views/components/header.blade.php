@@ -1,8 +1,7 @@
 <style>
     .header__nav-dropdown-item-new-menu {
-        padding: 8px 10px;
         color: #1d2229;
-        font-size: 16px;
+        font-size: 14px;
         font-style: normal;
         font-weight: 500;
         line-height: 140%;
@@ -12,7 +11,7 @@
     }
     .header__nav-dropdown-list-new-menu {
         display: flex; 
-        gap: 10px; 
+        gap: 5px; 
         color: #000; 
         justify-content: space-between; 
         width: 100%;
@@ -22,13 +21,8 @@
         width: 100% !important;
         background-color: #fff !important;
         border-radius: 8px !important;
-        padding: 10px !important;
         z-index: 1000 !important;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
-        border: 1px solid #e0e0e0 !important;
-        border-top: none !important;
-        border-radius: 0 0 8px 8px !important;
-        border-top: none !important;
     }
 </style>
 <header class="header">
