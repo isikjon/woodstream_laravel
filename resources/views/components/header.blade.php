@@ -7,6 +7,29 @@
         font-weight: 500;
         line-height: 140%;
     }
+    .header__nav {
+        position: relative !important;
+    }
+    .header__nav-dropdown-list-new-menu {
+        display: flex; 
+        gap: 10px; 
+        color: #000; 
+        justify-content: space-between; 
+        width: 100%;
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        width: 100% !important;
+        background-color: #fff !important;
+        border-radius: 8px !important;
+        padding: 10px !important;
+        z-index: 1000 !important;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
+        border: 1px solid #e0e0e0 !important;
+        border-top: none !important;
+        border-radius: 0 0 8px 8px !important;
+        border-top: none !important;
+    }
 </style>
 <header class="header">
     <div class="container">
@@ -78,7 +101,7 @@
                     <img src="{{ asset('images/icons/arrow_down.svg') }}" alt="">
                 </button>
 
-                <nav class="header__nav-dropdown-list-new-menu" style="display: flex; gap:  10px; color:  #000; justify-content: space-between; width:  100%;">
+                <nav class="header__nav-dropdown-list-new-menu">
                     <a href="{{ route('catalog.category', 'podarki') }}" class="header__nav-dropdown-item-new-menu">Подарки</a>
                     <a href="{{ route('catalog.category', 'v-nalichii-v-rossii') }}" class="header__nav-dropdown-item-new-menu">Старинная мебель</a>
                     <a href="{{ route('catalog.category', 'skidki') }}" class="header__nav-dropdown-item-new-menu">Антикварная мебель</a>
