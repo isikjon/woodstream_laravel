@@ -68,20 +68,20 @@
                     <img src="{{ asset('images/icons/arrow_down.svg') }}" alt="">
                 </button>
 
-                <nav class="header__nav-dropdown-list">
-                    <a href="{{ route('catalog.category', 'podarki') }}" class="header__nav-dropdown-item">Подарки</a>
-                    <a href="{{ route('catalog.category', 'v-nalichii-v-rossii') }}" class="header__nav-dropdown-item">Старинная мебель</a>
-                    <a href="{{ route('catalog.category', 'skidki') }}" class="header__nav-dropdown-item">Антикварная мебель</a>
-                    <a href="{{ route('catalog.category', 'komplekty-komnaty') }}" class="header__nav-dropdown-item">Комплекты, комнат</a>
-                    <a href="{{ route('catalog.category', 'chasy') }}" class="header__nav-dropdown-item">Часы</a>
-                    <a href="{{ route('catalog.category', 'kamin-kupit') }}" class="header__nav-dropdown-item">Камины/Печи</a>
-                    <a href="{{ route('catalog.category', 'Prihozhie') }}" class="header__nav-dropdown-item">Прихожие</a>
-                    <a href="{{ route('catalog.category', 'vintag-doll') }}" class="header__nav-dropdown-item">Куклы винтажные</a>
-                    <a href="{{ route('catalog.category', 'Skulptury') }}" class="header__nav-dropdown-item">Скульптуры</a>
-                    <a href="{{ route('catalog.category', 'Textil') }}" class="header__nav-dropdown-item">Текстиль/одежда</a>
-                    <a href="{{ route('catalog.category', 'raznoe') }}" class="header__nav-dropdown-item">Разное</a>
-                    <a href="{{ route('catalog.category', 'kartiny-gobeleny') }}" class="header__nav-dropdown-item">Картины</a>
-                    <a href="{{ route('catalog.category', 'prodano-arhiv') }}" class="header__nav-dropdown-item">Продано/Архив</a>
+                <nav class="header__nav-dropdown-list-new-menu" style="display: flex; gap:  10px; color:  #000; justify-content: space-between; width:  100%;">
+                    <a href="{{ route('catalog.category', 'podarki') }}" class="header__nav-dropdown-item-new-menu">Подарки</a>
+                    <a href="{{ route('catalog.category', 'v-nalichii-v-rossii') }}" class="header__nav-dropdown-item-new-menu">Старинная мебель</a>
+                    <a href="{{ route('catalog.category', 'skidki') }}" class="header__nav-dropdown-item-new-menu">Антикварная мебель</a>
+                    <a href="{{ route('catalog.category', 'komplekty-komnaty') }}" class="header__nav-dropdown-item-new-menu">Комплекты, комнат</a>
+                    <a href="{{ route('catalog.category', 'chasy') }}" class="header__nav-dropdown-item-new-menu">Часы</a>
+                    <a href="{{ route('catalog.category', 'kamin-kupit') }}" class="header__nav-dropdown-item-new-menu">Камины/Печи</a>
+                    <a href="{{ route('catalog.category', 'Prihozhie') }}" class="header__nav-dropdown-item-new-menu">Прихожие</a>
+                    <a href="{{ route('catalog.category', 'vintag-doll') }}" class="header__nav-dropdown-item-new-menu">Куклы винтажные</a>
+                    <a href="{{ route('catalog.category', 'Skulptury') }}" class="header__nav-dropdown-item-new-menu">Скульптуры</a>
+                    <a href="{{ route('catalog.category', 'Textil') }}" class="header__nav-dropdown-item-new-menu">Текстиль/одежда</a>
+                    <a href="{{ route('catalog.category', 'raznoe') }}" class="header__nav-dropdown-item-new-menu">Разное</a>
+                    <a href="{{ route('catalog.category', 'kartiny-gobeleny') }}" class="header__nav-dropdown-item-new-menu">Картины</a>
+                    <a href="{{ route('catalog.category', 'prodano-arhiv') }}" class="header__nav-dropdown-item-new-menu">Продано/Архив</a>
 
                 </nav>
             </div>
