@@ -144,17 +144,18 @@ class OldProductResource extends Resource
                 
                 Forms\Components\Section::make('Изображения')
                     ->schema([
-                        Forms\Components\FileUpload::make('avatar')
-                            ->label('Главное изображение')
-                            ->image()
-                            ->directory('products'),
+                        Forms\Components\TextInput::make('avatar')
+                            ->label('Главное изображение (URL)')
+                            ->maxLength(3000)
+                            ->url()
+                            ->suffixIcon('heroicon-m-photo')
+                            ->helperText('Полный URL изображения'),
                         
-                        Forms\Components\FileUpload::make('images')
-                            ->label('Галерея изображений')
-                            ->multiple()
-                            ->image()
-                            ->directory('products')
-                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('images')
+                            ->label('Галерея изображений (JSON)')
+                            ->rows(3)
+                            ->columnSpanFull()
+                            ->helperText('JSON массив с URL изображений'),
                         
                         Forms\Components\TextInput::make('video')
                             ->label('Видео (URL)')

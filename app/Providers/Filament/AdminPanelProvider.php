@@ -28,7 +28,8 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->brandName('WOODSTREAM')
             ->login()
-            ->sidebarWidth('250px')
+            ->sidebarWidth('200px')
+            ->maxContentWidth('full')
             ->colors([
                 'primary' => Color::Amber,
             ])
