@@ -205,15 +205,17 @@ class OldProductResource extends Resource
                 
                 Tables\Columns\TextColumn::make('comment')
                     ->label('Заметки')
-                    ->limit(30)
+                    ->limit(50)
                     ->searchable()
                     ->wrap()
+                    ->formatStateUsing(fn (string $state = null): string => strip_tags($state ?? ''))
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
-                        if (strlen($state) <= 30) {
+                        $cleaned = strip_tags($state ?? '');
+                        if (strlen($cleaned) <= 50) {
                             return null;
                         }
-                        return $state;
+                        return $cleaned;
                     })
                     ->toggleable(isToggledHiddenByDefault: false),
                 
