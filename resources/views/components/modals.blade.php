@@ -34,7 +34,7 @@
         <a href="https://t.me/woodstream63bot" target="_blank" class="modal-promo__body">
             <picture class="modal-promo__image">
                 <source media="(max-width: 768px)" srcset="{{ asset('images/mobile1.png') }}">
-                <img src="{{ asset('images/desktop1.png') }}" alt="Woodstream в Telegram">
+                <img src="{{ asset('images/desktop1.svg') }}" alt="Woodstream в Telegram">
             </picture>
         </a>
     </div>
@@ -54,7 +54,7 @@
         <a href="https://t.me/woodstream63bot" target="_blank" class="modal-promo__body">
             <picture class="modal-promo__image">
                 <source media="(max-width: 768px)" srcset="{{ asset('images/mobile2.png') }}">
-                <img src="{{ asset('images/desktop2.png') }}" alt="Больше не нужно ждать">
+                <img src="{{ asset('images/desktop2.svg') }}" alt="Больше не нужно ждать">
             </picture>
         </a>
     </div>
