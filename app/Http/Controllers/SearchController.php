@@ -19,18 +19,40 @@ class SearchController extends Controller
         $cacheKey = 'search_' . md5($query);
         
         $products = Cache::remember($cacheKey, 600, function() use ($query) {
-            return OldProduct::where(function($q) use ($query) {
+            $productsQuery = OldProduct::where('availability', '!=', 5)
+                ->where(function($q) use ($query) {
                     $q->where('name', 'LIKE', "%{$query}%")
-                      ->orWhere('model', 'LIKE', "%{$query}%");
+                      ->orWhere('model', 'LIKE', "%{$query}%")
+                      ->orWhere('sku', 'LIKE', "%{$query}%");
                 })
                 ->orderByRaw("CASE 
                     WHEN name LIKE ? THEN 1
-                    WHEN model LIKE ? THEN 2
-                    ELSE 3
-                END", ["{$query}%", "{$query}%"])
+                    WHEN sku LIKE ? THEN 2
+                    WHEN model LIKE ? THEN 3
+                    ELSE 4
+                END", ["{$query}%", "{$query}%", "{$query}%"])
                 ->orderBy('priority', 'desc')
                 ->limit(8)
-                ->get(['id', 'name', 'model', 'price', 'special', 'availability']);
+                ->get(['id', 'name', 'model', 'sku', 'price', 'special', 'availability']);
+            
+            if ($productsQuery->isEmpty()) {
+                $productsQuery = OldProduct::where(function($q) use ($query) {
+                        $q->where('name', 'LIKE', "%{$query}%")
+                          ->orWhere('model', 'LIKE', "%{$query}%")
+                          ->orWhere('sku', 'LIKE', "%{$query}%");
+                    })
+                    ->orderByRaw("CASE 
+                        WHEN name LIKE ? THEN 1
+                        WHEN sku LIKE ? THEN 2
+                        WHEN model LIKE ? THEN 3
+                        ELSE 4
+                    END", ["{$query}%", "{$query}%", "{$query}%"])
+                    ->orderBy('priority', 'desc')
+                    ->limit(8)
+                    ->get(['id', 'name', 'model', 'sku', 'price', 'special', 'availability']);
+            }
+            
+            return $productsQuery;
         });
         
         $results = $products->map(function($product) {
@@ -40,7 +62,7 @@ class SearchController extends Controller
             return [
                 'id' => $product->id,
                 'name' => $product->name,
-                'code' => $product->model,
+                'code' => $product->model ?: $product->sku,
                 'price' => number_format($price, 0, ',', ' ') . ' ₽',
                 'status' => $statusText,
                 'url' => route('product.show', $product->id),
@@ -75,6 +97,7 @@ class SearchController extends Controller
             ->where(function($q) use ($query) {
                 $q->where('name', 'LIKE', "%{$query}%")
                   ->orWhere('model', 'LIKE', "%{$query}%")
+                  ->orWhere('sku', 'LIKE', "%{$query}%")
                   ->orWhere('description', 'LIKE', "%{$query}%");
             })
             ->orderBy('priority', 'desc')

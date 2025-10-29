@@ -299,7 +299,7 @@
         <h2 class="section-title">Новинки недели</h2>
         <div class="weekly-grid">
             @foreach($weeklyProducts as $product)
-            <a href="{{ route('product.show', $product->id) }}" class="weekly-product">
+            <div class="weekly-product">
                 <div class="weekly-product__image">
                     <img src="{{ $product->main_image }}" alt="{{ $product->name }}">
                 </div>
@@ -333,7 +333,7 @@
                     </div>
                     <h3 class="weekly-product__title">{{ $product->name }}</h3>
                 </div>
-            </a>
+            </div>
             @endforeach
         </div>
         <button class="weekly-all">
