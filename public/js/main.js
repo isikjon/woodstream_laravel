@@ -27,6 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    // header nav more
+    const headerNavMore = document.querySelector('.header__nav-more');
+    const headerNavList = document.querySelector('.header__nav-dropdown-list');
+    headerNavMore.addEventListener('click', () => {
+        if (window.innerWidth <= 1190) {
+            headerNavMore.classList.toggle('header__nav-more--active');
+            headerNavList.classList.toggle('header__nav-dropdown-list--show');
+        }
+    });
 
     // modal theme
     const headerTheme = document.querySelector('.header__theme');
