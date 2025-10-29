@@ -123,7 +123,7 @@ class OldProductResource extends Resource
                         Forms\Components\Select::make('city_id')
                             ->label('Город')
                             ->options(function() {
-                                return OldCity::pluck('name', 'id');
+                                return OldCity::where('name', '!=', 'Санкт-Петербург')->pluck('name', 'id');
                             })
                             ->searchable(),
                         
@@ -323,7 +323,7 @@ class OldProductResource extends Resource
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label('Город')
                     ->options(function() {
-                        return OldCity::pluck('name', 'id');
+                        return OldCity::where('name', '!=', 'Санкт-Петербург')->pluck('name', 'id');
                     })
                     ->searchable()
                     ->multiple(),
