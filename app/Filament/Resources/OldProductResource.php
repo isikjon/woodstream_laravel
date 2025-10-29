@@ -97,6 +97,15 @@ class OldProductResource extends Resource
                     ])
                     ->columns(2),
                 
+                Forms\Components\Section::make('Заметки')
+                    ->schema([
+                        Forms\Components\Textarea::make('comment')
+                            ->label('Внутренние заметки')
+                            ->rows(4)
+                            ->columnSpanFull()
+                            ->helperText('Секретные заметки, видны только в админке'),
+                    ]),
+                
                 Forms\Components\Section::make('Характеристики')
                     ->schema([
                         Forms\Components\TextInput::make('size')
@@ -155,10 +164,6 @@ class OldProductResource extends Resource
                 
                 Forms\Components\Section::make('Дополнительно')
                     ->schema([
-                        Forms\Components\Textarea::make('comment')
-                            ->label('Комментарий')
-                            ->columnSpanFull(),
-                        
                         Forms\Components\DateTimePicker::make('arrived_at')
                             ->label('Дата поступления'),
                         
@@ -255,6 +260,19 @@ class OldProductResource extends Resource
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                
+                Tables\Columns\TextColumn::make('comment')
+                    ->label('Заметки')
+                    ->limit(50)
+                    ->searchable()
+                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
+                        $state = $column->getState();
+                        if (strlen($state) <= 50) {
+                            return null;
+                        }
+                        return $state;
+                    })
+                    ->toggleable(isToggledHiddenByDefault: false),
                 
                 Tables\Columns\TextColumn::make('arrived_at')
                     ->label('Дата поступления')
