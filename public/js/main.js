@@ -454,16 +454,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.header__search-input');
     const searchForm = document.querySelector('.header__search');
     
-    console.log('Search input:', searchInput);
-    console.log('Search form:', searchForm);
-    
     const searchResults = document.createElement('div');
     searchResults.className = 'search-results';
-    searchResults.style.cssText = 'position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ddd; border-radius: 8px; max-height: 400px; overflow-y: auto; z-index: 1000; display: none;';
     
     if (searchInput && searchForm) {
-        console.log('Search initialized successfully!');
-        searchForm.style.position = 'relative';
         searchForm.appendChild(searchResults);
         
         let searchTimeout;
@@ -473,8 +467,6 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value.trim();
             
-            console.log('Input triggered, query:', query);
-            
             clearTimeout(searchTimeout);
             
             if (query.length < 2) {
@@ -482,8 +474,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
+            searchResults.innerHTML = '<div class="search-results-loading">Поиск...</div>';
+            searchResults.style.display = 'block';
+            
             searchTimeout = setTimeout(() => {
-                console.log('Fetching results for:', query);
                 fetch(`/search/autocomplete?q=${encodeURIComponent(query)}`)
                     .then(response => response.json())
                     .then(data => {
@@ -491,7 +485,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         selectedIndex = -1;
                         displayResults(data);
                     })
-                    .catch(err => console.error('Search error:', err));
+                    .catch(err => {
+                        console.error('Search error:', err);
+                        searchResults.innerHTML = '<div class="search-results-empty">Ошибка поиска</div>';
+                    });
             }, 300);
         });
         
@@ -523,22 +520,40 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const query = searchInput.value.trim();
+            if (query.length >= 2) {
+                if (results.length > 0) {
+                    window.location.href = results[0].url;
+                } else {
+                    window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                }
+            }
+        });
+        
         function displayResults(data) {
             if (data.length === 0) {
-                searchResults.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">Ничего не найдено</div>';
+                searchResults.innerHTML = '<div class="search-results-empty">Ничего не найдено</div>';
                 searchResults.style.display = 'block';
                 return;
             }
             
-            searchResults.innerHTML = data.map((item, index) => `
-                <a href="${item.url}" class="search-result-item" data-index="${index}" style="display: flex; align-items: center; padding: 12px 16px; text-decoration: none; color: #333; border-bottom: 1px solid #eee; transition: background 0.2s;">
-                    ${item.photo ? `<img src="${item.photo}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 12px;" alt="">` : ''}
-                    <div style="flex: 1;">
-                        <div style="font-weight: 500; margin-bottom: 4px;">${item.name}</div>
-                        ${item.code ? `<div style="font-size: 12px; color: #999;">Арт: ${item.code}</div>` : ''}
-                    </div>
-                </a>
-            `).join('');
+            searchResults.innerHTML = data.map((item, index) => {
+                const statusClass = item.status === 'Продан' ? 'sold' : '';
+                return `
+                    <a href="${item.url}" class="search-result-item" data-index="${index}">
+                        <div class="search-result-content">
+                            <div class="search-result-name">${item.name}</div>
+                            <div class="search-result-meta">
+                                ${item.code ? `<span class="search-result-code">Арт: ${item.code}</span>` : ''}
+                                <span class="search-result-status ${statusClass}">${item.status}</span>
+                            </div>
+                        </div>
+                        <div class="search-result-price">${item.price}</div>
+                    </a>
+                `;
+            }).join('');
             
             searchResults.style.display = 'block';
             
@@ -558,9 +573,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const items = searchResults.querySelectorAll('.search-result-item');
             items.forEach((item, index) => {
                 if (index === selectedIndex) {
-                    item.style.background = '#f5f5f5';
+                    item.classList.add('active');
                 } else {
-                    item.style.background = 'transparent';
+                    item.classList.remove('active');
                 }
             });
         }
