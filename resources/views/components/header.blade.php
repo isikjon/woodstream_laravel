@@ -1,24 +1,3 @@
-@php
-    $categoryMap = $categories->keyBy('slug');
-    // Маппинг slug'ов для обратной совместимости
-    $slugMap = [
-        'shkafy' => 'vintazhnye-shkafy-bufety-vitriny',
-        'bufety' => 'bufeti',
-        'vitriny' => 'vitrini',
-        'myagkaya-mebel' => 'myagkaya-mebel-i-stulya',
-        'kabinety' => 'kabinet',
-        'osveshchenie' => 'osveshenie',
-        'antikvarnaya-mebel-skidki' => 'skidki',
-        'kaminy-pechi' => 'kamin-kupit',
-        'kukly-vintazhnye' => 'vintag-doll',
-        'skulptury' => 'Skulptury',
-        'tekstil-odezhda' => 'Textil',
-        'prihozhie' => 'Prihozhie',
-        'komody-dressuary-sekretery' => 'dressuary-sekretery',
-        'starinnaya-mebel-v-nalichii-v-rossii' => 'v-nalichii-v-rossii',
-    ];
-@endphp
-
 <header class="header">
     <div class="container">
         <div class="header__top">
@@ -74,15 +53,15 @@
         </div>
         <nav class="header__nav">
             <a href="{{ route('catalog') }}" class="header__nav-item header__nav-item--active">Новинка</a>
-            <a href="{{ route('catalog.category', 'vintazhnye-shkafy-bufety-vitriny') }}" class="header__nav-item">{{ $categoryMap['vintazhnye-shkafy-bufety-vitriny']->name ?? 'Шкафы' }}</a>
-            <a href="{{ route('catalog.category', 'bufeti') }}" class="header__nav-item">{{ $categoryMap['bufeti']->name ?? 'Буфеты' }}</a>
-            <a href="{{ route('catalog.category', 'vitrini') }}" class="header__nav-item">{{ $categoryMap['vitrini']->name ?? 'Витрины' }}</a>
-            <a href="{{ route('catalog.category', 'myagkaya-mebel-i-stulya') }}" class="header__nav-item">{{ $categoryMap['myagkaya-mebel-i-stulya']->name ?? 'Мягкая мебель' }}</a>
-            <a href="{{ route('catalog.category', 'spalni') }}" class="header__nav-item">{{ $categoryMap['spalni']->name ?? 'Спальни' }}</a>
-            <a href="{{ route('catalog.category', 'kabinet') }}" class="header__nav-item">{{ $categoryMap['kabinet']->name ?? 'Кабинеты' }}</a>
-            <a href="{{ route('catalog.category', 'osveshenie') }}" class="header__nav-item">{{ $categoryMap['osveshenie']->name ?? 'Освещение' }}</a>
-            <a href="{{ route('catalog.category', 'stoly-konsoli') }}" class="header__nav-item">{{ $categoryMap['stoly-konsoli']->name ?? 'Столы' }}</a>
-            <a href="{{ route('catalog.category', 'zerkala-konsoli') }}" class="header__nav-item">{{ $categoryMap['zerkala-konsoli']->name ?? 'Зеркала' }}</a>
+            <a href="{{ route('catalog.category', 'vintazhnye-shkafy-bufety-vitriny') }}" class="header__nav-item">Шкафы</a>
+            <a href="{{ route('catalog.category', 'bufeti') }}" class="header__nav-item">Буфеты</a>
+            <a href="{{ route('catalog.category', 'vitrini') }}" class="header__nav-item">Витрины</a>
+            <a href="{{ route('catalog.category', 'myagkaya-mebel-i-stulya') }}" class="header__nav-item">Мягкая мебель</a>
+            <a href="{{ route('catalog.category', 'spalni') }}" class="header__nav-item">Спальни</a>
+            <a href="{{ route('catalog.category', 'kabinet') }}" class="header__nav-item">Кабинеты</a>
+            <a href="{{ route('catalog.category', 'osveshenie') }}" class="header__nav-item">Освещение</a>
+            <a href="{{ route('catalog.category', 'stoly-konsoli') }}" class="header__nav-item">Столы</a>
+            <a href="{{ route('catalog.category', 'zerkala-konsoli') }}" class="header__nav-item">Зеркала</a>
             <div class="header__nav-dropdown">
                 <button class="header__nav-more">
                     Ещё
@@ -119,29 +98,29 @@
                 </div>
                 <div class="category-block">
                     <a href="{{ route('catalog.category', 'vintazhnye-shkafy-bufety-vitriny') }}" class="category-item category-item--half category-item--cabinets">
-                        <span class="category-item__title">{{ $categoryMap['vintazhnye-shkafy-bufety-vitriny']->name ?? 'Шкафы' }}</span>
+                        <span class="category-item__title">Шкафы</span>
                         <img src="{{ asset('images/content/category_1.png') }}" alt="">
                     </a>
                     <a href="{{ route('catalog.category', 'myagkaya-mebel-i-stulya') }}"
                         class="category-item category-item--small category-item--two--fifths category-item--furniture">
-                        <span class="category-item__title">{!! nl2br(e($categoryMap['myagkaya-mebel-i-stulya']->name ?? 'Мягкая <br> мебель')) !!}</span>
+                        <span class="category-item__title">Мягкая <br> мебель</span>
                         <img src="{{ asset('images/content/category_2.png') }}" alt="">
                     </a>
                     <a href="{{ route('catalog.category', 'stoly-konsoli') }}" class="category-item category-item--three--fifths category-item--tables">
-                        <span class="category-item__title">{!! nl2br(e($categoryMap['stoly-konsoli']->name ?? 'Столы,<br> консоли')) !!}</span>
+                        <span class="category-item__title">Столы,<br> консоли</span>
                         <img src="{{ asset('images/content/category_3.png') }}" alt="">
                     </a>
                     <a href="{{ route('catalog.category', 'bufeti') }}" class="category-item category-item--half category-item--buffets">
-                        <span class="category-item__title">{{ $categoryMap['bufeti']->name ?? 'Буфеты' }}</span>
+                        <span class="category-item__title">Буфеты</span>
                         <img src="{{ asset('images/content/category_4.png') }}" alt="">
                     </a>
                     <a href="{{ route('catalog.category', 'vitrini') }}" class="category-item category-item--three--fifths category-item--vitrines">
-                        <span class="category-item__title">{{ $categoryMap['vitrini']->name ?? 'Витрины' }}</span>
+                        <span class="category-item__title">Витрины</span>
                         <img src="{{ asset('images/content/category_5.png') }}" alt="">
                     </a>
                     <a href="{{ route('catalog.category', 'kabinet') }}"
                         class="category-item category-item--small category-item--two--fifths category-item--offices">
-                        <span class="category-item__title">{{ $categoryMap['kabinet']->name ?? 'Кабинеты' }}</span>
+                        <span class="category-item__title">Кабинеты</span>
                         <img src="{{ asset('images/content/category_6.png') }}" alt="">
                     </a>
                     <a href="{{ route('catalog.category', 'skidki') }}" class="category-item category-item--half category-item--discount">
@@ -319,18 +298,18 @@
                             <h3>Каталог:</h3>
                             <ul>
                                 <li><a href="{{ route('catalog') }}">Новинки</a></li>
-                                <li><a href="{{ route('catalog.category', 'vintazhnye-shkafy-bufety-vitriny') }}">{{ $categoryMap['vintazhnye-shkafy-bufety-vitriny']->name ?? 'Шкафы' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'bufeti') }}">{{ $categoryMap['bufeti']->name ?? 'Буфеты' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'vitrini') }}">{{ $categoryMap['vitrini']->name ?? 'Витрины' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'myagkaya-mebel-i-stulya') }}">{{ $categoryMap['myagkaya-mebel-i-stulya']->name ?? 'Мягкая мебель' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'spalni') }}">{{ $categoryMap['spalni']->name ?? 'Спальни' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'kabinet') }}">{{ $categoryMap['kabinet']->name ?? 'Кабинеты' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'zerkala-konsoli') }}">{{ $categoryMap['zerkala-konsoli']->name ?? 'Зеркала' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'chasy') }}">{{ $categoryMap['chasy']->name ?? 'Часы' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'Textil') }}">{{ $categoryMap['Textil']->name ?? 'Текстиль, одежда' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'raznoe') }}">{{ $categoryMap['raznoe']->name ?? 'Разное' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'Prihozhie') }}">{{ $categoryMap['Prihozhie']->name ?? 'Прихожие' }}</a></li>
-                                <li><a href="{{ route('catalog.category', 'prodano-arhiv') }}">{{ $categoryMap['prodano-arhiv']->name ?? 'Продано, архив' }}</a></li>
+                                <li><a href="{{ route('catalog.category', 'vintazhnye-shkafy-bufety-vitriny') }}">Шкафы</a></li>
+                                <li><a href="{{ route('catalog.category', 'bufeti') }}">Буфеты</a></li>
+                                <li><a href="{{ route('catalog.category', 'vitrini') }}">Витрины</a></li>
+                                <li><a href="{{ route('catalog.category', 'myagkaya-mebel-i-stulya') }}">Мягкая мебель</a></li>
+                                <li><a href="{{ route('catalog.category', 'spalni') }}">Спальни</a></li>
+                                <li><a href="{{ route('catalog.category', 'kabinet') }}">Кабинеты</a></li>
+                                <li><a href="{{ route('catalog.category', 'zerkala-konsoli') }}">Зеркала</a></li>
+                                <li><a href="{{ route('catalog.category', 'chasy') }}">Часы</a></li>
+                                <li><a href="{{ route('catalog.category', 'Textil') }}">Текстиль, одежда</a></li>
+                                <li><a href="{{ route('catalog.category', 'raznoe') }}">Разное</a></li>
+                                <li><a href="{{ route('catalog.category', 'Prihozhie') }}">Прихожие</a></li>
+                                <li><a href="{{ route('catalog.category', 'prodano-arhiv') }}">Продано, архив</a></li>
                                 <li><a href="{{ route('catalog') }}">В каталог <img src="{{ asset('images/icons/arrow_right.svg') }}" alt=""></a>
                                 </li>
 
