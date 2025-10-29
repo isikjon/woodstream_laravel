@@ -39,7 +39,14 @@ class DutySchedule extends Model
 
     public static function getCurrentDuty()
     {
-        return self::current()->with('manager')->first();
+        return app(\App\Services\DutyScheduleService::class)->getTodayDuty();
+    }
+
+    public static function getTodayDuty()
+    {
+        return self::where('duty_date', now()->toDateString())
+            ->with('manager')
+            ->first();
     }
 
     public static function setDutyForDate($date, $managerId)

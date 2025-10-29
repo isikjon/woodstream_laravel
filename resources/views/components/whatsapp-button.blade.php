@@ -1,22 +1,19 @@
 @php
-$dutyData = cache()->remember('duty_phone_whatsapp', 300, function () {
+$dutyData = cache()->remember('duty_whatsapp_' . now()->format('Y-m-d'), 3600, function () {
     try {
-        if (!\Schema::hasTable('duty_schedules')) {
-            return ['phone' => null, 'whatsapp_link' => null];
+        $dutyService = app(\App\Services\DutyScheduleService::class);
+        $duty = $dutyService->getTodayDuty();
+        $phone = $duty?->manager?->phone;
+        $cleanPhone = preg_replace('/[^\d]/', '', (string) $phone);
+        
+        if ($cleanPhone && strlen($cleanPhone) === 11 && $cleanPhone[0] === '8') {
+            $cleanPhone = '7' . substr($cleanPhone, 1);
         }
         
-    $duty = \App\Models\DutySchedule::getCurrentDuty();
-    $phone = $duty?->manager?->phone;
-    $cleanPhone = preg_replace('/[^\d]/', '', (string) $phone);
-    
-    if ($cleanPhone && strlen($cleanPhone) === 11 && $cleanPhone[0] === '8') {
-        $cleanPhone = '7' . substr($cleanPhone, 1);
-    }
-    
-    return [
-        'phone' => $phone,
-        'whatsapp_link' => $cleanPhone ? "https://wa.me/{$cleanPhone}" : null
-    ];
+        return [
+            'phone' => $phone,
+            'whatsapp_link' => $cleanPhone ? "https://wa.me/{$cleanPhone}" : null
+        ];
     } catch (\Exception $e) {
         return ['phone' => null, 'whatsapp_link' => null];
     }

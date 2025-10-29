@@ -1,9 +1,10 @@
 @props(['class' => ''])
 
 @php
-$urls = cache()->remember('duty_manager_socials', 300, function () {
+$urls = cache()->remember('duty_socials_' . now()->format('Y-m-d'), 3600, function () {
     try {
-        $duty = \App\Models\DutySchedule::getCurrentDuty();
+        $dutyService = app(\App\Services\DutyScheduleService::class);
+        $duty = $dutyService->getTodayDuty();
         $manager = $duty?->manager;
         
         if (!$manager) {

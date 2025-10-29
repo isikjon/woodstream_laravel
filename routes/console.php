@@ -8,4 +8,4 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command('duty:rotate')->dailyAt('00:00');
+Schedule::command('duty:rotate --days=30')->dailyAt('00:01');

@@ -2,64 +2,56 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Manager;
-use App\Models\DutySchedule;
+use App\Services\DutyScheduleService;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 
 class RotateDutyManager extends Command
 {
-    protected $signature = 'duty:rotate';
-    protected $description = 'Автоматическая смена дежурного менеджера';
+    protected $signature = 'duty:rotate {--days=30 : Количество дней для заполнения расписания}';
+    protected $description = 'Автоматическая смена дежурного менеджера и заполнение расписания';
+
+    protected $dutyService;
+
+    public function __construct(DutyScheduleService $dutyService)
+    {
+        parent::__construct();
+        $this->dutyService = $dutyService;
+    }
 
     public function handle()
     {
-        $this->info('Начинаем смену дежурного менеджера...');
+        $this->info('🔄 Обновление расписания дежурств...');
 
-        $currentDuty = DutySchedule::where('is_current', true)->first();
+        $this->dutyService->updateCurrentFlags();
+        $this->info('✓ Флаги is_current обновлены');
+
+        $days = (int) $this->option('days');
+        $startDate = Carbon::today();
+        $endDate = Carbon::today()->addDays($days);
+
+        $this->info("📅 Заполняем расписание с {$startDate->format('d.m.Y')} по {$endDate->format('d.m.Y')}");
+
+        $created = $this->dutyService->fillScheduleForPeriod($startDate, $endDate);
+
+        if (!empty($created)) {
+            $this->info('✓ Создано новых записей: ' . count($created));
+        } else {
+            $this->info('✓ Расписание уже заполнено');
+        }
+
+        $todayDuty = $this->dutyService->getTodayDuty();
         
-        if ($currentDuty) {
-            $currentDuty->update(['is_current' => false]);
-            $this->info('Снят с дежурства: ' . $currentDuty->manager->name);
+        if ($todayDuty && $todayDuty->manager) {
+            $this->info('');
+            $this->info('👤 Дежурный на сегодня:');
+            $this->info('   Имя: ' . $todayDuty->manager->name);
+            $this->info('   Телефон: ' . $todayDuty->manager->phone);
+            $this->info('   Telegram: ' . $todayDuty->manager->telegram);
         }
 
-        $managers = Manager::where('is_active', true)
-            ->orderBy('sort_order')
-            ->get();
-
-        if ($managers->isEmpty()) {
-            $this->error('Нет активных менеджеров!');
-            return Command::FAILURE;
-        }
-
-        $currentManagerIndex = 0;
-        if ($currentDuty) {
-            $currentManagerIndex = $managers->search(function ($manager) use ($currentDuty) {
-                return $manager->id === $currentDuty->manager_id;
-            });
-            
-            if ($currentManagerIndex === false) {
-                $currentManagerIndex = 0;
-            } else {
-                $currentManagerIndex = ($currentManagerIndex + 1) % $managers->count();
-            }
-        }
-
-        $nextManager = $managers[$currentManagerIndex];
-        
-        $newDuty = DutySchedule::create([
-            'duty_date' => Carbon::today(),
-            'manager_id' => $nextManager->id,
-            'is_current' => true,
-        ]);
-
-        $this->info('✓ Новый дежурный: ' . $nextManager->name);
-        $this->info('  Телефон: ' . $nextManager->phone);
-        $this->info('  Telegram: ' . $nextManager->telegram);
-
-        cache()->forget('duty_phone');
-
-        $this->info('🎉 Смена завершена!');
+        $this->info('');
+        $this->info('🎉 Готово!');
 
         return Command::SUCCESS;
     }

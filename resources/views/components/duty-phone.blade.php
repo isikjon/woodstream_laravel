@@ -1,8 +1,9 @@
 @props(['class' => ''])
 @php
-$dutyData = cache()->remember('duty_phone', 300, function () {
+$dutyData = cache()->remember('duty_phone_' . now()->format('Y-m-d'), 3600, function () {
     try {
-        $duty = \App\Models\DutySchedule::getCurrentDuty();
+        $dutyService = app(\App\Services\DutyScheduleService::class);
+        $duty = $dutyService->getTodayDuty();
         $phone = $duty?->manager?->phone;
         
         $formatted = $phone;
