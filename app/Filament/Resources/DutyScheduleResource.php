@@ -56,9 +56,7 @@ class DutyScheduleResource extends Resource
                     ->label('Дата дежурства')
                     ->formatStateUsing(function ($record) {
                         return $record->duty_date->format('d.m.Y') . ' ' . $record->manager->name;
-                    })
-                    ->sortable()
-                    ->searchable(),
+                    }),
                 Tables\Columns\TextColumn::make('manager.phone')
                     ->label('Телефон')
                     ->placeholder('Не указан')
@@ -90,48 +88,11 @@ class DutyScheduleResource extends Resource
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
                     ->falseColor('gray'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Создано')
-                    ->dateTime('d.m.Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->emptyStateHeading('Нет дежурств')
             ->emptyStateDescription('Создайте первое дежурство для менеджера')
             ->emptyStateIcon('heroicon-o-calendar')
-            ->filters([
-                Tables\Filters\TernaryFilter::make('is_current')
-                    ->label('Текущее дежурство')
-                    ->boolean()
-                    ->trueLabel('Только текущие')
-                    ->falseLabel('Не текущие')
-                    ->native(false),
-                Tables\Filters\SelectFilter::make('manager_id')
-                    ->label('Менеджер')
-                    ->options(Manager::orderBy('name')->pluck('name', 'id'))
-                    ->searchable()
-                    ->native(false),
-                Tables\Filters\Filter::make('duty_date')
-                    ->form([
-                        Forms\Components\DatePicker::make('duty_from')
-                            ->label('Дата от')
-                            ->native(false),
-                        Forms\Components\DatePicker::make('duty_until')
-                            ->label('Дата до')
-                            ->native(false),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['duty_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('duty_date', '>=', $date),
-                            )
-                            ->when(
-                                $data['duty_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('duty_date', '<=', $date),
-                            );
-                    }),
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -141,7 +102,9 @@ class DutyScheduleResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('duty_date', 'desc');
+            ->defaultSort('duty_date', 'asc')
+            ->defaultPaginationPageOption(4)
+            ->paginated(false);
     }
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
