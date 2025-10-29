@@ -1,3 +1,13 @@
+<style>
+    .header__nav-dropdown-item-new-menu {
+        padding: 8px 10px;
+        color: #1d2229;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 140%;
+    }
+</style>
 <header class="header">
     <div class="container">
         <div class="header__top">
