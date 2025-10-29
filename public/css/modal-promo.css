@@ -6,10 +6,10 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
     display: none;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     z-index: 9999;
-    padding: 20px;
+    padding: 0;
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s linear 0.3s, opacity 0.3s ease;
@@ -24,32 +24,32 @@
 
 .modal-promo .modal-content {
     position: relative;
-    max-width: 886px;
+    max-width: 100%;
     width: 100%;
-    background: white;
-    border-radius: 20px;
+    background: transparent;
+    border-radius: 0;
     overflow: visible;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: modalAppear 0.3s ease;
+    animation: modalSlideUp 0.4s ease;
+    padding-bottom: 0;
 }
 
-@keyframes modalAppear {
+@keyframes modalSlideUp {
     from {
         opacity: 0;
-        transform: scale(0.9) translateY(20px);
+        transform: translateY(100px);
     }
     to {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: translateY(0);
     }
 }
 
 .modal-promo__close {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 44px;
-    height: 44px;
+    top: -60px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
     background: rgba(255, 255, 255, 0.95);
     border: none;
     border-radius: 50%;
@@ -59,13 +59,13 @@
     justify-content: center;
     z-index: 100;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .modal-promo__close:hover {
     background: rgba(255, 255, 255, 1);
     transform: rotate(90deg) scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .modal-promo__close img {
@@ -78,7 +78,7 @@
     cursor: pointer;
     display: block;
     text-decoration: none;
-    border-radius: 20px;
+    border-radius: 0;
     overflow: hidden;
 }
 
@@ -91,25 +91,37 @@
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 20px;
+    border-radius: 0;
+}
+
+@media (min-width: 1191px) {
+    .modal-promo .modal-content {
+        max-width: 1200px;
+    }
 }
 
 @media (max-width: 1190px) {
     .modal-promo .modal-content {
-        max-width: 520px;
-        margin-top: 40px;
+        max-width: 100%;
+    }
+    
+    .modal-promo__close {
+        top: -70px;
+        right: 15px;
+        width: 44px;
+        height: 44px;
     }
 }
 
 @media (max-width: 768px) {
     .modal-promo .modal-content {
-        max-width: 95%;
+        max-width: 100%;
     }
     
     .modal-promo__close {
         width: 40px;
         height: 40px;
-        top: 10px;
+        top: -60px;
         right: 10px;
     }
     

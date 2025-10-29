@@ -218,28 +218,103 @@
     }
 
     &-promo {
+        align-items: flex-end;
+        padding: 0;
+
         .modal-content {
-            max-width: 886px;
+            max-width: 100%;
+            width: 100%;
+            background: transparent;
+            border-radius: 0;
+            overflow: visible;
+            animation: modalSlideUp 0.4s ease;
+            padding-bottom: 0;
+
+            @media (min-width: 1191px) {
+                max-width: 1200px;
+            }
 
             @include respond(mobile) {
-                max-width: 520px;
-                margin-top: 40px;
+                max-width: 100%;
+            }
+        }
+
+        &__close {
+            position: absolute;
+            top: -60px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                background: rgba(255, 255, 255, 1);
+                transform: rotate(90deg) scale(1.1);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            }
+
+            img {
+                width: 16px;
+                height: 16px;
+            }
+
+            @include respond(mobile) {
+                width: 40px;
+                height: 40px;
+                top: -60px;
+                right: 10px;
+
+                img {
+                    width: 14px;
+                    height: 14px;
+                }
             }
         }
 
         &__body {
-            padding: 30px;
-            background-color: var(--bg-color);
-            border-radius: 14px;
+            width: 100%;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+            border-radius: 0;
+            overflow: hidden;
+        }
 
-            @include respond(mobile) {
-                padding: 16px;
+        &__image {
+            width: 100%;
+            display: block;
+
+            img {
+                width: 100%;
+                height: auto;
+                display: block;
+                border-radius: 0;
             }
         }
 
         .modal-bottom {
             background-color: var(--bg-color);
-            border-radius: 0 0 14px 14px;
+            border-radius: 0;
+        }
+    }
+
+    @keyframes modalSlideUp {
+        from {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
     }
 
