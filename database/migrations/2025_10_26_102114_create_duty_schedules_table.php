@@ -8,16 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('duty_schedules', function (Blueprint $table) {
-            $table->id();
-            $table->date('duty_date');
-            $table->foreignId('manager_id')->constrained('managers')->onDelete('cascade');
-            $table->boolean('is_current')->default(false);
-            $table->timestamps();
-            
-            $table->index('duty_date');
-            $table->index('is_current');
-        });
+        if (!Schema::hasTable('duty_schedules')) {
+            Schema::create('duty_schedules', function (Blueprint $table) {
+                $table->id();
+                $table->date('duty_date');
+                $table->foreignId('manager_id')->constrained('managers')->onDelete('cascade');
+                $table->boolean('is_current')->default(false);
+                $table->timestamps();
+                
+                $table->index('duty_date');
+                $table->index('is_current');
+            });
+        }
     }
 
     public function down(): void
