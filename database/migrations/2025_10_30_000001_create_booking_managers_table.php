@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('booking_managers', function (Blueprint $table) {
+        Schema::connection('production')->create('booking_managers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('phone')->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('booking_managers');
+        Schema::connection('production')->dropIfExists('booking_managers');
     }
 };
 

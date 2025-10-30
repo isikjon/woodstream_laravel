@@ -9,19 +9,45 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->index('code');
-            $table->index('name');
-            $table->index('slug');
-            $table->index('price');
-            $table->index('is_active');
-            $table->index('is_available');
-            $table->index('is_new');
-            $table->index('status');
-            $table->index('manager_id');
-            $table->index('booking_date');
-            $table->index('created_at');
-            $table->index(['is_active', 'status']);
-            $table->index(['is_available', 'status']);
+            if (Schema::hasColumn('products', 'code')) {
+                $table->index('code');
+            }
+            if (Schema::hasColumn('products', 'name')) {
+                $table->index('name');
+            }
+            if (Schema::hasColumn('products', 'slug')) {
+                $table->index('slug');
+            }
+            if (Schema::hasColumn('products', 'price')) {
+                $table->index('price');
+            }
+            if (Schema::hasColumn('products', 'is_active')) {
+                $table->index('is_active');
+            }
+            if (Schema::hasColumn('products', 'is_available')) {
+                $table->index('is_available');
+            }
+            if (Schema::hasColumn('products', 'is_new')) {
+                $table->index('is_new');
+            }
+            if (Schema::hasColumn('products', 'status')) {
+                $table->index('status');
+            }
+            if (Schema::hasColumn('products', 'manager_id')) {
+                $table->index('manager_id');
+            }
+            if (Schema::hasColumn('products', 'booking_date')) {
+                $table->index('booking_date');
+            }
+            if (Schema::hasColumn('products', 'created_at')) {
+                $table->index('created_at');
+            }
+            if (Schema::hasColumn('products', 'is_active') && Schema::hasColumn('products', 'status')) {
+                $table->index(['is_active', 'status']);
+            }
+            if (Schema::hasColumn('products', 'is_available') && Schema::hasColumn('products', 'status')) {
+                $table->index(['is_available', 'status']);
+            }
         });
 
         Schema::table('categories', function (Blueprint $table) {
