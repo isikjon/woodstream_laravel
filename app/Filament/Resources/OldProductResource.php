@@ -101,11 +101,11 @@ class OldProductResource extends Resource
                         
                         Forms\Components\Select::make('booked_by')
                             ->label('Менеджер')
-                            ->relationship('manager', 'name', fn ($query) => $query->active()->ordered())
+                            ->relationship('manager', 'name', fn ($query) => $query->whereIn('id', [6, 19, 21, 22, 23, 25, 26, 27, 29, 30])->orderBy('name'))
                             ->searchable()
                             ->preload()
                             ->visible(fn (callable $get) => $get('availability') === 9)
-                            ->helperText('Выберите менеджера, который забронировал товар'),
+                            ->helperText('Только активные менеджеры могут бронировать товар'),
                         
                         Forms\Components\DateTimePicker::make('booked_at')
                             ->label('Дата бронирования')
