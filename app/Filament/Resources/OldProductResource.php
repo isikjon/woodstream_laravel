@@ -135,9 +135,19 @@ class OldProductResource extends Resource
                         
                         Forms\Components\Select::make('booked_by')
                             ->label('Менеджер')
-                            ->relationship('manager', 'name', fn ($query) => $query->whereIn('id', [6, 19, 21, 22, 23, 25, 26, 27, 29, 30])->orderBy('name'))
+                            ->options([
+                                6 => 'Екатерина Т',
+                                19 => 'Ольга Т',
+                                21 => 'Анна Т',
+                                22 => 'Екатерина Я',
+                                23 => 'Нина Я',
+                                25 => 'Наталья О',
+                                26 => 'Милена О',
+                                27 => 'Ирина',
+                                29 => 'Эльвира Т',
+                                30 => 'Наталья Т',
+                            ])
                             ->searchable()
-                            ->preload()
                             ->required(fn (callable $get) => (int) $get('availability') === 9)
                             ->hidden(function (callable $get) {
                                 $availability = (int) $get('availability');
