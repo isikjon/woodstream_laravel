@@ -2,6 +2,21 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\ArticleResource;
+use App\Filament\Resources\BannerResource;
+use App\Filament\Resources\BlogResource;
+use App\Filament\Resources\CategoryResource;
+use App\Filament\Resources\ClientResource;
+use App\Filament\Resources\ContactResource;
+use App\Filament\Resources\DutyScheduleResource;
+use App\Filament\Resources\ManagerResource;
+use App\Filament\Resources\MaterialResource;
+use App\Filament\Resources\OldProductResource;
+use App\Filament\Resources\PageResource;
+use App\Filament\Resources\PortfolioResource;
+use App\Filament\Resources\RequestResource;
+use App\Filament\Resources\ReviewResource;
+use App\Filament\Resources\SocialNetworkResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -33,7 +48,22 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->resources([
+                ArticleResource::class,
+                BlogResource::class,
+                CategoryResource::class,
+                ClientResource::class,
+                ContactResource::class,
+                DutyScheduleResource::class,
+                ManagerResource::class,
+                MaterialResource::class,
+                OldProductResource::class,
+                PageResource::class,
+                PortfolioResource::class,
+                RequestResource::class,
+                ReviewResource::class,
+                SocialNetworkResource::class,
+            ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
