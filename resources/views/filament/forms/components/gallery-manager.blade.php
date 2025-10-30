@@ -106,53 +106,65 @@
         };
 
         window.deleteGalleryImage{{ $getRecord()->id }} = function(imageUrl) {
-            if (!confirm('Вы уверены, что хотите удалить это изображение?')) {
+            if (!confirm('ВЫ ТОЧНО ХОТИТЕ УДАЛИТЬ ЭТО ИЗОБРАЖЕНИЕ?\n\nПосле нажатия "Сохранить" оно будет УДАЛЕНО!')) {
                 return;
             }
 
+            console.log('=== НАЧАЛО УДАЛЕНИЯ ===');
+            console.log('Удаляем URL:', imageUrl);
+
             const normalizedUrl = imageUrl
                 .replace('https://woodstream.online', '')
+                .replace('http://localhost', '')
                 .replace('https:/', '')
+                .replace('http:/', '')
                 .replace(/\/\//g, '/');
+            
+            console.log('Нормализованный URL:', normalizedUrl);
 
             const imagesInput = document.querySelector('textarea[name="images"]');
             const deleteInput = document.querySelector('input[name="images_to_delete"]');
+            
+            console.log('Images textarea найден:', !!imagesInput);
+            console.log('Delete input найден:', !!deleteInput);
 
+            let currentImages = [];
             if (imagesInput) {
-                let currentImages = [];
                 try {
-                    currentImages = JSON.parse(imagesInput.value || '[]');
+                    const rawValue = imagesInput.value || '[]';
+                    console.log('Текущее значение images:', rawValue);
+                    currentImages = JSON.parse(rawValue);
+                    console.log('Распарсенные images:', currentImages);
                 } catch (e) {
-                    console.error('Parse error:', e);
+                    console.error('Ошибка парсинга:', e);
+                    currentImages = [];
                 }
 
+                const beforeLength = currentImages.length;
                 currentImages = currentImages.filter(img => {
                     const normalizedImg = img
                         .replace('https://woodstream.online', '')
+                        .replace('http://localhost', '')
                         .replace('https:/', '')
+                        .replace('http:/', '')
                         .replace(/\/\//g, '/');
-                    return normalizedImg !== normalizedUrl;
-                });
-
-                imagesInput.value = JSON.stringify(currentImages);
-                
-                const changeEvent = new Event('change', { bubbles: true });
-                imagesInput.dispatchEvent(changeEvent);
-                
-                const inputEvent = new Event('input', { bubbles: true });
-                imagesInput.dispatchEvent(inputEvent);
-                
-                try {
-                    const wireId = imagesInput.closest('[wire\\:id]')?.getAttribute('wire:id');
-                    if (wireId && window.Livewire) {
-                        const component = window.Livewire.find(wireId);
-                        if (component) {
-                            component.set('data.images', JSON.stringify(currentImages));
-                        }
+                    
+                    const shouldKeep = normalizedImg !== normalizedUrl;
+                    if (!shouldKeep) {
+                        console.log('УДАЛЯЕМ:', img);
                     }
-                } catch (e) {
-                    console.log('Livewire update attempt:', e);
-                }
+                    return shouldKeep;
+                });
+                
+                console.log(`Было фото: ${beforeLength}, Осталось: ${currentImages.length}`);
+
+                const newValue = JSON.stringify(currentImages);
+                imagesInput.value = newValue;
+                console.log('Новое значение images:', newValue);
+                
+                imagesInput.dispatchEvent(new Event('change', { bubbles: true }));
+                imagesInput.dispatchEvent(new Event('input', { bubbles: true }));
+                imagesInput.dispatchEvent(new Event('blur', { bubbles: true }));
             }
 
             if (deleteInput) {
@@ -162,19 +174,36 @@
                 } catch (e) {
                     toDelete = [];
                 }
-                toDelete.push(normalizedUrl);
-                deleteInput.value = JSON.stringify(toDelete);
+                
+                if (!toDelete.includes(normalizedUrl)) {
+                    toDelete.push(normalizedUrl);
+                }
+                
+                const newDeleteValue = JSON.stringify(toDelete);
+                deleteInput.value = newDeleteValue;
+                console.log('Images to delete:', newDeleteValue);
+                
+                deleteInput.dispatchEvent(new Event('change', { bubbles: true }));
+                deleteInput.dispatchEvent(new Event('input', { bubbles: true }));
             }
 
             const imageElement = document.querySelector(`[data-image-url="${imageUrl}"]`);
             if (imageElement) {
-                imageElement.style.opacity = '0.3';
-                imageElement.querySelector('img').style.filter = 'grayscale(1)';
+                console.log('Удаляем элемент из DOM');
+                imageElement.remove();
+                
+                const grid = document.getElementById('gallery-grid-{{ $getRecord()->id }}');
+                const remaining = grid ? grid.querySelectorAll('[data-image-url]').length : 0;
+                console.log('Осталось элементов в галерее:', remaining);
+                
+                const counter = document.querySelector('.text-sm.text-gray-500');
+                if (counter) {
+                    counter.textContent = `Всего изображений: ${remaining}`;
+                }
             }
 
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
+            alert('✅ ФОТО ПОМЕЧЕНО НА УДАЛЕНИЕ!\n\nНажмите кнопку "СОХРАНИТЬ" внизу страницы, чтобы удалить фото окончательно!');
+            console.log('=== КОНЕЦ УДАЛЕНИЯ ===');
         };
     </script>
 @endif
