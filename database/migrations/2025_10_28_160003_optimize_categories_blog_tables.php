@@ -18,9 +18,9 @@ return new class extends Migration
             if (in_array('slug', $columnNames)) $indexes[] = 'ADD INDEX idx_slug (slug)';
             if (in_array('status', $columnNames)) $indexes[] = 'ADD INDEX idx_status (status)';
             if (in_array('parent_id', $columnNames)) $indexes[] = 'ADD INDEX idx_parent_id (parent_id)';
-            if (in_array('order', $columnNames)) $indexes[] = 'ADD INDEX idx_order (order)';
+            if (in_array('order', $columnNames)) $indexes[] = 'ADD INDEX idx_order (`order`)';
             if (in_array('status', $columnNames) && in_array('order', $columnNames)) {
-                $indexes[] = 'ADD INDEX idx_status_order (status, order)';
+                $indexes[] = 'ADD INDEX idx_status_order (status, `order`)';
             }
             
             if (!empty($indexes)) {
