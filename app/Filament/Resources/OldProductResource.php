@@ -112,22 +112,26 @@ class OldProductResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required(fn (callable $get) => $get('availability') === 9)
-                            ->visible(fn (callable $get) => $get('availability') === 9)
+                            ->hidden(fn (callable $get) => $get('availability') !== 9)
+                            ->live()
                             ->helperText('Выберите менеджера, который забронировал товар'),
                         
                         Forms\Components\DateTimePicker::make('booked_at')
                             ->label('Дата бронирования')
-                            ->visible(fn (callable $get) => $get('availability') === 9)
+                            ->hidden(fn (callable $get) => $get('availability') !== 9)
+                            ->live()
                             ->default(now()),
                         
                         Forms\Components\DateTimePicker::make('booked_expire')
                             ->label('Бронь до')
-                            ->visible(fn (callable $get) => $get('availability') === 9)
+                            ->hidden(fn (callable $get) => $get('availability') !== 9)
+                            ->live()
                             ->helperText('Дата окончания бронирования'),
                         
                         Forms\Components\Toggle::make('online')
                             ->label('Показывать на сайте')
                             ->default(true)
+                            ->live()
                             ->helperText('Включите чтобы показывать товар на сайте'),
                         
                         Forms\Components\TextInput::make('priority')
