@@ -122,14 +122,32 @@
             
             console.log('Нормализованный URL:', normalizedUrl);
 
-            const imagesInput = document.querySelector('textarea[name="images"]');
-            const deleteInput = document.querySelector('input[name="images_to_delete"]');
+            const formElement = document.querySelector('form');
+            let livewireComponent = null;
             
-            console.log('Images textarea найден:', !!imagesInput);
-            console.log('Delete input найден:', !!deleteInput);
+            if (formElement) {
+                const wireId = formElement.getAttribute('wire:id');
+                if (wireId && window.Livewire) {
+                    livewireComponent = window.Livewire.find(wireId);
+                    console.log('✅ Livewire компонент найден через форму');
+                }
+            }
+            
+            if (!livewireComponent) {
+                const allWireElements = document.querySelectorAll('[wire\\:id]');
+                console.log('Всего элементов с wire:id:', allWireElements.length);
+                for (const el of allWireElements) {
+                    const wireId = el.getAttribute('wire:id');
+                    const comp = window.Livewire.find(wireId);
+                    if (comp && comp.get && comp.get('data')) {
+                        livewireComponent = comp;
+                        console.log('✅ Livewire компонент найден через перебор');
+                        break;
+                    }
+                }
+            }
 
             let currentImages = [];
-            const livewireComponent = imagesInput ? Livewire.find(imagesInput.closest('[wire\\:id]').getAttribute('wire:id')) : null;
             
             if (livewireComponent) {
                 console.log('✅ Livewire компонент найден');
@@ -172,14 +190,6 @@
                 livewireComponent.set('data.images', newValue);
                 console.log('✅ Livewire state обновлен!');
                 
-                if (imagesInput) {
-                    imagesInput.value = newValue;
-                }
-            } else {
-                console.error('❌ Livewire компонент НЕ найден!');
-            }
-
-            if (livewireComponent && deleteInput) {
                 let toDelete = [];
                 try {
                     const currentDeleteValue = livewireComponent.get('data.images_to_delete');
@@ -194,8 +204,11 @@
                 
                 const newDeleteValue = JSON.stringify(toDelete);
                 livewireComponent.set('data.images_to_delete', newDeleteValue);
-                deleteInput.value = newDeleteValue;
                 console.log('✅ Images to delete обновлены:', newDeleteValue);
+            } else {
+                console.error('❌ Livewire компонент НЕ найден!');
+                alert('❌ ОШИБКА: Не удалось найти компонент формы.\n\nПопробуйте перезагрузить страницу.');
+                return;
             }
 
             const imageElement = document.querySelector(`[data-image-url="${imageUrl}"]`);
