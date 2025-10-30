@@ -10,15 +10,27 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $weeklyProducts = \App\Models\OldProduct::where('availability', '!=', 5)
-            ->orderBy('priority', 'desc')
-            ->orderBy('order', 'desc')
+        $query = \App\Models\OldProduct::where('availability', '!=', 5);
+        
+        if (\Schema::connection('production')->hasColumn('products', 'priority')) {
+            $query->orderBy('priority', 'desc');
+        }
+        if (\Schema::connection('production')->hasColumn('products', 'order')) {
+            $query->orderBy('order', 'desc');
+        }
+        
+        $weeklyProducts = $query->orderBy('id', 'desc')
             ->limit(8)
             ->get();
 
         try {
-            $blogs = \App\Models\Blog::where('status', 1)
-                ->orderBy('created_at', 'desc')
+            $blogQuery = \App\Models\Blog::query();
+            
+            if (\Schema::connection('production')->hasColumn('blog', 'status')) {
+                $blogQuery->where('status', 1);
+            }
+            
+            $blogs = $blogQuery->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
         } catch (\Exception $e) {
