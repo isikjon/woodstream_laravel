@@ -17,12 +17,23 @@
         }
         
         $images = array_map(function($img) {
-            if (!str_starts_with($img, 'http')) {
-                $img = 'https://woodstream.online' . $img;
+            $img = str_replace('\\', '/', $img);
+            
+            if (str_starts_with($img, 'http')) {
+                $img = str_replace('woodstream.onlineimages', 'woodstream.online/images', $img);
+                $img = str_replace('//', '/', $img);
+                $img = str_replace('https:/', 'https://', $img);
+                $img = str_replace('http:/', 'http://', $img);
+                return $img;
             }
-            $img = str_replace('woodstream.onlineimages', 'woodstream.online/images', $img);
-            $img = str_replace('//', '/', $img);
-            $img = str_replace('https:/', 'https://', $img);
+            
+            if (!str_starts_with($img, '/')) {
+                $img = '/' . $img;
+            }
+            
+            $img = preg_replace('#/+#', '/', $img);
+            $img = 'https://woodstream.online' . $img;
+            
             return $img;
         }, $images ?: []);
     }
