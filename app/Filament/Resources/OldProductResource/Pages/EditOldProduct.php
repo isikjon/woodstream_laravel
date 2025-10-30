@@ -22,10 +22,15 @@ class EditOldProduct extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        if (isset($data['delete_avatar']) && $data['delete_avatar'] == '1') {
+            $data['avatar'] = null;
+        }
+        
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
             $data['avatar'] = Storage::disk('public')->url($data['avatar_upload']);
-            unset($data['avatar_upload']);
         }
+        
+        unset($data['avatar_upload'], $data['delete_avatar']);
 
         $currentImages = [];
         if (!empty($data['images'])) {

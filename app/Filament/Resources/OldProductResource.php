@@ -181,8 +181,14 @@ class OldProductResource extends Resource
                 Forms\Components\Section::make('Изображения')
                     ->schema([
                         Forms\Components\Group::make([
+                            Forms\Components\ViewField::make('avatar_preview')
+                                ->label('Текущее главное изображение')
+                                ->view('filament.forms.components.image-preview-delete')
+                                ->visible(fn ($get) => !empty($get('avatar')))
+                                ->columnSpanFull(),
+                            
                             Forms\Components\FileUpload::make('avatar_upload')
-                                ->label('Загрузить главное изображение')
+                                ->label('Загрузить новое главное изображение')
                                 ->image()
                                 ->imageEditor()
                                 ->imageEditorAspectRatios([
@@ -198,18 +204,11 @@ class OldProductResource extends Resource
                                 ->helperText('Загрузите изображение (макс. 5МБ)')
                                 ->columnSpanFull(),
                             
-                            Forms\Components\TextInput::make('avatar')
-                                ->label('Главное изображение (URL)')
-                                ->maxLength(3000)
-                                ->url()
-                                ->suffixIcon('heroicon-m-photo')
-                                ->helperText('Или укажите полный URL изображения')
-                                ->live(onBlur: true),
+                            Forms\Components\Hidden::make('avatar')
+                                ->default(''),
                             
-                            Forms\Components\ViewField::make('avatar_preview')
-                                ->label('Текущее главное изображение')
-                                ->view('filament.forms.components.image-preview')
-                                ->visible(fn ($get) => !empty($get('avatar'))),
+                            Forms\Components\Hidden::make('delete_avatar')
+                                ->default('0'),
                         ])->columnSpanFull(),
                         
                         Forms\Components\Group::make([
