@@ -27,7 +27,8 @@ class EditOldProduct extends EditRecord
         }
         
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
-            $data['avatar'] = Storage::disk('public')->url($data['avatar_upload']);
+            $path = $data['avatar_upload'];
+            $data['avatar'] = '/storage/' . $path;
         }
         
         unset($data['avatar_upload'], $data['delete_avatar']);
@@ -60,7 +61,7 @@ class EditOldProduct extends EditRecord
 
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
             $newImages = array_map(function($path) {
-                return Storage::disk('public')->url($path);
+                return '/storage/' . $path;
             }, $data['gallery_upload']);
 
             $currentImages = array_merge($currentImages, $newImages);
