@@ -341,10 +341,6 @@ class OldProductResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 
-                Tables\Columns\IconColumn::make('online')
-                    ->label('На сайте')
-                    ->boolean(),
-                
                 Tables\Columns\TextColumn::make('city.name')
                     ->label('Город')
                     ->searchable()
@@ -391,12 +387,6 @@ class OldProductResource extends Resource
                         11 => 'Под реставрацию',
                     ])
                     ->multiple(),
-                
-                Tables\Filters\TernaryFilter::make('online')
-                    ->label('На сайте')
-                    ->placeholder('Все товары')
-                    ->trueLabel('На сайте')
-                    ->falseLabel('Скрыты'),
                 
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label('Город')
