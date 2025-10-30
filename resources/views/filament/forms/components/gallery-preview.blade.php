@@ -1,12 +1,16 @@
 @php
     $record = $getRecord();
-    $imagesJson = $record ? $record->images : null;
+    $imagesData = $record ? $record->images : null;
     $images = [];
     
-    if ($imagesJson) {
-        $decoded = json_decode($imagesJson, true);
-        if (is_array($decoded)) {
-            $images = $decoded;
+    if ($imagesData) {
+        if (is_array($imagesData)) {
+            $images = $imagesData;
+        } elseif (is_string($imagesData)) {
+            $decoded = json_decode($imagesData, true);
+            if (is_array($decoded)) {
+                $images = $decoded;
+            }
         }
     }
 @endphp
