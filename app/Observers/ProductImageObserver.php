@@ -17,8 +17,8 @@ class ProductImageObserver
 
     public function saving(OldProduct $product)
     {
-        if ($product->isDirty('main_image') && $product->main_image) {
-            $this->applyWatermarkToImage($product->main_image);
+        if ($product->isDirty('avatar') && $product->avatar) {
+            $this->applyWatermarkToImage($product->avatar);
         }
 
         if ($product->isDirty('images') && $product->images) {

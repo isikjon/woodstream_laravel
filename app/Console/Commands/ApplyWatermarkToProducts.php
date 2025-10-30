@@ -30,7 +30,7 @@ class ApplyWatermarkToProducts extends Command
                 return 1;
             }
         } else {
-            $products = OldProduct::whereNotNull('main_image')
+            $products = OldProduct::whereNotNull('avatar')
                 ->orWhereNotNull('images')
                 ->get();
         }
@@ -44,8 +44,8 @@ class ApplyWatermarkToProducts extends Command
 
         foreach ($products as $product) {
             try {
-                if ($product->main_image) {
-                    $imagePath = $this->getImagePath($product->main_image);
+                if ($product->avatar) {
+                    $imagePath = $this->getImagePath($product->avatar);
                     if ($imagePath && file_exists($imagePath)) {
                         if ($this->watermarkService->applyWatermark($imagePath)) {
                             $processed++;
