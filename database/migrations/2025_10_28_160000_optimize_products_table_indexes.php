@@ -11,25 +11,51 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::statement('ALTER TABLE products 
-            ADD INDEX idx_model (model),
-            ADD INDEX idx_slug (slug),
-            ADD INDEX idx_availability (availability),
-            ADD INDEX idx_status (status),
-            ADD INDEX idx_online (online),
-            ADD INDEX idx_priority (priority),
-            ADD INDEX idx_created_at (created_at),
-            ADD INDEX idx_id_style (id_style),
-            ADD INDEX idx_id_country (id_country),
-            ADD INDEX idx_city_id (city_id),
-            ADD INDEX idx_availability_priority (availability, priority),
-            ADD INDEX idx_status_availability (status, availability),
-            ADD INDEX idx_online_status (online, status)
-        ');
+        Schema::table('products', function (Blueprint $table) {
+            if (Schema::hasColumn('products', 'model')) {
+                $table->index('model', 'idx_model');
+            }
+            if (Schema::hasColumn('products', 'slug')) {
+                $table->index('slug', 'idx_slug');
+            }
+            if (Schema::hasColumn('products', 'availability')) {
+                $table->index('availability', 'idx_availability');
+            }
+            if (Schema::hasColumn('products', 'status')) {
+                $table->index('status', 'idx_status');
+            }
+            if (Schema::hasColumn('products', 'online')) {
+                $table->index('online', 'idx_online');
+            }
+            if (Schema::hasColumn('products', 'priority')) {
+                $table->index('priority', 'idx_priority');
+            }
+            if (Schema::hasColumn('products', 'created_at')) {
+                $table->index('created_at', 'idx_created_at');
+            }
+            if (Schema::hasColumn('products', 'id_style')) {
+                $table->index('id_style', 'idx_id_style');
+            }
+            if (Schema::hasColumn('products', 'id_country')) {
+                $table->index('id_country', 'idx_id_country');
+            }
+            if (Schema::hasColumn('products', 'city_id')) {
+                $table->index('city_id', 'idx_city_id');
+            }
+            if (Schema::hasColumn('products', 'availability') && Schema::hasColumn('products', 'priority')) {
+                $table->index(['availability', 'priority'], 'idx_availability_priority');
+            }
+            if (Schema::hasColumn('products', 'status') && Schema::hasColumn('products', 'availability')) {
+                $table->index(['status', 'availability'], 'idx_status_availability');
+            }
+            if (Schema::hasColumn('products', 'online') && Schema::hasColumn('products', 'status')) {
+                $table->index(['online', 'status'], 'idx_online_status');
+            }
+        });
 
-        DB::statement('ALTER TABLE products 
-            ADD FULLTEXT INDEX ft_search (name, description, model)
-        ');
+        if (Schema::hasColumn('products', 'name') && Schema::hasColumn('products', 'description') && Schema::hasColumn('products', 'model')) {
+            DB::statement('ALTER TABLE products ADD FULLTEXT INDEX ft_search (name, description, model)');
+        }
     }
 
     public function down(): void
