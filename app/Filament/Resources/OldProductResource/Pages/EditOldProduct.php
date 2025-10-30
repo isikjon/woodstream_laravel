@@ -22,6 +22,10 @@ class EditOldProduct extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        \Log::info('=== НАЧАЛО mutateFormDataBeforeSave ===');
+        \Log::info('Incoming data[images]:', ['images' => $data['images'] ?? 'НЕ УСТАНОВЛЕНО']);
+        \Log::info('Incoming data[images_to_delete]:', ['images_to_delete' => $data['images_to_delete'] ?? 'НЕ УСТАНОВЛЕНО']);
+        
         if (isset($data['delete_avatar']) && $data['delete_avatar'] == '1') {
             $data['avatar'] = null;
         }
@@ -40,6 +44,8 @@ class EditOldProduct extends EditRecord
         if (!empty($data['images'])) {
             $currentImages = is_array($data['images']) ? $data['images'] : (json_decode($data['images'], true) ?: []);
         }
+        
+        \Log::info('Current images после парсинга:', ['count' => count($currentImages), 'images' => $currentImages]);
 
         $currentImages = array_map(function($img) {
             $img = str_replace('\\', '/', $img);
@@ -56,6 +62,8 @@ class EditOldProduct extends EditRecord
 
         if (isset($data['images_to_delete'])) {
             $toDelete = json_decode($data['images_to_delete'], true) ?: [];
+            \Log::info('Images to delete:', ['count' => count($toDelete), 'toDelete' => $toDelete]);
+            
             if (!empty($toDelete)) {
                 $toDelete = array_map(function($url) {
                     $url = str_replace('\\', '/', $url);
@@ -70,10 +78,20 @@ class EditOldProduct extends EditRecord
                     return $url;
                 }, $toDelete);
                 
+                \Log::info('Images to delete (normalized):', ['toDelete' => $toDelete]);
+                
+                $beforeDelete = count($currentImages);
                 $currentImages = array_filter($currentImages, function($img) use ($toDelete) {
-                    return !in_array($img, $toDelete);
+                    $shouldKeep = !in_array($img, $toDelete);
+                    if (!$shouldKeep) {
+                        \Log::info('УДАЛЯЕМ фото:', ['img' => $img]);
+                    }
+                    return $shouldKeep;
                 });
                 $currentImages = array_values($currentImages);
+                $afterDelete = count($currentImages);
+                
+                \Log::info('Результат удаления:', ['было' => $beforeDelete, 'стало' => $afterDelete, 'удалено' => ($beforeDelete - $afterDelete)]);
             }
             unset($data['images_to_delete']);
         }
@@ -92,6 +110,9 @@ class EditOldProduct extends EditRecord
         $currentImages = array_values($currentImages);
 
         $data['images'] = json_encode($currentImages);
+        
+        \Log::info('ИТОГОВЫЙ data[images] для сохранения:', ['images' => $data['images']]);
+        \Log::info('=== КОНЕЦ mutateFormDataBeforeSave ===');
 
         return $data;
     }
