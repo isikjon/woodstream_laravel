@@ -114,7 +114,7 @@
                 Вход</a>
         </div>
         <nav class="header__nav">
-            <a href="{{ route('catalog') }}" class="header__nav-item header__nav-item--active">Новинка</a>
+            <a href="{{ route('catalog') }}" class="header__nav-item header__nav-item--active">Новинки</a>
             <a href="{{ route('catalog.category', 'vintazhnye-shkafy-bufety-vitriny') }}" class="header__nav-item">Шкафы</a>
             <a href="{{ route('catalog.category', 'bufeti') }}" class="header__nav-item">Буфеты</a>
             <a href="{{ route('catalog.category', 'vitrini') }}" class="header__nav-item">Витрины</a>

@@ -54,6 +54,7 @@ class PopupResource extends Resource
                         Forms\Components\TextInput::make('button_1_url')
                             ->label('Ссылка кнопки 1')
                             ->maxLength(255)
+                            ->live()
                             ->helperText('Для WhatsApp укажите номер без +7 (например: 79171338697)'),
                         Forms\Components\Select::make('button_1_type')
                             ->label('Тип кнопки 1')
@@ -62,13 +63,31 @@ class PopupResource extends Resource
                                 'whatsapp' => 'WhatsApp',
                                 'telegram' => 'Telegram',
                             ])
-                            ->default('link'),
+                            ->default('link')
+                            ->live()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                if ($state === 'whatsapp' || $state === 'telegram') {
+                                    $duty = \App\Models\DutySchedule::getCurrentDuty();
+                                    $manager = $duty?->manager;
+                                    
+                                    if ($manager) {
+                                        if ($state === 'whatsapp' && $manager->whatsapp) {
+                                            $cleanPhone = preg_replace('/[^\d]/', '', $manager->whatsapp);
+                                            $set('button_1_url', $cleanPhone);
+                                        } elseif ($state === 'telegram' && $manager->telegram) {
+                                            $username = ltrim($manager->telegram, '@');
+                                            $set('button_1_url', $username);
+                                        }
+                                    }
+                                }
+                            }),
                         Forms\Components\TextInput::make('button_2_text')
                             ->label('Текст кнопки 2')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('button_2_url')
                             ->label('Ссылка кнопки 2')
                             ->maxLength(255)
+                            ->live()
                             ->helperText('Для WhatsApp укажите номер без +7 (например: 79171338697)'),
                         Forms\Components\Select::make('button_2_type')
                             ->label('Тип кнопки 2')
@@ -77,7 +96,24 @@ class PopupResource extends Resource
                                 'whatsapp' => 'WhatsApp',
                                 'telegram' => 'Telegram',
                             ])
-                            ->default('link'),
+                            ->default('link')
+                            ->live()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                if ($state === 'whatsapp' || $state === 'telegram') {
+                                    $duty = \App\Models\DutySchedule::getCurrentDuty();
+                                    $manager = $duty?->manager;
+                                    
+                                    if ($manager) {
+                                        if ($state === 'whatsapp' && $manager->whatsapp) {
+                                            $cleanPhone = preg_replace('/[^\d]/', '', $manager->whatsapp);
+                                            $set('button_2_url', $cleanPhone);
+                                        } elseif ($state === 'telegram' && $manager->telegram) {
+                                            $username = ltrim($manager->telegram, '@');
+                                            $set('button_2_url', $username);
+                                        }
+                                    }
+                                }
+                            }),
                     ])->columns(3),
 
                 Forms\Components\Section::make('Настройки')
