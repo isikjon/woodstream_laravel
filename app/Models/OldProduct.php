@@ -51,6 +51,11 @@ class OldProduct extends Model
         return $this->belongsToMany(OldStyle::class, 'product_styles', 'product_id', 'style_id');
     }
 
+    public function bookingManager()
+    {
+        return $this->belongsTo(BookingManager::class, 'booked_by');
+    }
+
     public function manager()
     {
         return $this->belongsTo(Manager::class, 'booked_by');

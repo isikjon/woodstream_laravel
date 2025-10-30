@@ -9,6 +9,7 @@ use App\Models\OldCity;
 use App\Models\OldCountry;
 use App\Models\OldStyle;
 use App\Models\OldCategory;
+use App\Models\BookingManager;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -134,19 +135,8 @@ class OldProductResource extends Resource
                             }),
                         
                         Forms\Components\Select::make('booked_by')
-                            ->label('Менеджер')
-                            ->options([
-                                6 => 'Екатерина Т',
-                                19 => 'Ольга Т',
-                                21 => 'Анна Т',
-                                22 => 'Екатерина Я',
-                                23 => 'Нина Я',
-                                25 => 'Наталья О',
-                                26 => 'Милена О',
-                                27 => 'Ирина',
-                                29 => 'Эльвира Т',
-                                30 => 'Наталья Т',
-                            ])
+                            ->label('Менеджер брони')
+                            ->options(fn () => BookingManager::active()->ordered()->pluck('name', 'id'))
                             ->searchable()
                             ->required(fn (callable $get) => (int) $get('availability') === 9)
                             ->hidden(function (callable $get) {
@@ -403,8 +393,8 @@ class OldProductResource extends Resource
                         'warning' => fn ($state) => in_array($state, [10, 8, 9, 11]),
                     ]),
                 
-                Tables\Columns\TextColumn::make('manager.name')
-                    ->label('Менеджер')
+                Tables\Columns\TextColumn::make('bookingManager.name')
+                    ->label('Менеджер брони')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->placeholder('—'),
