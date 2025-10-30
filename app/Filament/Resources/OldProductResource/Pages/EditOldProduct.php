@@ -28,7 +28,10 @@ class EditOldProduct extends EditRecord
         
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
             $path = $data['avatar_upload'];
-            $data['avatar'] = '/storage/' . $path;
+            if (is_string($path)) {
+                $cleanPath = str_replace('\\', '/', $path);
+                $data['avatar'] = '/storage/' . $cleanPath;
+            }
         }
         
         unset($data['avatar_upload'], $data['delete_avatar']);
@@ -38,21 +41,37 @@ class EditOldProduct extends EditRecord
             $currentImages = is_array($data['images']) ? $data['images'] : (json_decode($data['images'], true) ?: []);
         }
 
+        $currentImages = array_map(function($img) {
+            $img = str_replace('\\', '/', $img);
+            $img = str_replace('https://woodstream.online', '', $img);
+            $img = str_replace('http://localhost', '', $img);
+            $img = str_replace('https://', '', $img);
+            $img = str_replace('http://', '', $img);
+            $img = preg_replace('#/+#', '/', $img);
+            if (!str_starts_with($img, '/')) {
+                $img = '/' . $img;
+            }
+            return $img;
+        }, $currentImages);
+
         if (isset($data['images_to_delete'])) {
             $toDelete = json_decode($data['images_to_delete'], true) ?: [];
             if (!empty($toDelete)) {
-                $currentImages = array_filter($currentImages, function($img) use ($toDelete) {
-                    $normalizedImg = str_replace('https://woodstream.online', '', $img);
-                    $normalizedImg = str_replace('https:/', '', $normalizedImg);
-                    
-                    foreach ($toDelete as $deleteUrl) {
-                        $normalizedDelete = str_replace('https://woodstream.online', '', $deleteUrl);
-                        $normalizedDelete = str_replace('https:/', '', $normalizedDelete);
-                        if ($normalizedImg === $normalizedDelete) {
-                            return false;
-                        }
+                $toDelete = array_map(function($url) {
+                    $url = str_replace('\\', '/', $url);
+                    $url = str_replace('https://woodstream.online', '', $url);
+                    $url = str_replace('http://localhost', '', $url);
+                    $url = str_replace('https://', '', $url);
+                    $url = str_replace('http://', '', $url);
+                    $url = preg_replace('#/+#', '/', $url);
+                    if (!str_starts_with($url, '/')) {
+                        $url = '/' . $url;
                     }
-                    return true;
+                    return $url;
+                }, $toDelete);
+                
+                $currentImages = array_filter($currentImages, function($img) use ($toDelete) {
+                    return !in_array($img, $toDelete);
                 });
                 $currentImages = array_values($currentImages);
             }
@@ -61,12 +80,16 @@ class EditOldProduct extends EditRecord
 
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
             $newImages = array_map(function($path) {
-                return '/storage/' . $path;
+                $cleanPath = str_replace('\\', '/', $path);
+                return '/storage/' . $cleanPath;
             }, $data['gallery_upload']);
 
             $currentImages = array_merge($currentImages, $newImages);
             unset($data['gallery_upload']);
         }
+
+        $currentImages = array_unique($currentImages);
+        $currentImages = array_values($currentImages);
 
         $data['images'] = json_encode($currentImages);
 
