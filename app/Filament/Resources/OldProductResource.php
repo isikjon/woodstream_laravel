@@ -181,21 +181,51 @@ class OldProductResource extends Resource
                 Forms\Components\Section::make('Изображения')
                     ->schema([
                         Forms\Components\Group::make([
+                            Forms\Components\FileUpload::make('avatar_upload')
+                                ->label('Загрузить главное изображение')
+                                ->image()
+                                ->imageEditor()
+                                ->imageEditorAspectRatios([
+                                    null,
+                                    '16:9',
+                                    '4:3',
+                                    '1:1',
+                                ])
+                                ->maxSize(5120)
+                                ->directory('products/main')
+                                ->disk('public')
+                                ->visibility('public')
+                                ->helperText('Загрузите изображение (макс. 5МБ)')
+                                ->columnSpanFull(),
+                            
                             Forms\Components\TextInput::make('avatar')
                                 ->label('Главное изображение (URL)')
                                 ->maxLength(3000)
                                 ->url()
                                 ->suffixIcon('heroicon-m-photo')
-                                ->helperText('Полный URL изображения')
+                                ->helperText('Или укажите полный URL изображения')
                                 ->live(onBlur: true),
                             
                             Forms\Components\ViewField::make('avatar_preview')
-                                ->label('Превью главного изображения')
+                                ->label('Текущее главное изображение')
                                 ->view('filament.forms.components.image-preview')
                                 ->visible(fn ($get) => !empty($get('avatar'))),
                         ])->columnSpanFull(),
                         
                         Forms\Components\Group::make([
+                            Forms\Components\FileUpload::make('gallery_upload')
+                                ->label('Загрузить изображения галереи')
+                                ->image()
+                                ->multiple()
+                                ->reorderable()
+                                ->maxSize(5120)
+                                ->maxFiles(20)
+                                ->directory('products/gallery')
+                                ->disk('public')
+                                ->visibility('public')
+                                ->helperText('Загрузите до 20 изображений (макс. 5МБ каждое)')
+                                ->columnSpanFull(),
+                            
                             Forms\Components\Textarea::make('images')
                                 ->label('Галерея изображений (JSON)')
                                 ->rows(3)
@@ -203,7 +233,7 @@ class OldProductResource extends Resource
                                 ->live(onBlur: true),
                             
                             Forms\Components\ViewField::make('images_preview')
-                                ->label('Превью галереи')
+                                ->label('Текущая галерея')
                                 ->view('filament.forms.components.gallery-preview')
                                 ->visible(fn ($get) => !empty($get('images'))),
                         ])->columnSpanFull(),
@@ -406,7 +436,6 @@ class OldProductResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
