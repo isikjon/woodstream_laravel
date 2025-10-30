@@ -129,14 +129,22 @@
             console.log('Delete input найден:', !!deleteInput);
 
             let currentImages = [];
-            if (imagesInput) {
+            const livewireComponent = imagesInput ? Livewire.find(imagesInput.closest('[wire\\:id]').getAttribute('wire:id')) : null;
+            
+            if (livewireComponent) {
+                console.log('✅ Livewire компонент найден');
+                
                 try {
-                    const rawValue = imagesInput.value || '[]';
-                    console.log('Текущее значение images:', rawValue);
-                    currentImages = JSON.parse(rawValue);
-                    console.log('Распарсенные images:', currentImages);
+                    currentImages = livewireComponent.get('data.images');
+                    if (typeof currentImages === 'string') {
+                        currentImages = JSON.parse(currentImages);
+                    }
+                    if (!Array.isArray(currentImages)) {
+                        currentImages = [];
+                    }
+                    console.log('Текущие images из Livewire:', currentImages);
                 } catch (e) {
-                    console.error('Ошибка парсинга:', e);
+                    console.error('Ошибка получения images из Livewire:', e);
                     currentImages = [];
                 }
 
@@ -159,18 +167,23 @@
                 console.log(`Было фото: ${beforeLength}, Осталось: ${currentImages.length}`);
 
                 const newValue = JSON.stringify(currentImages);
-                imagesInput.value = newValue;
                 console.log('Новое значение images:', newValue);
                 
-                imagesInput.dispatchEvent(new Event('change', { bubbles: true }));
-                imagesInput.dispatchEvent(new Event('input', { bubbles: true }));
-                imagesInput.dispatchEvent(new Event('blur', { bubbles: true }));
+                livewireComponent.set('data.images', newValue);
+                console.log('✅ Livewire state обновлен!');
+                
+                if (imagesInput) {
+                    imagesInput.value = newValue;
+                }
+            } else {
+                console.error('❌ Livewire компонент НЕ найден!');
             }
 
-            if (deleteInput) {
+            if (livewireComponent && deleteInput) {
                 let toDelete = [];
                 try {
-                    toDelete = JSON.parse(deleteInput.value || '[]');
+                    const currentDeleteValue = livewireComponent.get('data.images_to_delete');
+                    toDelete = currentDeleteValue ? JSON.parse(currentDeleteValue) : [];
                 } catch (e) {
                     toDelete = [];
                 }
@@ -180,11 +193,9 @@
                 }
                 
                 const newDeleteValue = JSON.stringify(toDelete);
+                livewireComponent.set('data.images_to_delete', newDeleteValue);
                 deleteInput.value = newDeleteValue;
-                console.log('Images to delete:', newDeleteValue);
-                
-                deleteInput.dispatchEvent(new Event('change', { bubbles: true }));
-                deleteInput.dispatchEvent(new Event('input', { bubbles: true }));
+                console.log('✅ Images to delete обновлены:', newDeleteValue);
             }
 
             const imageElement = document.querySelector(`[data-image-url="${imageUrl}"]`);
