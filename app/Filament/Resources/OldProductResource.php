@@ -158,8 +158,11 @@ class OldProductResource extends Resource
                             ->live()
                             ->helperText('Выберите менеджера, который забронировал товар'),
                         
-                        Forms\Components\DateTimePicker::make('booked_at')
+                        Forms\Components\DatePicker::make('booked_at')
                             ->label('Дата бронирования')
+                            ->format('Y-m-d')
+                            ->displayFormat('d.m.Y')
+                            ->native(false)
                             ->hidden(function (callable $get) {
                                 $availability = (int) $get('availability');
                                 $isHidden = $availability !== 9;
@@ -167,10 +170,14 @@ class OldProductResource extends Resource
                                 return $isHidden;
                             })
                             ->live()
-                            ->default(now()),
+                            ->default(now())
+                            ->helperText('Формат: ДД.ММ.ГГГГ'),
                         
-                        Forms\Components\DateTimePicker::make('booked_expire')
+                        Forms\Components\DatePicker::make('booked_expire')
                             ->label('Бронь до')
+                            ->format('Y-m-d')
+                            ->displayFormat('d.m.Y')
+                            ->native(false)
                             ->hidden(function (callable $get) {
                                 $availability = (int) $get('availability');
                                 $isHidden = $availability !== 9;
@@ -178,7 +185,7 @@ class OldProductResource extends Resource
                                 return $isHidden;
                             })
                             ->live()
-                            ->helperText('Дата окончания бронирования'),
+                            ->helperText('Дата окончания бронирования (Формат: ДД.ММ.ГГГГ)'),
                         
                         Forms\Components\Toggle::make('online')
                             ->label('Показывать на сайте')
