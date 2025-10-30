@@ -27,20 +27,42 @@ class EditOldProduct extends EditRecord
             unset($data['avatar_upload']);
         }
 
-        if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
-            $existingImages = [];
-            if (!empty($data['images'])) {
-                $existingImages = is_array($data['images']) ? $data['images'] : json_decode($data['images'], true) ?: [];
-            }
+        $currentImages = [];
+        if (!empty($data['images'])) {
+            $currentImages = is_array($data['images']) ? $data['images'] : json_decode($data['images'], true) ?: [];
+        }
 
+        if (isset($data['images_to_delete'])) {
+            $toDelete = json_decode($data['images_to_delete'], true) ?: [];
+            if (!empty($toDelete)) {
+                $currentImages = array_filter($currentImages, function($img) use ($toDelete) {
+                    $normalizedImg = str_replace('https://woodstream.online', '', $img);
+                    $normalizedImg = str_replace('https:/', '', $normalizedImg);
+                    
+                    foreach ($toDelete as $deleteUrl) {
+                        $normalizedDelete = str_replace('https://woodstream.online', '', $deleteUrl);
+                        $normalizedDelete = str_replace('https:/', '', $normalizedDelete);
+                        if ($normalizedImg === $normalizedDelete) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+                $currentImages = array_values($currentImages);
+            }
+            unset($data['images_to_delete']);
+        }
+
+        if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
             $newImages = array_map(function($path) {
                 return Storage::disk('public')->url($path);
             }, $data['gallery_upload']);
 
-            $allImages = array_merge($existingImages, $newImages);
-            $data['images'] = json_encode($allImages);
+            $currentImages = array_merge($currentImages, $newImages);
             unset($data['gallery_upload']);
         }
+
+        $data['images'] = json_encode($currentImages);
 
         return $data;
     }

@@ -213,8 +213,14 @@ class OldProductResource extends Resource
                         ])->columnSpanFull(),
                         
                         Forms\Components\Group::make([
+                            Forms\Components\ViewField::make('images_manager')
+                                ->label('Управление галереей')
+                                ->view('filament.forms.components.gallery-manager')
+                                ->visible(fn ($get) => !empty($get('images')))
+                                ->columnSpanFull(),
+                            
                             Forms\Components\FileUpload::make('gallery_upload')
-                                ->label('Загрузить изображения галереи')
+                                ->label('Загрузить новые изображения')
                                 ->image()
                                 ->multiple()
                                 ->reorderable()
@@ -226,16 +232,14 @@ class OldProductResource extends Resource
                                 ->helperText('Загрузите до 20 изображений (макс. 5МБ каждое)')
                                 ->columnSpanFull(),
                             
+                            Forms\Components\Hidden::make('images_to_delete')
+                                ->default('[]'),
+                            
                             Forms\Components\Textarea::make('images')
                                 ->label('Галерея изображений (JSON)')
                                 ->rows(3)
                                 ->helperText('JSON массив с URL изображений')
                                 ->live(onBlur: true),
-                            
-                            Forms\Components\ViewField::make('images_preview')
-                                ->label('Текущая галерея')
-                                ->view('filament.forms.components.gallery-preview')
-                                ->visible(fn ($get) => !empty($get('images'))),
                         ])->columnSpanFull(),
                         
                         Forms\Components\TextInput::make('video')
