@@ -10,7 +10,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $query = \App\Models\OldProduct::where('availability', '!=', 5);
+        $query = \App\Models\OldProduct::query();
+        
+        if (\Schema::connection('production')->hasColumn('products', 'availability')) {
+            $query->where('availability', '!=', 5);
+        }
         
         if (\Schema::connection('production')->hasColumn('products', 'priority')) {
             $query->orderBy('priority', 'desc');
