@@ -358,65 +358,61 @@
             </a>
         </div>
         <div class="category-block">
-            <a href="{{ route('catalog') }}" class="category-item category-item--half">
-                <span class="category-item__title">Кровати</span>
+            <a href="{{ route('catalog.category', 'shkafy') }}" class="category-item category-item--half">
+                <span class="category-item__title">Шкафы</span>
                 <img src="{{ asset('images/content/category_1.png') }}" alt="">
             </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--small category-item--half">
-                <span class="category-item__title">Кровати</span>
-                <img src="{{ asset('images/content/category_1.png') }}" alt="">
+            <a href="{{ route('catalog.category', 'myagkaya-mebel') }}" class="category-item category-item--small category-item--half">
+                <span class="category-item__title">Мягкая <br> мебель</span>
+                <img src="{{ asset('images/content/category_2.png') }}" alt="">
             </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--two--fifths">
-                <span class="category-item__title">Продукция</span>
+            <a href="{{ route('catalog.category', 'stoly-konsoli') }}" class="category-item category-item--two--fifths">
+                <span class="category-item__title">Столы,<br> консоли</span>
                 <img src="{{ asset('images/content/category_3.png') }}" alt="">
             </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--three--fifths">
-                <span class="category-item__title">Консоли</span>
+            <a href="{{ route('catalog.category', 'bufety') }}" class="category-item category-item--three--fifths">
+                <span class="category-item__title">Буфеты</span>
                 <img src="{{ asset('images/content/category_4.png') }}" alt="">
             </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--three--fifths">
-                <span class="category-item__title">Винтажная мебель</span>
+            <a href="{{ route('catalog.category', 'vitriny') }}" class="category-item category-item--three--fifths">
+                <span class="category-item__title">Витрины</span>
                 <img src="{{ asset('images/content/category_5.png') }}" alt="">
             </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--small category-item--two--fifths">
-                <span class="category-item__title">Шкафы</span>
-                <img src="{{ asset('images/content/category_6.png') }}" alt="">
-            </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--third">
-                <span class="category-item__title">Кресла</span>
-                <img src="{{ asset('images/content/category_7.png') }}" alt="">
-            </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--small category-item--third">
-                <span class="category-item__title">Столы обеденные</span>
-                <img src="{{ asset('images/content/category_8.png') }}" alt="">
-            </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--third">
-                <span class="category-item__title">Комоды, дрессуары, секретеры</span>
-                <img src="{{ asset('images/content/category_23.png') }}" alt="">
-            </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--two--fifths">
-                <span class="category-item__title">Фарфоровая посуда, статуэтки, вазы</span>
-                <img src="{{ asset('images/content/category_26.png') }}" alt="">
-            </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--three--fifths">
-                <span class="category-item__title">Маленькая мебель/разное</span>
-                <img src="{{ asset('images/content/category_21.png') }}" alt="">
-            </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--third">
-                <span class="category-item__title">Столы/консоли</span>
-                <img src="{{ asset('images/content/category_3.png') }}" alt="">
-            </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--third">
+            <a href="{{ route('catalog.category', 'kabinety') }}" class="category-item category-item--small category-item--two--fifths">
                 <span class="category-item__title">Кабинеты</span>
                 <img src="{{ asset('images/content/category_6.png') }}" alt="">
             </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--small category-item--third">
+            <a href="{{ route('catalog.category', 'antikvarnaya-mebel-skidki') }}" class="category-item category-item--third">
+                <span class="category-item__title">Антикварная <br> мебель <br> Скидки</span>
+                <img src="{{ asset('images/content/category_7.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog.category', 'spalni') }}" class="category-item category-item--small category-item--third">
+                <span class="category-item__title">Спальни</span>
+                <img src="{{ asset('images/content/category_8.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog.category', 'osveshchenie') }}" class="category-item category-item--third">
+                <span class="category-item__title">Освещениеты</span>
+                <img src="{{ asset('images/content/category_9.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog.category', 'stolovye') }}" class="category-item category-item--two--fifths">
                 <span class="category-item__title">Столовые</span>
                 <img src="{{ asset('images/content/category_10.png') }}" alt="">
             </a>
-            <a href="{{ route('catalog') }}" class="category-item category-item--third">
-                <span class="category-item__title">Спальни</span>
-                <img src="{{ asset('images/content/category_8.png') }}" alt="">
+            <a href="{{ route('catalog.category', 'zerkala-konsoli') }}" class="category-item category-item--three--fifths">
+                <span class="category-item__title">Зеркала, <br> консоли</span>
+                <img src="{{ asset('images/content/category_11.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog.category', 'chasy') }}" class="category-item category-item--third">
+                <span class="category-item__title">Часы</span>
+                <img src="{{ asset('images/content/category_12.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog.category', 'kaminy-pechi') }}" class="category-item category-item--third">
+                <span class="category-item__title">Камины, <br> печи</span>
+                <img src="{{ asset('images/content/category_13.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog.category', 'skulptury') }}" class="category-item category-item--small category-item--third">
+                <span class="category-item__title">Скульп- <br>туры</span>
+                <img src="{{ asset('images/content/category_14.png') }}" alt="">
             </a>
         </div>
     </div>
