@@ -82,38 +82,89 @@
                 return;
             }
 
-            const normalizedUrl = imageUrl
+            console.log('=== SWAP ГЛАВНОГО ФОТО ===');
+            console.log('Новое главное:', imageUrl);
+
+            const normalizedNewMain = imageUrl
+                .replace(/https?:\/\/[^\/]+/g, '')
+                .replace(/\/\//g, '/');
+            
+            console.log('Нормализованное новое главное:', normalizedNewMain);
+
+            const formElement = document.querySelector('form');
+            let livewireComponent = null;
+            
+            if (formElement) {
+                const wireId = formElement.getAttribute('wire:id');
+                if (wireId && window.Livewire) {
+                    livewireComponent = window.Livewire.find(wireId);
+                }
+            }
+            
+            if (!livewireComponent) {
+                const allWireElements = document.querySelectorAll('[wire\\:id]');
+                for (const el of allWireElements) {
+                    const wireId = el.getAttribute('wire:id');
+                    const comp = window.Livewire.find(wireId);
+                    if (comp && comp.get && comp.get('data')) {
+                        livewireComponent = comp;
+                        break;
+                    }
+                }
+            }
+
+            if (!livewireComponent) {
+                alert('❌ ОШИБКА: Не удалось найти компонент формы.');
+                return;
+            }
+
+            const oldAvatar = livewireComponent.get('data.avatar') || '';
+            console.log('Старое главное фото:', oldAvatar);
+
+            let currentImages = [];
+            try {
+                currentImages = livewireComponent.get('data.images');
+                if (typeof currentImages === 'string') {
+                    currentImages = JSON.parse(currentImages);
+                }
+                if (!Array.isArray(currentImages)) {
+                    currentImages = [];
+                }
+            } catch (e) {
+                currentImages = [];
+            }
+
+            console.log('Текущая галерея (до):', currentImages);
+
+            const normalizedOldAvatar = oldAvatar
                 .replace(/https?:\/\/[^\/]+/g, '')
                 .replace(/\/\//g, '/');
 
-            const avatarInput = document.querySelector('input[name="avatar"]');
-            if (avatarInput) {
-                avatarInput.value = normalizedUrl;
-                
-                const changeEvent = new Event('change', { bubbles: true });
-                avatarInput.dispatchEvent(changeEvent);
-                
-                const inputEvent = new Event('input', { bubbles: true });
-                avatarInput.dispatchEvent(inputEvent);
-                
-                try {
-                    const wireId = avatarInput.closest('[wire\\:id]')?.getAttribute('wire:id');
-                    if (wireId && window.Livewire) {
-                        const component = window.Livewire.find(wireId);
-                        if (component) {
-                            component.set('data.avatar', normalizedUrl);
-                        }
-                    }
-                } catch (e) {
-                    console.log('Livewire update attempt:', e);
-                }
-                
-                setTimeout(() => {
-                    avatarInput.value = normalizedUrl;
-                }, 100);
+            currentImages = currentImages.filter(img => {
+                const normalized = img
+                    .replace(/https?:\/\/[^\/]+/g, '')
+                    .replace(/\/\//g, '/');
+                return normalized !== normalizedNewMain;
+            });
+
+            if (normalizedOldAvatar && normalizedOldAvatar !== '') {
+                currentImages.push(normalizedOldAvatar);
             }
 
-            alert('Изображение установлено как главное. Нажмите "Сохранить" чтобы применить изменения.');
+            console.log('Новая галерея (после):', currentImages);
+
+            livewireComponent.set('data.avatar', normalizedNewMain);
+            livewireComponent.set('data.images', JSON.stringify(currentImages));
+
+            const avatarInput = document.querySelector('input[name="avatar"]');
+            if (avatarInput) {
+                avatarInput.value = normalizedNewMain;
+                avatarInput.dispatchEvent(new Event('change', { bubbles: true }));
+                avatarInput.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+
+            console.log('✅ SWAP завершен!');
+            alert('✅ Фото ПЕРЕСТАВЛЕНЫ МЕСТАМИ!\n\nНажмите "СОХРАНИТЬ" чтобы применить изменения.');
         };
 
         window.deleteGalleryImage{{ $getRecord()->id }} = function(imageUrl) {
