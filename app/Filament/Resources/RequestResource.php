@@ -31,11 +31,14 @@ class RequestResource extends Resource
                         Forms\Components\Placeholder::make('product_name')
                             ->label('Название товара')
                             ->content(fn ($record) => $record?->product?->name ?? 'Не указан'),
+                        Forms\Components\Placeholder::make('product_model')
+                            ->label('Артикул')
+                            ->content(fn ($record) => $record?->product?->model ?? 'Не указан'),
                         Forms\Components\Placeholder::make('product_price')
                             ->label('Цена товара')
                             ->content(fn ($record) => $record?->product ? number_format($record->product->price, 0, '.', ' ') . ' ₽' : 'Не указана'),
                     ])
-                    ->columns(2)
+                    ->columns(3)
                     ->collapsible(),
                 
                 Forms\Components\TextInput::make('offer')
@@ -85,6 +88,11 @@ class RequestResource extends Resource
                         }
                         return $state;
                     }),
+                Tables\Columns\TextColumn::make('product.model')
+                    ->label('Артикул')
+                    ->searchable()
+                    ->sortable()
+                    ->placeholder('Не указан'),
                 Tables\Columns\TextColumn::make('product.price')
                     ->label('Цена')
                     ->money('RUB')
