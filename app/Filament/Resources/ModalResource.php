@@ -14,6 +14,8 @@ class ModalResource extends Resource
 {
     protected static ?string $model = Modal::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $navigationIcon = 'heroicon-o-window';
     protected static ?string $navigationLabel = 'Модальные окна';
     protected static ?string $modelLabel = 'Модальное окно';
