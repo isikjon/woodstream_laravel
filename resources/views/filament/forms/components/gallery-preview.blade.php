@@ -1,17 +1,30 @@
 @php
     $record = $getRecord();
-    $imagesData = $record ? $record->images : null;
     $images = [];
     
-    if ($imagesData) {
-        if (is_array($imagesData)) {
-            $images = $imagesData;
-        } elseif (is_string($imagesData)) {
-            $decoded = json_decode($imagesData, true);
-            if (is_array($decoded)) {
-                $images = $decoded;
+    if ($record) {
+        $imagesData = $record->images;
+        
+        if ($imagesData) {
+            if (is_array($imagesData)) {
+                $images = $imagesData;
+            } elseif (is_string($imagesData)) {
+                $decoded = json_decode($imagesData, true);
+                if (is_array($decoded)) {
+                    $images = $decoded;
+                }
             }
         }
+        
+        $images = array_map(function($img) {
+            if (!str_starts_with($img, 'http')) {
+                $img = 'https://woodstream.online' . $img;
+            }
+            $img = str_replace('woodstream.onlineimages', 'woodstream.online/images', $img);
+            $img = str_replace('//', '/', $img);
+            $img = str_replace('https:/', 'https://', $img);
+            return $img;
+        }, $images ?: []);
     }
 @endphp
 

@@ -1,6 +1,16 @@
 @php
     $record = $getRecord();
     $avatarUrl = $record ? $record->avatar : null;
+    
+    if ($avatarUrl) {
+        if (!str_starts_with($avatarUrl, 'http')) {
+            $avatarUrl = 'https://woodstream.online' . $avatarUrl;
+        }
+        $avatarUrl = str_replace('img/products/', '/img/products/', $avatarUrl);
+        $avatarUrl = str_replace('//', '/', $avatarUrl);
+        $avatarUrl = str_replace('https:/', 'https://', $avatarUrl);
+        $avatarUrl = str_replace('woodstream.onlineimages', 'woodstream.online/images', $avatarUrl);
+    }
 @endphp
 
 @if($avatarUrl)
