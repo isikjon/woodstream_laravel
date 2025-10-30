@@ -91,19 +91,43 @@ class OldProductResource extends Resource
                             ])
                             ->default(7)
                             ->live()
-                            ->afterStateUpdated(function ($state, callable $set) {
+                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                \Log::info('=== НАЧАЛО afterStateUpdated ===');
+                                \Log::info('Новый статус (state):', ['state' => $state, 'type' => gettype($state)]);
+                                \Log::info('Текущий availability из $get:', ['availability' => $get('availability')]);
+                                \Log::info('Текущий online:', ['online' => $get('online')]);
+                                \Log::info('Текущий booked_by:', ['booked_by' => $get('booked_by')]);
+                                \Log::info('Текущий booked_at:', ['booked_at' => $get('booked_at')]);
+                                \Log::info('Текущий booked_expire:', ['booked_expire' => $get('booked_expire')]);
+                                
                                 if ($state === 9) {
+                                    \Log::info('✅ СТАТУС = 9 (Забронировано) - устанавливаем поля брони');
                                     $set('online', false);
+                                    \Log::info('Установлено online = false');
+                                    
                                     $set('booked_at', now());
+                                    \Log::info('Установлено booked_at = now()', ['now' => now()]);
+                                    
                                     $set('booked_expire', now()->addDays(4));
+                                    \Log::info('Установлено booked_expire = now()+4 дня', ['expire' => now()->addDays(4)]);
+                                    
+                                    \Log::info('После установки значений:');
+                                    \Log::info('  online после set:', ['online' => $get('online')]);
+                                    \Log::info('  booked_at после set:', ['booked_at' => $get('booked_at')]);
+                                    \Log::info('  booked_expire после set:', ['booked_expire' => $get('booked_expire')]);
                                 } else {
+                                    \Log::info('❌ СТАТУС != 9 - очищаем поля брони');
                                     $set('booked_by', null);
                                     $set('booked_at', null);
                                     $set('booked_expire', null);
+                                    
                                     if ($state === 7) {
+                                        \Log::info('Статус = 7 (В наличии) - включаем online');
                                         $set('online', true);
                                     }
                                 }
+                                
+                                \Log::info('=== КОНЕЦ afterStateUpdated ===');
                             }),
                         
                         Forms\Components\Select::make('booked_by')
@@ -112,19 +136,34 @@ class OldProductResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required(fn (callable $get) => $get('availability') === 9)
-                            ->hidden(fn (callable $get) => $get('availability') !== 9)
+                            ->hidden(function (callable $get) {
+                                $availability = $get('availability');
+                                $isHidden = $availability !== 9;
+                                \Log::info('booked_by->hidden():', ['availability' => $availability, 'isHidden' => $isHidden]);
+                                return $isHidden;
+                            })
                             ->live()
                             ->helperText('Выберите менеджера, который забронировал товар'),
                         
                         Forms\Components\DateTimePicker::make('booked_at')
                             ->label('Дата бронирования')
-                            ->hidden(fn (callable $get) => $get('availability') !== 9)
+                            ->hidden(function (callable $get) {
+                                $availability = $get('availability');
+                                $isHidden = $availability !== 9;
+                                \Log::info('booked_at->hidden():', ['availability' => $availability, 'isHidden' => $isHidden]);
+                                return $isHidden;
+                            })
                             ->live()
                             ->default(now()),
                         
                         Forms\Components\DateTimePicker::make('booked_expire')
                             ->label('Бронь до')
-                            ->hidden(fn (callable $get) => $get('availability') !== 9)
+                            ->hidden(function (callable $get) {
+                                $availability = $get('availability');
+                                $isHidden = $availability !== 9;
+                                \Log::info('booked_expire->hidden():', ['availability' => $availability, 'isHidden' => $isHidden]);
+                                return $isHidden;
+                            })
                             ->live()
                             ->helperText('Дата окончания бронирования'),
                         
