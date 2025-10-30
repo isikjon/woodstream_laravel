@@ -29,7 +29,7 @@ class EditOldProduct extends EditRecord
 
         $currentImages = [];
         if (!empty($data['images'])) {
-            $currentImages = is_array($data['images']) ? $data['images'] : json_decode($data['images'], true) ?: [];
+            $currentImages = is_array($data['images']) ? $data['images'] : (json_decode($data['images'], true) ?: []);
         }
 
         if (isset($data['images_to_delete'])) {
