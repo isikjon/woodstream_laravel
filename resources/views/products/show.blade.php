@@ -358,16 +358,66 @@
             </a>
         </div>
         <div class="category-block">
-            @php
-                $categoryLimit = 14;
-                $categories = \App\Models\Category::limit($categoryLimit)->get();
-            @endphp
-            @foreach($categories as $cat)
-                <a href="{{ route('catalog.category', $cat->slug) }}" class="category-item {{ $cat->css_class }}">
-                    <span class="category-item__title">{!! nl2br(e($cat->name)) !!}</span>
-                    <img src="{{ asset('images/content/' . $cat->image) }}" alt="{{ $cat->name }}">
-                </a>
-            @endforeach
+            <a href="{{ route('catalog') }}" class="category-item category-item--half">
+                <span class="category-item__title">Кровати</span>
+                <img src="{{ asset('images/content/category_1.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--small category-item--half">
+                <span class="category-item__title">Кровати</span>
+                <img src="{{ asset('images/content/category_1.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--two--fifths">
+                <span class="category-item__title">Продукция</span>
+                <img src="{{ asset('images/content/category_3.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--three--fifths">
+                <span class="category-item__title">Консоли</span>
+                <img src="{{ asset('images/content/category_4.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--three--fifths">
+                <span class="category-item__title">Винтажная мебель</span>
+                <img src="{{ asset('images/content/category_5.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--small category-item--two--fifths">
+                <span class="category-item__title">Шкафы</span>
+                <img src="{{ asset('images/content/category_6.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--third">
+                <span class="category-item__title">Кресла</span>
+                <img src="{{ asset('images/content/category_7.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--small category-item--third">
+                <span class="category-item__title">Столы обеденные</span>
+                <img src="{{ asset('images/content/category_8.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--third">
+                <span class="category-item__title">Комоды, дрессуары, секретеры</span>
+                <img src="{{ asset('images/content/category_23.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--two--fifths">
+                <span class="category-item__title">Фарфоровая посуда, статуэтки, вазы</span>
+                <img src="{{ asset('images/content/category_26.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--three--fifths">
+                <span class="category-item__title">Маленькая мебель/разное</span>
+                <img src="{{ asset('images/content/category_21.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--third">
+                <span class="category-item__title">Столы/консоли</span>
+                <img src="{{ asset('images/content/category_3.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--third">
+                <span class="category-item__title">Кабинеты</span>
+                <img src="{{ asset('images/content/category_6.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--small category-item--third">
+                <span class="category-item__title">Столовые</span>
+                <img src="{{ asset('images/content/category_10.png') }}" alt="">
+            </a>
+            <a href="{{ route('catalog') }}" class="category-item category-item--third">
+                <span class="category-item__title">Спальни</span>
+                <img src="{{ asset('images/content/category_8.png') }}" alt="">
+            </a>
         </div>
     </div>
 </section>

@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/icons/logo.svg" type="image/x-icon">
+    <link rel="stylesheet" href="fonts/stylesheet.css">
+    <!-- swiper -->
+    <link rel="stylesheet" href="css/swiper-bundle.min.css">
+    <!-- fancy box -->
+    <link rel="stylesheet" href="css/fancybox.css">
+    <link rel="stylesheet" href="css/main.css">
+    <title>WoodStream</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="container">
+                <div class="header__top">
+                    <div class="header__info">
+                        <nav>
+                            <a href="#" class="header__link">В наличии в России</a>
+                            <a href="#" class="header__link header__link-discount">% Скидки</a>
+                            <a href="#" class="header__link">Блог</a>
+                            <a href="#" class="header__link">Отзывы</a>
+                            <a href="#" class="header__link">Контакты</a>
+                        </nav>
+                        <div class="header__theme">
+                            <span class="header__theme-text">Выбрать тему:</span>
+                            <img src="images/icons/Light.svg" alt="">
+                            <span class="header__theme-mode">Светлая</span>
+                        </div>
+                    </div>
+                    <div class="header__contacts">
+                        <a href="mailto:info@woodstream.online" class="header__email">
+                            <img src="images/icons/mail.svg" alt="">
+                            info@woodstream.online</a>
+                        <div class="header__socials">
+                            <span>Чаты и соц. сети:</span>
+                            <a href="#" class="header__social header__social--telegram" aria-label="telegram">
+                                <img src="images/icons/telegram.svg" alt="">
+                            </a>
+                            <a href="#" class="header__social header__social--whatsapp" aria-label="whatsapp">
+                                <img src="images/icons/whatsapp.svg" alt="">
+                            </a>
+                            <a href="#" class="header__social header__social--instagram" aria-label="instagram">
+                                <img src="images/icons/instagram.svg" alt="">
+                            </a>
+                            <a href="#" class="header__social header__social--vk" aria-label="vk">
+                                <img src="images/icons/vk.svg" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="header__main">
+                    <a href="#" class="header__logo" aria-label="Перейти на главную страницу">
+                        <img src="images/icons/logo.svg" alt="Woodstream" class="header__logo-img">
+                    </a>
+                    <div class="header__actions">
+                        <a href="#" class="header__home" aria-label="Перейти на главную страницу"><img
+                                src="images/icons/home.svg" alt=""></a>
+                        <a href="#" class="header__catalog">Каталог</a>
+                        <form class="header__search">
+                            <button><img src="images/icons/search.svg" alt=""></button>
+                            <input type="text" class="header__search-input" placeholder="Поиск по товарам"
+                                aria-label="Поиск по товарам">
+                        </form>
+                    </div>
+                    <a href="#" class="header__burger">
+                        <img src="images/icons/burger.svg" alt="">
+                    </a>
+                    <div class="header__phone">
+                        <a href="tel:+79397550591" class="header__phone-link">+7-939-755-05-91</a>
+                        <span class="header__phone-time">
+                            <img src="images/icons/phone.svg" alt="">Ежедневно 24/7</span>
+                    </div>
+                    <a href="#" class="header__login">
+                        <img src="images/icons/log_out.svg" alt="">
+                        Вход</a>
+                </div>
+                <nav class="header__nav">
+                    <a href="#" class="header__nav-item header__nav-item--active">Новинка</a>
+                    <a href="#" class="header__nav-item">Шкафы</a>
+                    <a href="#" class="header__nav-item">Буфеты</a>
+                    <a href="#" class="header__nav-item">Витрины</a>
+                    <a href="#" class="header__nav-item">Мягкая мебель</a>
+                    <a href="#" class="header__nav-item">Спальни</a>
+                    <a href="#" class="header__nav-item">Кабинеты</a>
+                    <a href="#" class="header__nav-item">Освещение</a>
+                    <a href="#" class="header__nav-item">Столы</a>
+                    <a href="#" class="header__nav-item">Зеркала</a>
+                    <div class="header__nav-dropdown">
+                        <button class="header__nav-more">
+                            Ещё
+                            <img src="images/icons/arrow_down.svg" alt="">
+                        </button>
+
+                        <nav class="header__nav-dropdown-list">
+                            <a href="#" class="header__nav-dropdown-item">Подарки</a>
+                            <a href="#" class="header__nav-dropdown-item">Старинная мебель</a>
+                            <a href="#" class="header__nav-dropdown-item">Антикварная мебель</a>
+                            <a href="#" class="header__nav-dropdown-item">Комплекты, комнат</a>
+                            <a href="#" class="header__nav-dropdown-item">Часы</a>
+                            <a href="#" class="header__nav-dropdown-item">Камины/Печи</a>
+                            <a href="#" class="header__nav-dropdown-item">Прихожие</a>
+                            <a href="#" class="header__nav-dropdown-item">Куклы винтажные</a>
+                            <a href="#" class="header__nav-dropdown-item">Скульптуры</a>
+                            <a href="#" class="header__nav-dropdown-item">Текстиль/одежда</a>
+                            <a href="#" class="header__nav-dropdown-item">Разное</a>
+                            <a href="#" class="header__nav-dropdown-item">Картины</a>
+                            <a href="#" class="header__nav-dropdown-item">Продано/Архив</a>
+
+                        </nav>
+                    </div>
+                </nav>
+            </div>
+            <div class="header-catalog__modal">
+                <section class="category">
+                    <div class="container">
+                        <div class="header-catalog__modal-top">
+                            <h2 class="section-title">Каталог</h2>
+                            <a href="#" class="header-catalog__modal-close" aria-label="Закрыть каталог">
+                                <img src="images/icons/close.svg" alt="">
+                            </a>
+                        </div>
+                        <div class="category-block">
+                            <a href="#" class="category-item category-item--half category-item--cabinets">
+                                <span class="category-item__title">Шкафы</span>
+                                <img src="images/content/category_1.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--small category-item--two--fifths category-item--furniture">
+                                <span class="category-item__title">Мягкая <br> мебель</span>
+                                <img src="images/content/category_2.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--three--fifths category-item--tables">
+                                <span class="category-item__title">Столы,<br> консоли</span>
+                                <img src="images/content/category_3.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--half category-item--buffets">
+                                <span class="category-item__title">Буфеты</span>
+                                <img src="images/content/category_4.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--three--fifths category-item--vitrines">
+                                <span class="category-item__title">Витрины</span>
+                                <img src="images/content/category_5.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--small category-item--two--fifths category-item--offices">
+                                <span class="category-item__title">Кабинеты</span>
+                                <img src="images/content/category_6.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--half category-item--discount">
+                                <span class="category-item__title">Антикварная <br> мебель <br> Скидки</span>
+                                <img src="images/content/category_7.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--small category-item--third category-item--bedrooms">
+                                <span class="category-item__title">Спальни</span>
+                                <img src="images/content/category_8.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--two--fifths category-item--lights">
+                                <span class="category-item__title">Освещениеты</span>
+                                <img src="images/content/category_9.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--three--fifths category-item--dinning">
+                                <span class="category-item__title">Столовые</span>
+                                <img src="images/content/category_10.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--third category-item--mirrors">
+                                <span class="category-item__title">Зеркала, <br> консоли</span>
+                                <img src="images/content/category_11.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--third category-item--watches">
+                                <span class="category-item__title">Часы</span>
+                                <img src="images/content/category_12.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--third category-item--stoves">
+                                <span class="category-item__title">Камины, <br> печи</span>
+                                <img src="images/content/category_13.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--small category-item--third category-item--sculptures">
+                                <span class="category-item__title">Скульп- <br>туры</span>
+                                <img src="images/content/category_14.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--third category-item--rooms">
+                                <span class="category-item__title">Комплекты, <br> комнаты</span>
+                                <img src="images/content/category_15.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--small category-item--two--fifths category-item--gifts">
+                                <span class="category-item__title">Подарки</span>
+                                <img src="images/content/category_16.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--third category-item--clothes">
+                                <span class="category-item__title">Текстиль, <br>одежда</span>
+                                <img src="images/content/category_17.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--two--fifths category-item--paintings">
+                                <span class="category-item__title">Картины/ <br> Гобелены</span>
+                                <img src="images/content/category_18.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--two--fifths category-item--chinoise">
+                                <span class="category-item__title">Мебель <br> шинуазри</span>
+                                <img src="images/content/category_19.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--small category-item--third category-item--hallway">
+                                <span class="category-item__title">Прихожие</span>
+                                <img src="images/content/category_20.png" alt="">
+                            </a>
+                            <a href="#" class="category-item category-item--half category-item--small-mabel">
+                                <span class="category-item__title">Маленькая <br> мебель/ <br>разное</span>
+                                <img src="images/content/category_21.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--small category-item--third category-item--other">
+                                <span class="category-item__title">Разное</span>
+                                <img src="images/content/category_22.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--big category-item--three--fifths category-item--chests">
+                                <span class="category-item__title">Комоды, <br> дрессуары, <br> секретеры</span>
+                                <img src="images/content/category_23.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--bigger category-item--three--fifths category-item--toys">
+                                <span class="category-item__title">Куклы <br> винтажные</span>
+                                <img src="images/content/category_24.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--bigger category-item--three--fifths category-item--antiques">
+                                <span class="category-item__title">Старинная <br> мебель в наличии <br> в России</span>
+                                <img src="images/content/category_25.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--big category-item--three--fifths category-item--vases">
+                                <span class="category-item__title">Фарфоровая <br> посуда, <br> статуэтки, вазы</span>
+                                <img src="images/content/category_26.png" alt="">
+                            </a>
+                            <a href="#"
+                                class="category-item category-item--small category-item--two--fifths category-item--archive">
+                                <span class="category-item__title">Продано, <br> архив</span>
+                                <img src="images/content/category_27.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="header-menu ">
+                <div class="container">
+                    <div class="header-menu__top">
+                        <h2 class="section-title">Меню</h2>
+                        <a href="#" class="header-menu__close">
+                            <img src="images/icons/close.svg" alt="">
+                        </a>
+                    </div>
+                    <div class="header-menu__contacts">
+                        <div class="header-menu__contacts-item header-menu__contacts-item--social">
+                            <span>Чаты и соц. сети:</span>
+                            <div class="header-menu__contacts-links">
+                                <a href="#" class="header-menu__contacts-link" aria-label="telegram">
+                                    <img src="images/icons/telegram.svg" alt="">
+                                </a>
+                                <a href="#" class="header-menu__contacts-link" aria-label="whatsapp">
+                                    <img src="images/icons/whatsapp.svg" alt="">
+                                </a>
+                                <a href="#" class="header-menu__contacts-link " aria-label="instagram">
+                                    <img src="images/icons/instagram.svg" alt="">
+                                </a>
+                                <a href="#" class="header-menu__contacts-link " aria-label="vk">
+                                    <img src="images/icons/vk.svg" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="header-menu__contacts-item header-menu__contacts-item--theme">
+                            <span>Выбрать тему:</span>
+                            <div class="header-menu__contacts-theme">
+                                <img src="images/icons/light.svg" alt="">
+                                <span>Светлая</span>
+                            </div>
+                        </div>
+                        <div class="header-menu__contacts-item">
+                            <span>Звоните:</span>
+                            <a href="tel:+79397550591" class="header__phone-link">+7-939-755-05-91</a>
+                            <span class="header__phone-time">
+                                <img src="images/icons/phone.svg" alt="">
+                                Ежедневно 24/7
+                            </span>
+                        </div>
+                        <div class="header-menu__contacts-item">
+                            <span>Пишите:</span>
+                            <a href="mailto:info@woodstream.online"
+                                class="header__email-link">info@woodstream.online</a>
+                            <span class="header__email-time">
+                                <img src="images/icons/mail.svg" alt="">
+                                По будням
+                            </span>
+                        </div>
+                    </div>
+                    <div class="header-menu__links">
+                        <div class="header-menu__item">
+                            <h3>Услуги:</h3>
+                            <ul>
+                                <li><a href="#">Реставрация и ремонт мебели</a></li>
+                                <li><a href="#">Старинная и антикварная мебель на заказ для ресторанов</a></li>
+                                <li><a href="#">Ресторан «Под ключ»</a></li>
+                                <li><a href="#">Мебель для ресторанов и бутиков</a></li>
+                            </ul>
+                        </div>
+                        <div class="header-menu__grid">
+                            <div class="header-menu__side">
+                                <div class="header-menu__item">
+                                    <h3>Информация</h3>
+                                    <ul>
+                                        <li><a href="#">О нас</a></li>
+                                        <li><a href="#">Блог</a></li>
+                                        <li><a href="#">Отзывы</a></li>
+                                        <li><a href="#">Онлайн-закупки на сайте</a></li>
+                                    </ul>
+                                </div>
+                                <div class="header-menu__item">
+                                    <h3>Разное:</h3>
+                                    <ul>
+                                        <li><a href="#">Дизайнерам</a></li>
+                                        <li><a href="#">% Скидки</a></li>
+                                    </ul>
+                                </div>
+                                <div class="header-menu__item">
+                                    <h3>Оплата и доставка:</h3>
+                                    <ul>
+                                        <li><a href="#">Как сделать заказ?</a></li>
+                                        <li><a href="#">Доставка</a></li>
+                                        <li><a href="#">Контакты</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="header-menu__side">
+                                <div class="header-menu__item">
+                                    <h3>Каталог:</h3>
+                                    <ul>
+                                        <li><a href="#">Новинки</a></li>
+                                        <li><a href="#">Шкафы</a></li>
+                                        <li><a href="#">Буфеты</a></li>
+                                        <li><a href="#">Витрины</a></li>
+                                        <li><a href="#">Мягкая мебель</a></li>
+                                        <li><a href="#">Спальни</a></li>
+                                        <li><a href="#">Кабинеты</a></li>
+                                        <li><a href="#">Зеркала</a></li>
+                                        <li><a href="#">Спальни</a></li>
+                                        <li><a href="#">Часы</a></li>
+                                        <li><a href="#">Текстиль, одежда</a></li>
+                                        <li><a href="#">Разное</a></li>
+                                        <li><a href="#">Прихожие</a></li>
+                                        <li><a href="#">Продано, архив</a></li>
+                                        <li><a href="#">В каталог <img src="images/icons/arrow_right.svg" alt=""></a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="main">
+            <div class="breadcrumbs">
+                <div class="container">
+                    <ul class="breadcrumbs-list">
+                        <li class="breadcrumbs-item">
+                            <a href="#" class="breadcrumbs-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                                    fill="none">
+                                    <path
+                                        d="M11.3333 11.9973V15.9998H14C15.1046 15.9998 16 15.1038 16 13.9986V7.91413C16.0002 7.56757 15.8655 7.23455 15.6247 6.98555L9.95934 0.857045C8.95972 -0.225192 7.27259 -0.29164 6.19103 0.708608C6.13965 0.756113 6.09016 0.805631 6.04269 0.857045L0.387344 6.98355C0.139158 7.23359 -8.9569e-05 7.57172 4.32253e-08 7.92413V13.9986C4.32253e-08 15.1038 0.895437 15.9998 2 15.9998H4.66666V11.9973C4.67912 10.1783 6.14684 8.69289 7.91894 8.65012C9.75031 8.6059 11.3194 10.1166 11.3333 11.9973Z"
+                                        fill="#1D2229" />
+                                    <path
+                                        d="M8 9.99628C6.89544 9.99628 6 10.8923 6 11.9975V16H10V11.9975C10 10.8923 9.10456 9.99628 8 9.99628Z"
+                                        fill="#1D2229" />
+                                </svg>
+                                Главная
+                            </a>
+                            <span>/</span>
+                        </li>
+                        <li class="breadcrumbs-list">
+                            <span class="breadcrumbs-link breadcrumbs-link--active">Реставрация и ремонт мебели</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- section about  -->
+            <section class="content">
+                <div class="container">
+                    <h2 class="section-title">Реставрация и ремонт мебели</h2>
+                    <p>
+                        С течением времени любая, даже самая прочная и надежная мебель ветшает. С первоначальными
+                        изменениями можно бороться и самостоятельно, но когда древесина начинает рассыпаться в труху,
+                        ткань обивки безнадежно истирается, а проржавевшие пружины делают сидение не самым комфортным,
+                        приходит время обратиться к профессионалам. На сегодняшний день выполнение ремонта и реставрации
+                        мебели является не просто отдельной профессией, но и настоящим искусством, которое требует
+                        серьезного подхода, знаний во многих областях и опыта. Только настоящий профессионал сможет
+                        подарить мебели новую жизнь.
+                    </p>
+
+                    <h3 class="content-name">Примеры работ</h3>
+                    <div class="content-images">
+                        <a href="images/content/repair-1.jpg" data-fancybox="gallery">
+                            <img src="images/content/repair-1.jpg" alt="">
+                        </a>
+                        <a href="images/content/repair-2.jpg" data-fancybox="gallery">
+                            <img src="images/content/repair-2.jpg" alt="">
+                        </a>
+                        <a href="images/content/repair-3.jpg" data-fancybox="gallery">
+                            <img src="images/content/repair-3.jpg" alt="">
+                        </a>
+                        <a href="images/content/repair-4.jpg" data-fancybox="gallery">
+                            <img src="images/content/repair-4.jpg" alt="">
+                        </a>
+                        <a href="images/content/repair-5.jpg" data-fancybox="gallery">
+                            <img src="images/content/repair-5.jpg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <!-- ceo -->
+            <section class="ceo">
+                <div class="container">
+                    <h2 class="section-title">СЕО текст</h2>
+                    <p class="ceo-text">
+                        Антикварные гостиные, столовые, кабинеты, спальни.
+                        <br> <br>
+                        Если вы поклонник винтажного стиля в интерьере, то создать такую изысканную обстановку у себя
+                        дома или в заведении не составит труда. Ведь в нашем магазине есть комплекты и предметы мебели,
+                        чтобы оборудовать настоящие комнаты и любые пространства. Винтажная мебель придаст
+                        эксклюзивности обстановке, подчеркнет вкус владельца и станет его поводом для гордости.
+                        <br> <br>
+                        Антикварные комплекты и комнаты – стиль вне времени. Старинные вещи смотрятся стильно и
+                        оригинально, они шедевральны в своем исполнении. Изысканные линии, незамысловатые очертания,
+                        резные элементы и бесподобный декор – все это отличает их от современных предметов обстановки. У
+                        винтажных комплектов мебели есть лицо, у них есть свой характер. Обставить комнату редкими
+                        вещами – показатель высокого уровня жизни, утонченного вкуса. Если вы ценитель редких,
+                        антикварных вещей, чувствуете их текстуру и особенность, наслаждаетесь их элегантным видом, то
+                        обставив интерьер в старинном стиле, вы достигнете высокой степени эстетического удовольствия!
+                        Антикварные комнаты и комплекты мебели – всегда актуальны и вне времени. Уютные гостиные,
+                        столовые, кабинеты и ванные комнаты наполнятся особой атмосферой гармонии и элегантности. Такие
+                        комплекты прекрасно впишутся в концепцию любой квартиры, дома, коммерческого заведения, ведь
+                        качество, долговечность и эксклюзив всегда в цене!
+                    </p>
+                </div>
+            </section>
+        </main>
+        <!-- footer -->
+        <footer class="footer">
+            <div class="footer-accordion">
+                <div class="footer-accordion__item">
+                    <div class="footer-accordion__header">
+                        <h4 class="footer-accordion__title">
+                            Услуги
+                        </h4>
+                        <span class="footer-accordion__arrow">
+                            <img src="images/icons/arrow_down.svg" alt="">
+                        </span>
+                    </div>
+                    <div class="footer-accordion__body">
+                        <ul>
+                            <li><a href="#">Реставрация и ремонт мебели</a></li>
+                            <li><a href="#">Старинная и антикварная мебель на заказ для ресторанов</a>
+                            </li>
+                            <li><a href="#">Ресторан «Под ключ»</a></li>
+                            <li><a href="#">Мебель для ресторанов и бутиков</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-accordion__item">
+                    <div class="footer-accordion__header">
+                        <h4 class="footer-accordion__title">
+                            Информация
+                        </h4>
+                        <span class="footer-accordion__arrow">
+                            <img src="images/icons/arrow_down.svg" alt="">
+                        </span>
+                    </div>
+                    <div class="footer-accordion__body">
+                        <ul>
+                            <li><a href="#">О нас</a></li>
+                            <li><a href="#">Блог</a></li>
+                            <li><a href="#">Отзывы</a></li>
+                            <li><a href="#">Онлайн-закупки на сайте</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-accordion__item">
+                    <div class="footer-accordion__header">
+                        <h4 class="footer-accordion__title">
+                            Каталог
+                        </h4>
+                        <span class="footer-accordion__arrow">
+                            <img src="images/icons/arrow_down.svg" alt="">
+                        </span>
+                    </div>
+                    <div class="footer-accordion__body">
+                        <ul>
+                            <li><a href="#">Шкафы</a></li>
+                            <li><a href="#">Буфеты</a></li>
+                            <li><a href="#">Витрины</a></li>
+                            <li><a href="#">Мягкая мебель</a></li>
+                            <li><a href="#">Спальни</a></li>
+                            <li><a href="#">Кабинеты</a></li>
+                            <li><a href="#">Зеркала</a></li>
+                            <li><a href="#">Спальни</a></li>
+                            <li><a href="#">Часы</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-accordion__item">
+                    <div class="footer-accordion__header">
+                        <h4 class="footer-accordion__title">
+                            Оплата и доставка
+                        </h4>
+                        <span class="footer-accordion__arrow">
+                            <img src="images/icons/arrow_down.svg" alt="">
+                        </span>
+                    </div>
+                    <div class="footer-accordion__body">
+                        <ul>
+                            <li><a href="#">Оплата</a></li>
+                            <li><a href="#">Доставка</a></li>
+                            <li><a href="#">Возврат</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-accordion__item">
+                    <div class="footer-accordion__header">
+                        <h4 class="footer-accordion__title">
+                            Разное
+                        </h4>
+                        <span class="footer-accordion__arrow">
+                            <img src="images/icons/arrow_down.svg" alt="">
+                        </span>
+                    </div>
+                    <div class="footer-accordion__body">
+                        <ul>
+                            <li><a href="#">Дизайнерам</a></li>
+                            <li><a href="#">% Скидки</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-top">
+                <div class="container">
+                    <div class="footer-columns">
+                        <div class="footer-columns__side footer-columns__side--left">
+                            <!-- Column 1 -->
+                            <div class="footer-columns__column">
+                                <h4 class="footer-columns__title">Информация:</h4>
+                                <ul class="footer-columns__list">
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link">О нас</a>
+                                    </li>
+                                    <li class="footer-columns__item"><a href="#" class="footer-columns__link">Блог</a>
+                                    </li>
+                                    <li class="footer-columns__item"><a href="#" class="footer-columns__link">Отзывы</a>
+                                    </li>
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link">Онлайн-закупки на сайте</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Column 2 -->
+                            <div class="footer-columns__column">
+                                <h4 class="footer-columns__title">Разное:</h4>
+                                <ul class="footer-columns__list">
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link">Дизайнерам</a>
+                                    </li>
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link footer-columns__link--discount">
+                                            % Скидки
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="footer-columns__side footer-columns__side--right">
+                            <!-- Column 3 -->
+                            <div class="footer-columns__column">
+                                <h4 class="footer-columns__title">Услуги:</h4>
+                                <ul class="footer-columns__list">
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link">Реставрация и ремонт мебели</a>
+                                    </li>
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link ">
+                                            Старинная и антикварная мебель на заказ для ресторанов
+                                        </a>
+                                    </li>
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link ">
+                                            Ресторан «Под ключ»
+                                        </a>
+                                    </li>
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link ">
+                                            Мебель для ресторанов и бутиков
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="footer-columns__column">
+                                <h4 class="footer-columns__title">Оплата и доставка:</h4>
+                                <ul class="footer-columns__list">
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link">
+                                            Как сделать заказ?
+                                        </a>
+                                    </li>
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link">Доставка</a>
+                                    </li>
+                                    <li class="footer-columns__item">
+                                        <a href="#" class="footer-columns__link">Контакты</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="footer-columns__column">
+                            <h4 class="footer-columns__title">Каталог:</h4>
+                            <ul class="footer-columns__list">
+                                <li class="footer-columns__item"><a href="#" class="footer-columns__link">Шкафы</a>
+                                </li>
+                                <li class="footer-columns__item"><a href="#" class="footer-columns__link">Буфеты</a>
+                                </li>
+                                <li class="footer-columns__item"><a href="#" class="footer-columns__link">Витрины</a>
+                                </li>
+                                <li class="footer-columns__item"><a href="#" class="footer-columns__link">Мягкая
+                                        мебель</a>
+                                </li>
+                                <li class="footer-columns__item"><a href="#" class="footer-columns__link">Спальни</a>
+                                </li>
+                                <li class="footer-columns__item"><a href="#" class="footer-columns__link">Кабинеты</a>
+                                </li>
+                                <li class="footer-columns__item"><a href="#" class="footer-columns__link">Зеркала</a>
+                                </li>
+                                <li class="footer-columns__item"><a href="#" class="footer-columns__link">Спальни</a>
+                                </li>
+                                <li class="footer-columns__item"><a href="#" class="footer-columns__link">Часы</a>
+                                </li>
+                                <li class="footer-columns__item"><a href="#" class="footer-columns__link">В каталог
+                                        <img src="images/icons/arrow_right.svg" alt=""></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Column 5 -->
+                        <div class="footer-columns__column footer-columns__column--contacts">
+                            <div class="footer-comtacts">
+                                <h4 class="footer-columns__name">Чаты и соц. сети:</h4>
+                                <div class="footer-socials">
+                                    <a href="#" class="footer-socials__item footer-socials__item--telegram"
+                                        aria-label="telegram">
+                                        <img src="images/icons/telegram.svg" alt="">
+                                    </a>
+                                    <a href="#" class="footer-socials__item footer-socials__item--whatsapp"
+                                        aria-label="whatsapp">
+                                        <img src="images/icons/whatsapp.svg" alt="">
+                                    </a>
+                                    <a href="#" class="footer-socials__item footer-socials__item--instagram"
+                                        aria-label="instagram">
+                                        <img src="images/icons/instagram.svg" alt="">
+                                    </a>
+                                    <a href="#" class="footer-socials__item footer-socials__item--vk" aria-label="vk">
+                                        <img src="images/icons/vk.svg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="footer-contacts">
+                                <h4 class="footer-columns__name">Звоните:</h4>
+                                <a href="tel:+79397550591" class="footer-contacts__phone">+7-939-755-05-91</a>
+                                <span class="footer-contacts__time">
+                                    <img src="images/icons/phone.svg" alt="">
+                                    Ежедневно 24/7</span>
+                            </div>
+                            <div class="footer-contacts">
+                                <h4 class="footer-columns__name">Пишите:</h4>
+                                <a href="mailto:info@woodstream.online"
+                                    class="footer-contacts__email">info@woodstream.online</a>
+                                <span class="footer-contacts__worktime"><img src="images/icons/mail.svg" alt=""> По
+                                    будням</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="footer-bottom__inner">
+                        <a href="#" class="footer-policy">Политика конфиденциальности</a>
+                        <span class="footer-copyright">© Woodstream – винтажная мебель, 2025</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- modals -->
+    <div class="modal modal-theme ">
+        <div class="modal-content">
+            <div class="modal-top">
+                <h3 class="modal-title">Выбор темы</h3>
+                <div class="modal-close modal-theme__close"><img src="images/icons/moda-close.svg" alt=""></div>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text">
+                    Выберите цвет оформления сайта
+                </p>
+                <div class="modal-theme__choose">
+                    <button class="modal-theme__item modal-theme__item--light">
+                        Светлый
+                    </button>
+                    <button class="modal-theme__item modal-theme__item--dark">
+                        Темный
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal login-->
+    <div class="modal modal-login ">
+        <div class="modal-content">
+            <div class="modal-top">
+                <h3 class="modal-title">Вход</h3>
+                <div class="modal-close modal-login__close"><img src="images/icons/moda-close.svg" alt=""></div>
+            </div>
+            <form class="form">
+                <div class="modal-body">
+                    <h2 class="modal-login__title">Заполните данные для входа</h2>
+                    <div class="modal-inputs">
+                        <label class="modal-label">
+                            <input type="text" placeholder="Имя" class="modal-input" required
+                                pattern="[А-Яа-яЁёA-Za-z\s\-]+">
+                            <span>Недопустимые символы в поле “Имя”</span>
+                        </label>
+                        <input type="tel" placeholder="Телефон" class="modal-input" pattern="\+7[0-9]{10}" required>
+                        <input type="email" placeholder="E-mail" class="modal-input">
+                    </div>
+                    <label class="modal-checkbox">
+                        <input type="checkbox" name="checkbox" id="" checked required>
+                        <span></span>
+                        <p>
+                            Я принимаю условия политики обработки <a href="#">персональных данных</a>
+                        </p>
+                    </label>
+                    <label class="modal-checkbox">
+                        <input type="checkbox" name="checkbox" id="" checked required>
+                        <span></span>
+                        <p>
+                            Подписка на рассылку
+                        </p>
+                    </label>
+                </div>
+                <div class="modal-bottom">
+                    <button class="modal-login__btn">Войти</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- modal success -->
+    <div class="modal modal-success">
+        <div class="modal-content">
+            <div class="modal-top">
+                <h3 class="modal-title"><img src="images/icons/check-icon.svg" alt=""> Заявка отправлена</h3>
+                <div class="modal-close modal-success__close"><img src="images/icons/moda-close.svg" alt=""></div>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text">
+                    Ваш заказ успешно оформлен, мы свяжемся с Вами в ближайшее время
+                </p>
+            </div>
+            <div class="modal-bottom">
+                <button class="modal-success__btn">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/swiper-bundle.min.js"></script>
+    <script src="js/fancybox.umd.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

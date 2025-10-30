@@ -1,0 +1,27 @@
+// 📱 Media query
+@mixin respond($breakpoint) {
+    @if $breakpoint ==mobile {
+        @media (max-width: #{$bp-mobile}) {
+            @content;
+        }
+    }
+}
+
+// 📦 Flex center
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// ➡️ Ellipsis (matn qisqartirish)
+@mixin ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+// 🖼 Background image
+@mixin bg-cover($url) {
+    background: url($url) no-repeat center/cover;
+}

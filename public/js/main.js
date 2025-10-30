@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
             value = value.substring(0, 10);
         }
         
-        let formattedValue = '7';
+        let formattedValue = '+7';
         
         if (value.length > 0) {
             formattedValue += ' (' + value.substring(0, 3);
@@ -459,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     phoneInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Backspace' && e.target.value === '7 ') {
+        if (e.key === 'Backspace' && e.target.value === '+7 ') {
             e.preventDefault();
             e.target.value = '';
             validateField(e.target);
@@ -468,7 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     phoneInput.addEventListener('focus', function(e) {
         if (e.target.value === '') {
-            e.target.value = '8 ';
+            e.target.value = '+7 ';
         }
     });
 
@@ -684,11 +684,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const emailInput = productForm.querySelector('input[placeholder="E-mail"]');
         const checkboxes = productForm.querySelectorAll('input[type="checkbox"]');
         
-        // Phone input formatting
         if (phoneInput) {
-            // Initialize phone input on page load
             if (phoneInput.value === '') {
-                phoneInput.value = '8 ';
+                phoneInput.value = '+7 ';
             }
             
             phoneInput.addEventListener('input', function(e) {
@@ -707,7 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     value = value.substring(0, 10);
                 }
                 
-                let formatted = '8';
+                let formatted = '+7';
                 if (value.length > 0) {
                     formatted += ' (' + value.substring(0, 3);
                 }
@@ -726,7 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             phoneInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Backspace' && e.target.value === '8 ') {
+                if (e.key === 'Backspace' && e.target.value === '+7 ') {
                     e.preventDefault();
                     e.target.value = '';
                 }
@@ -734,7 +732,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             phoneInput.addEventListener('focus', function(e) {
                 if (e.target.value === '') {
-                    e.target.value = '8 ';
+                    e.target.value = '+7 ';
                 }
             });
             
