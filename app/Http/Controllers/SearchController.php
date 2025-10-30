@@ -10,66 +10,69 @@ class SearchController extends Controller
 {
     public function autocomplete(Request $request)
     {
-        $query = $request->get('q', '');
-        
-        if (mb_strlen($query) < 2) {
-            return response()->json([]);
-        }
-
-        $cacheKey = 'search_' . md5($query);
-        
-        $products = Cache::remember($cacheKey, 600, function() use ($query) {
-            $productsQuery = OldProduct::where('availability', '!=', 5)
-                ->where(function($q) use ($query) {
-                    $q->where('name', 'LIKE', "%{$query}%")
-                      ->orWhere('model', 'LIKE', "%{$query}%")
-                      ->orWhere('sku', 'LIKE', "%{$query}%");
-                })
-                ->orderByRaw("CASE 
-                    WHEN name LIKE ? THEN 1
-                    WHEN sku LIKE ? THEN 2
-                    WHEN model LIKE ? THEN 3
-                    ELSE 4
-                END", ["{$query}%", "{$query}%", "{$query}%"])
-                ->orderBy('priority', 'desc')
-                ->limit(8)
-                ->get(['id', 'name', 'model', 'sku', 'price', 'special', 'availability']);
+        try {
+            $query = $request->get('q', '');
             
-            if ($productsQuery->isEmpty()) {
-                $productsQuery = OldProduct::where(function($q) use ($query) {
+            if (mb_strlen($query) < 2) {
+                return response()->json([]);
+            }
+
+            $cacheKey = 'search_' . md5($query);
+            
+            $products = Cache::remember($cacheKey, 600, function() use ($query) {
+                $productsQuery = OldProduct::where('availability', '!=', 5)
+                    ->where(function($q) use ($query) {
                         $q->where('name', 'LIKE', "%{$query}%")
-                          ->orWhere('model', 'LIKE', "%{$query}%")
-                          ->orWhere('sku', 'LIKE', "%{$query}%");
+                          ->orWhere('model', 'LIKE', "%{$query}%");
                     })
                     ->orderByRaw("CASE 
                         WHEN name LIKE ? THEN 1
-                        WHEN sku LIKE ? THEN 2
-                        WHEN model LIKE ? THEN 3
-                        ELSE 4
-                    END", ["{$query}%", "{$query}%", "{$query}%"])
+                        WHEN model LIKE ? THEN 2
+                        ELSE 3
+                    END", ["{$query}%", "{$query}%"])
                     ->orderBy('priority', 'desc')
                     ->limit(8)
-                    ->get(['id', 'name', 'model', 'sku', 'price', 'special', 'availability']);
-            }
+                    ->get(['id', 'name', 'model', 'price', 'special', 'availability', 'avatar']);
+                
+                if ($productsQuery->isEmpty()) {
+                    $productsQuery = OldProduct::where(function($q) use ($query) {
+                            $q->where('name', 'LIKE', "%{$query}%")
+                              ->orWhere('model', 'LIKE', "%{$query}%");
+                        })
+                        ->orderByRaw("CASE 
+                            WHEN name LIKE ? THEN 1
+                            WHEN model LIKE ? THEN 2
+                            ELSE 3
+                        END", ["{$query}%", "{$query}%"])
+                        ->orderBy('priority', 'desc')
+                        ->limit(8)
+                        ->get(['id', 'name', 'model', 'price', 'special', 'availability', 'avatar']);
+                }
+                
+                return $productsQuery;
+            });
             
-            return $productsQuery;
-        });
-        
-        $results = $products->map(function($product) {
-            $price = $product->special > 0 ? $product->special : $product->price;
-            $statusText = $this->getStatusText($product->availability);
+            $results = $products->map(function($product) {
+                $price = $product->special > 0 ? $product->special : $product->price;
+                $statusText = $this->getStatusText($product->availability);
+                
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'code' => $product->model ?: '',
+                    'price' => number_format($price, 0, ',', ' ') . ' ₽',
+                    'status' => $statusText,
+                    'url' => route('product.show', $product->id),
+                    'image' => $product->main_image ?? null,
+                ];
+            });
             
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'code' => $product->model ?: $product->sku,
-                'price' => number_format($price, 0, ',', ' ') . ' ₽',
-                'status' => $statusText,
-                'url' => route('product.show', $product->id),
-            ];
-        });
-        
-        return response()->json($results);
+            return response()->json($results);
+        } catch (\Exception $e) {
+            \Log::error('SearchController: Ошибка автокомплита: ' . $e->getMessage());
+            \Log::error('SearchController: Stack trace: ' . $e->getTraceAsString());
+            return response()->json(['error' => 'Ошибка поиска'], 500);
+        }
     }
 
     protected function getStatusText($availability)
