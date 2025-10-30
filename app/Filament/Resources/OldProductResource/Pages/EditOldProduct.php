@@ -42,7 +42,12 @@ class EditOldProduct extends EditRecord
 
         $currentImages = [];
         if (!empty($data['images'])) {
-            $currentImages = is_array($data['images']) ? $data['images'] : (json_decode($data['images'], true) ?: []);
+            if (is_array($data['images'])) {
+                $currentImages = $data['images'];
+            } else {
+                $decoded = json_decode($data['images'], true);
+                $currentImages = $decoded ?: [];
+            }
         }
         
         \Log::info('Current images после парсинга:', ['count' => count($currentImages), 'images' => $currentImages]);
