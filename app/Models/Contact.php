@@ -24,12 +24,24 @@ class Contact extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('visability', 1);
+        if (\Schema::connection('production')->hasColumn('contacts', 'visability')) {
+            return $query->where('visability', 1);
+        }
+        if (\Schema::connection('production')->hasColumn('contacts', 'is_active')) {
+            return $query->where('is_active', 1);
+        }
+        return $query;
     }
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('order')->orderBy('created_at', 'desc');
+        if (\Schema::connection('production')->hasColumn('contacts', 'order')) {
+            $query->orderBy('order');
+        }
+        if (\Schema::connection('production')->hasColumn('contacts', 'sort_order')) {
+            $query->orderBy('sort_order');
+        }
+        return $query->orderBy('created_at', 'desc');
     }
 
     public function setPhoneAttribute($value): void
