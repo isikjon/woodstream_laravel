@@ -205,10 +205,12 @@ class OldProductResource extends Resource
                                 ->columnSpanFull(),
                             
                             Forms\Components\Hidden::make('avatar')
-                                ->default(''),
+                                ->default('')
+                                ->live(),
                             
                             Forms\Components\Hidden::make('delete_avatar')
-                                ->default('0'),
+                                ->default('0')
+                                ->live(),
                         ])->columnSpanFull(),
                         
                         Forms\Components\Group::make([
@@ -232,7 +234,8 @@ class OldProductResource extends Resource
                                 ->columnSpanFull(),
                             
                             Forms\Components\Hidden::make('images_to_delete')
-                                ->default('[]'),
+                                ->default('[]')
+                                ->live(),
                             
                             Forms\Components\Textarea::make('images')
                                 ->label('Галерея изображений (JSON)')

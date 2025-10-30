@@ -78,12 +78,28 @@
             const avatarInput = document.querySelector('input[name="avatar"]');
             if (avatarInput) {
                 avatarInput.value = normalizedUrl;
-                avatarInput.dispatchEvent(new Event('input', { bubbles: true }));
                 
-                const component = window.Livewire.find(avatarInput.closest('[wire\\:id]').getAttribute('wire:id'));
-                if (component) {
-                    component.set('data.avatar', normalizedUrl);
+                const changeEvent = new Event('change', { bubbles: true });
+                avatarInput.dispatchEvent(changeEvent);
+                
+                const inputEvent = new Event('input', { bubbles: true });
+                avatarInput.dispatchEvent(inputEvent);
+                
+                try {
+                    const wireId = avatarInput.closest('[wire\\:id]')?.getAttribute('wire:id');
+                    if (wireId && window.Livewire) {
+                        const component = window.Livewire.find(wireId);
+                        if (component) {
+                            component.set('data.avatar', normalizedUrl);
+                        }
+                    }
+                } catch (e) {
+                    console.log('Livewire update attempt:', e);
                 }
+                
+                setTimeout(() => {
+                    avatarInput.value = normalizedUrl;
+                }, 100);
             }
 
             alert('Изображение установлено как главное. Нажмите "Сохранить" чтобы применить изменения.');
@@ -119,11 +135,23 @@
                 });
 
                 imagesInput.value = JSON.stringify(currentImages);
-                imagesInput.dispatchEvent(new Event('input', { bubbles: true }));
                 
-                const component = window.Livewire.find(imagesInput.closest('[wire\\:id]').getAttribute('wire:id'));
-                if (component) {
-                    component.set('data.images', JSON.stringify(currentImages));
+                const changeEvent = new Event('change', { bubbles: true });
+                imagesInput.dispatchEvent(changeEvent);
+                
+                const inputEvent = new Event('input', { bubbles: true });
+                imagesInput.dispatchEvent(inputEvent);
+                
+                try {
+                    const wireId = imagesInput.closest('[wire\\:id]')?.getAttribute('wire:id');
+                    if (wireId && window.Livewire) {
+                        const component = window.Livewire.find(wireId);
+                        if (component) {
+                            component.set('data.images', JSON.stringify(currentImages));
+                        }
+                    }
+                } catch (e) {
+                    console.log('Livewire update attempt:', e);
                 }
             }
 
