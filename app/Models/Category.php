@@ -14,7 +14,7 @@ class Category extends Model
         'description',
         'ico',
         'order',
-        'status',
+        'is_active',
         'parent_id',
         'old_url',
         'meta_title',
@@ -22,7 +22,7 @@ class Category extends Model
     ];
 
     protected $casts = [
-        'status' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     public function products()

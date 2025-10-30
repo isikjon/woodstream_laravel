@@ -14,7 +14,7 @@ class ShareCategories
     {
         if (!$request->is('admin*') && !$request->is('livewire*')) {
             $categories = cache()->remember('header_categories', 3600, function () {
-                return Category::where('status', 1)
+                return Category::where('is_active', 1)
                     ->orderBy('order')
                     ->get(['id', 'name', 'slug']);
             });
