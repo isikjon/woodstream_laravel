@@ -51,30 +51,54 @@ return new class extends Migration
         });
 
         Schema::table('categories', function (Blueprint $table) {
-            $table->index('slug');
-            $table->index('name');
-            $table->index('is_active');
+            if (Schema::hasColumn('categories', 'slug')) {
+                $table->index('slug');
+            }
+            if (Schema::hasColumn('categories', 'name')) {
+                $table->index('name');
+            }
+            if (Schema::hasColumn('categories', 'is_active')) {
+                $table->index('is_active');
+            }
         });
 
         Schema::table('blogs', function (Blueprint $table) {
-            $table->index('slug');
-            $table->index('is_published');
-            $table->index('created_at');
+            if (Schema::hasColumn('blogs', 'slug')) {
+                $table->index('slug');
+            }
+            if (Schema::hasColumn('blogs', 'is_published')) {
+                $table->index('is_published');
+            }
+            if (Schema::hasColumn('blogs', 'created_at')) {
+                $table->index('created_at');
+            }
         });
 
         Schema::table('reviews', function (Blueprint $table) {
-            $table->index('is_approved');
-            $table->index('created_at');
+            if (Schema::hasColumn('reviews', 'is_approved')) {
+                $table->index('is_approved');
+            }
+            if (Schema::hasColumn('reviews', 'created_at')) {
+                $table->index('created_at');
+            }
         });
 
         Schema::table('managers', function (Blueprint $table) {
-            $table->index('is_active');
+            if (Schema::hasColumn('managers', 'is_active')) {
+                $table->index('is_active');
+            }
         });
 
         Schema::table('social_networks', function (Blueprint $table) {
-            $table->index('slug');
-            $table->index('is_active');
-            $table->index(['is_active', 'slug']);
+            if (Schema::hasColumn('social_networks', 'slug')) {
+                $table->index('slug');
+            }
+            if (Schema::hasColumn('social_networks', 'is_active')) {
+                $table->index('is_active');
+            }
+            if (Schema::hasColumn('social_networks', 'is_active') && Schema::hasColumn('social_networks', 'slug')) {
+                $table->index(['is_active', 'slug']);
+            }
         });
     }
 
