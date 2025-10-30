@@ -11,7 +11,12 @@
             }
             
             $avatarUrl = preg_replace('#/+#', '/', $avatarUrl);
-            $avatarUrl = rtrim(config('app.url'), '/') . $avatarUrl;
+            
+            if (str_contains($avatarUrl, '/images/') || str_contains($avatarUrl, '/img/')) {
+                $avatarUrl = 'https://woodstream.online' . $avatarUrl;
+            } else {
+                $avatarUrl = 'https://dev.woodstream.online' . $avatarUrl;
+            }
         }
     }
 @endphp

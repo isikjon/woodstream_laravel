@@ -16,9 +16,7 @@
             }
         }
         
-        $baseUrl = rtrim(config('app.url'), '/');
-        
-        $images = array_map(function($img) use ($baseUrl) {
+        $images = array_map(function($img) {
             $img = str_replace('\\', '/', $img);
             
             if (str_starts_with($img, 'http')) {
@@ -30,7 +28,12 @@
             }
             
             $img = preg_replace('#/+#', '/', $img);
-            $img = $baseUrl . $img;
+            
+            if (str_contains($img, '/images/')) {
+                $img = 'https://woodstream.online' . $img;
+            } else {
+                $img = 'https://dev.woodstream.online' . $img;
+            }
             
             return $img;
         }, $images ?: []);
