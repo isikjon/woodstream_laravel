@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
             value = value.substring(0, 10);
         }
         
-        let formattedValue = '8';
+        let formattedValue = '7';
         
         if (value.length > 0) {
             formattedValue += ' (' + value.substring(0, 3);
@@ -459,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     phoneInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Backspace' && e.target.value === '8 ') {
+        if (e.key === 'Backspace' && e.target.value === '7 ') {
             e.preventDefault();
             e.target.value = '';
             validateField(e.target);
