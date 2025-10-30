@@ -13,6 +13,7 @@ use App\Filament\Resources\ManagerResource;
 use App\Filament\Resources\MaterialResource;
 use App\Filament\Resources\OldProductResource;
 use App\Filament\Resources\PageResource;
+use App\Filament\Resources\PopupResource;
 use App\Filament\Resources\PortfolioResource;
 use App\Filament\Resources\RequestResource;
 use App\Filament\Resources\ReviewResource;
@@ -59,6 +60,7 @@ class AdminPanelProvider extends PanelProvider
                 MaterialResource::class,
                 OldProductResource::class,
                 PageResource::class,
+                PopupResource::class,
                 PortfolioResource::class,
                 RequestResource::class,
                 ReviewResource::class,
