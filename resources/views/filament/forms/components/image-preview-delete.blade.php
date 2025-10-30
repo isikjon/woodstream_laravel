@@ -5,18 +5,13 @@
     if ($avatarUrl) {
         $avatarUrl = str_replace('\\', '/', $avatarUrl);
         
-        if (str_starts_with($avatarUrl, 'http')) {
-            $avatarUrl = str_replace('woodstream.onlineimages', 'woodstream.online/images', $avatarUrl);
-            $avatarUrl = str_replace('//', '/', $avatarUrl);
-            $avatarUrl = str_replace('https:/', 'https://', $avatarUrl);
-            $avatarUrl = str_replace('http:/', 'http://', $avatarUrl);
-        } else {
+        if (!str_starts_with($avatarUrl, 'http')) {
             if (!str_starts_with($avatarUrl, '/')) {
                 $avatarUrl = '/' . $avatarUrl;
             }
             
             $avatarUrl = preg_replace('#/+#', '/', $avatarUrl);
-            $avatarUrl = 'https://woodstream.online' . $avatarUrl;
+            $avatarUrl = rtrim(config('app.url'), '/') . $avatarUrl;
         }
     }
 @endphp

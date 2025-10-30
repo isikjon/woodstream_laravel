@@ -16,14 +16,12 @@
             }
         }
         
-        $images = array_map(function($img) {
+        $baseUrl = rtrim(config('app.url'), '/');
+        
+        $images = array_map(function($img) use ($baseUrl) {
             $img = str_replace('\\', '/', $img);
             
             if (str_starts_with($img, 'http')) {
-                $img = str_replace('woodstream.onlineimages', 'woodstream.online/images', $img);
-                $img = str_replace('//', '/', $img);
-                $img = str_replace('https:/', 'https://', $img);
-                $img = str_replace('http:/', 'http://', $img);
                 return $img;
             }
             
@@ -32,7 +30,7 @@
             }
             
             $img = preg_replace('#/+#', '/', $img);
-            $img = 'https://woodstream.online' . $img;
+            $img = $baseUrl . $img;
             
             return $img;
         }, $images ?: []);
@@ -82,8 +80,7 @@
             }
 
             const normalizedUrl = imageUrl
-                .replace('https://woodstream.online', '')
-                .replace('https:/', '')
+                .replace(/https?:\/\/[^\/]+/g, '')
                 .replace(/\/\//g, '/');
 
             const avatarInput = document.querySelector('input[name="avatar"]');
@@ -125,10 +122,7 @@
             console.log('Удаляем URL:', imageUrl);
 
             const normalizedUrl = imageUrl
-                .replace('https://woodstream.online', '')
-                .replace('http://localhost', '')
-                .replace('https:/', '')
-                .replace('http:/', '')
+                .replace(/https?:\/\/[^\/]+/g, '')
                 .replace(/\/\//g, '/');
             
             console.log('Нормализованный URL:', normalizedUrl);
@@ -180,10 +174,7 @@
                 const beforeLength = currentImages.length;
                 currentImages = currentImages.filter(img => {
                     const normalizedImg = img
-                        .replace('https://woodstream.online', '')
-                        .replace('http://localhost', '')
-                        .replace('https:/', '')
-                        .replace('http:/', '')
+                        .replace(/https?:\/\/[^\/]+/g, '')
                         .replace(/\/\//g, '/');
                     
                     const shouldKeep = normalizedImg !== normalizedUrl;

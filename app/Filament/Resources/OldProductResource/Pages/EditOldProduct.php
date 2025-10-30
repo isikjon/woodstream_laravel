@@ -54,10 +54,7 @@ class EditOldProduct extends EditRecord
 
         $currentImages = array_map(function($img) {
             $img = str_replace('\\', '/', $img);
-            $img = str_replace('https://woodstream.online', '', $img);
-            $img = str_replace('http://localhost', '', $img);
-            $img = str_replace('https://', '', $img);
-            $img = str_replace('http://', '', $img);
+            $img = preg_replace('#https?://[^/]+#', '', $img);
             $img = preg_replace('#/+#', '/', $img);
             if (!str_starts_with($img, '/')) {
                 $img = '/' . $img;
@@ -72,10 +69,7 @@ class EditOldProduct extends EditRecord
             if (!empty($toDelete)) {
                 $toDelete = array_map(function($url) {
                     $url = str_replace('\\', '/', $url);
-                    $url = str_replace('https://woodstream.online', '', $url);
-                    $url = str_replace('http://localhost', '', $url);
-                    $url = str_replace('https://', '', $url);
-                    $url = str_replace('http://', '', $url);
+                    $url = preg_replace('#https?://[^/]+#', '', $url);
                     $url = preg_replace('#/+#', '/', $url);
                     if (!str_starts_with($url, '/')) {
                         $url = '/' . $url;
