@@ -8,10 +8,12 @@ use App\Models\SocialNetwork;
 use App\Models\Contact;
 use App\Models\DutySchedule;
 use App\Models\Category;
+use App\Models\OldProduct;
 use App\Observers\SocialNetworkObserver;
 use App\Observers\ContactObserver;
 use App\Observers\DutyScheduleObserver;
 use App\Observers\CategoryObserver;
+use App\Observers\ProductImageObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,6 @@ class AppServiceProvider extends ServiceProvider
         Contact::observe(ContactObserver::class);
         DutySchedule::observe(DutyScheduleObserver::class);
         Category::observe(CategoryObserver::class);
-
+        OldProduct::observe(ProductImageObserver::class);
     }
 }

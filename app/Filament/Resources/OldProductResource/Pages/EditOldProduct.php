@@ -6,6 +6,7 @@ use App\Filament\Resources\OldProductResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Storage;
+use App\Services\WatermarkService;
 
 class EditOldProduct extends EditRecord
 {
@@ -33,6 +34,11 @@ class EditOldProduct extends EditRecord
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
             $path = $data['avatar_upload'];
             if (is_string($path)) {
+                $fullPath = storage_path('app/public/' . $path);
+                if (file_exists($fullPath)) {
+                    $watermarkService = app(WatermarkService::class);
+                    $watermarkService->applyWatermark($fullPath);
+                }
                 $cleanPath = str_replace('\\', '/', $path);
                 $data['avatar'] = '/storage/' . $cleanPath;
             }
@@ -96,7 +102,12 @@ class EditOldProduct extends EditRecord
         }
 
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
-            $newImages = array_map(function($path) {
+            $watermarkService = app(WatermarkService::class);
+            $newImages = array_map(function($path) use ($watermarkService) {
+                $fullPath = storage_path('app/public/' . $path);
+                if (file_exists($fullPath)) {
+                    $watermarkService->applyWatermark($fullPath);
+                }
                 $cleanPath = str_replace('\\', '/', $path);
                 return '/storage/' . $cleanPath;
             }, $data['gallery_upload']);
