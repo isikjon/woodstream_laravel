@@ -100,6 +100,9 @@ class OldProductResource extends Resource
                                 \Log::info('Текущий booked_at:', ['booked_at' => $get('booked_at')]);
                                 \Log::info('Текущий booked_expire:', ['booked_expire' => $get('booked_expire')]);
                                 
+                                $state = (int) $state;
+                                \Log::info('Приведенный статус к int:', ['state' => $state, 'type' => gettype($state)]);
+                                
                                 if ($state === 9) {
                                     \Log::info('✅ СТАТУС = 9 (Забронировано) - устанавливаем поля брони');
                                     $set('online', false);
@@ -135,11 +138,11 @@ class OldProductResource extends Resource
                             ->relationship('manager', 'name', fn ($query) => $query->whereIn('id', [6, 19, 21, 22, 23, 25, 26, 27, 29, 30])->orderBy('name'))
                             ->searchable()
                             ->preload()
-                            ->required(fn (callable $get) => $get('availability') === 9)
+                            ->required(fn (callable $get) => (int) $get('availability') === 9)
                             ->hidden(function (callable $get) {
-                                $availability = $get('availability');
+                                $availability = (int) $get('availability');
                                 $isHidden = $availability !== 9;
-                                \Log::info('booked_by->hidden():', ['availability' => $availability, 'isHidden' => $isHidden]);
+                                \Log::info('booked_by->hidden():', ['availability' => $availability, 'type' => gettype($availability), 'isHidden' => $isHidden]);
                                 return $isHidden;
                             })
                             ->live()
@@ -148,9 +151,9 @@ class OldProductResource extends Resource
                         Forms\Components\DateTimePicker::make('booked_at')
                             ->label('Дата бронирования')
                             ->hidden(function (callable $get) {
-                                $availability = $get('availability');
+                                $availability = (int) $get('availability');
                                 $isHidden = $availability !== 9;
-                                \Log::info('booked_at->hidden():', ['availability' => $availability, 'isHidden' => $isHidden]);
+                                \Log::info('booked_at->hidden():', ['availability' => $availability, 'type' => gettype($availability), 'isHidden' => $isHidden]);
                                 return $isHidden;
                             })
                             ->live()
@@ -159,9 +162,9 @@ class OldProductResource extends Resource
                         Forms\Components\DateTimePicker::make('booked_expire')
                             ->label('Бронь до')
                             ->hidden(function (callable $get) {
-                                $availability = $get('availability');
+                                $availability = (int) $get('availability');
                                 $isHidden = $availability !== 9;
-                                \Log::info('booked_expire->hidden():', ['availability' => $availability, 'isHidden' => $isHidden]);
+                                \Log::info('booked_expire->hidden():', ['availability' => $availability, 'type' => gettype($availability), 'isHidden' => $isHidden]);
                                 return $isHidden;
                             })
                             ->live()
