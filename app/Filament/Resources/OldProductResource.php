@@ -92,10 +92,17 @@ class OldProductResource extends Resource
                             ->default(7)
                             ->live()
                             ->afterStateUpdated(function ($state, callable $set) {
-                                if ($state !== 9) {
+                                if ($state === 9) {
+                                    $set('online', false);
+                                    $set('booked_at', now());
+                                    $set('booked_expire', now()->addDays(4));
+                                } else {
                                     $set('booked_by', null);
                                     $set('booked_at', null);
                                     $set('booked_expire', null);
+                                    if ($state === 7) {
+                                        $set('online', true);
+                                    }
                                 }
                             }),
                         
@@ -104,8 +111,9 @@ class OldProductResource extends Resource
                             ->relationship('manager', 'name', fn ($query) => $query->whereIn('id', [6, 19, 21, 22, 23, 25, 26, 27, 29, 30])->orderBy('name'))
                             ->searchable()
                             ->preload()
+                            ->required(fn (callable $get) => $get('availability') === 9)
                             ->visible(fn (callable $get) => $get('availability') === 9)
-                            ->helperText('Только активные менеджеры могут бронировать товар'),
+                            ->helperText('Выберите менеджера, который забронировал товар'),
                         
                         Forms\Components\DateTimePicker::make('booked_at')
                             ->label('Дата бронирования')

@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('duty:rotate --days=30')->dailyAt('00:01');
+Schedule::command('bookings:expire')->hourly();
