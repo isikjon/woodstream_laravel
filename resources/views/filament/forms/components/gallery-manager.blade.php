@@ -32,41 +32,34 @@
     <div class="rounded-lg border border-gray-300 dark:border-gray-700 p-4 bg-white dark:bg-gray-800">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach($images as $index => $imageUrl)
-                <div class="relative group">
+                <div class="flex flex-col">
                     <img 
                         src="{{ $imageUrl }}" 
                         alt="Изображение {{ $index + 1 }}" 
-                        class="w-full h-32 object-cover rounded-lg shadow-md"
+                        class="w-full h-32 object-cover rounded-lg shadow-md mb-2"
                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Crect fill=\'%23ddd\' width=\'100\' height=\'100\'/%3E%3Ctext fill=\'%23999\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' font-size=\'12\'%3EОшибка%3C/text%3E%3C/svg%3E'"
                     >
-                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-200 rounded-lg flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
-                        <button 
-                            type="button"
+                    <div class="flex gap-2 justify-center">
+                        <a 
+                            href="javascript:void(0)" 
                             onclick="setAsMainImage('{{ $imageUrl }}')"
-                            class="bg-green-600 hover:bg-green-700 text-white rounded-lg px-3 py-2 shadow-lg transition-all duration-200 flex items-center gap-1 text-sm"
-                            title="Сделать главным"
+                            class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium underline cursor-pointer"
                         >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            Главное
-                        </button>
-                        <button 
-                            type="button"
+                            Сделать главным
+                        </a>
+                        <span class="text-gray-400">|</span>
+                        <a 
+                            href="javascript:void(0)" 
                             onclick="deleteGalleryImage('{{ $imageUrl }}')"
-                            class="bg-red-600 hover:bg-red-700 text-white rounded-lg px-3 py-2 shadow-lg transition-all duration-200 flex items-center gap-1 text-sm"
-                            title="Удалить"
+                            class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium underline cursor-pointer"
                         >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                            </svg>
                             Удалить
-                        </button>
+                        </a>
                     </div>
                 </div>
             @endforeach
         </div>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">
             Всего изображений: {{ count($images) }}
         </p>
     </div>
