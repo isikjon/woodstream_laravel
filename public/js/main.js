@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Обработчики для promo модалок
         promoModals.forEach((modal) => {
-            const closeBtn = modal.querySelector('.modal-promo__close');
+            const closeBtn = modal.querySelector('.modal-close');
             const modalId = modal.dataset.modalId;
             
             if (closeBtn) {
