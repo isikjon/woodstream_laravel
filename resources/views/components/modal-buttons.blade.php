@@ -6,15 +6,15 @@
            target="_blank"
            style="
                flex: 1;
-               padding: 14px 20px;
+               padding: 8px 12px;
                border-radius: 8px;
                text-decoration: none;
-               font-weight: 600;
+               font-weight: 400;
                font-size: 15px;
                text-align: center;
                transition: all 0.3s ease;
                display: block;
-               {{ $modal->button_1_type === 'telegram' ? 'background-color: #2C2C2C; color: #ffffff;' : ($modal->button_1_type === 'whatsapp' ? 'background-color: #25D366; color: #ffffff;' : 'background-color: #667eea; color: #ffffff;') }}
+               {{ $modal->button_1_type === 'telegram' ? 'background-color: #1D2229; color: #ffffff;' : ($modal->button_1_type === 'whatsapp' ? 'background-color: #4CAF50; color: #ffffff;' : 'background-color: #667eea; color: #ffffff;') }}
            "
            onmouseover="this.style.opacity='0.9'"
            onmouseout="this.style.opacity='1'">
@@ -27,15 +27,15 @@
            target="_blank"
            style="
                flex: 1;
-               padding: 14px 20px;
+               padding: 8px 12px;
                border-radius: 8px;
                text-decoration: none;
-               font-weight: 600;
+               font-weight: 400;
                font-size: 15px;
                text-align: center;
                transition: all 0.3s ease;
                display: block;
-               {{ $modal->button_2_type === 'telegram' ? 'background-color: #2C2C2C; color: #ffffff;' : ($modal->button_2_type === 'whatsapp' ? 'background-color: #25D366; color: #ffffff;' : 'background-color: #667eea; color: #ffffff;') }}
+               {{ $modal->button_2_type === 'telegram' ? 'background-color: #1D2229; color: #ffffff;' : ($modal->button_2_type === 'whatsapp' ? 'background-color: #4CAF50; color: #ffffff;' : 'background-color: #667eea; color: #ffffff;') }}
            "
            onmouseover="this.style.opacity='0.9'"
            onmouseout="this.style.opacity='1'">

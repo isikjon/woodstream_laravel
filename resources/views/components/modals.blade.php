@@ -44,10 +44,10 @@
                 </picture>
             </a>
         @else
-            <div class="modal-promo__body" style="background: white; border-radius: 16px; overflow: hidden; max-width: 600px; margin: 0 auto;">
+            <div class="modal-promo__body" style="background: white; border-radius: 10px !important; overflow: hidden; max-width: 310px; margin: 0 auto;">
                 @if($modal->title)
-                    <div style="padding: 20px 30px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
-                        <h2 style="margin: 0; font-size: 24px; font-weight: 700; color: #1f2937; text-align: left;">{{ $modal->title }}</h2>
+                    <div style="padding: 10px 15px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+                        <h2 style="margin: 0; font-size: 18px; font-weight: 500; color: #1D2229; text-align: left;">{{ $modal->title }}</h2>
                     </div>
                 @endif
                 
@@ -57,12 +57,12 @@
                             @if($modal->image_mobile)
                                 <source media="(max-width: 768px)" srcset="{{ $modal->image_mobile }}">
                             @endif
-                            <img src="{{ $modal->image }}" alt="{{ $modal->title }}" style="width: 100%; height: auto; display: block;">
+                            <img src="{{ $modal->image }}" alt="{{ $modal->title }}" style="width: 100%; height: auto; display: block; max-height: 100%;">
                         </picture>
                     </div>
                 @endif
                 
-                <div style="padding: 25px 30px; background: white;">
+                <div style="padding: 10px 15px; background: white;">
                     <x-modal-buttons :modal="$modal" />
                 </div>
             </div>

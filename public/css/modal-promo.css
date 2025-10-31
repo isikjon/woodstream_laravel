@@ -6,7 +6,7 @@
     z-index: 1000 !important;
     width: 100% !important;
     height: 100vh !important;
-    background-color: transparent !important;
+    background-color: #000000cc !important;
     opacity: 0 !important;
     display: none !important;
     align-items: flex-end !important;
