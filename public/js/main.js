@@ -354,6 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Обработчики для promo модалок
         promoModals.forEach((modal) => {
             const closeBtn = modal.querySelector('.modal-close');
+            const modalBody = modal.querySelector('.modal-promo__body');
             const modalId = modal.dataset.modalId;
             
             if (closeBtn) {
@@ -367,6 +368,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     currentModalIndex++;
                     setTimeout(() => showNextModal(), 500);
+                });
+            }
+            
+            if (modalBody && modalBody.tagName === 'A') {
+                modalBody.addEventListener('click', (e) => {
+                    const isCloseBtn = e.target.closest('.modal-close');
+                    if (isCloseBtn) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
                 });
             }
             

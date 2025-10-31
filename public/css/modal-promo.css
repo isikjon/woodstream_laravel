@@ -69,8 +69,9 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    z-index: 100 !important;
+    z-index: 1000 !important;
     transition: all 0.3s ease !important;
+    pointer-events: auto !important;
 }
 
 .modal-promo__close--fixed:hover {
@@ -80,6 +81,7 @@
 .modal-promo__close--fixed img {
     width: 16px !important;
     height: 16px !important;
+    pointer-events: none !important;
 }
 
 .modal-promo__close--dynamic {
@@ -95,8 +97,9 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    z-index: 100 !important;
+    z-index: 1000 !important;
     transition: all 0.3s ease !important;
+    pointer-events: auto !important;
 }
 
 .modal-promo__close--dynamic:hover {
@@ -106,6 +109,7 @@
 .modal-promo__close--dynamic img {
     width: 14px !important;
     height: 14px !important;
+    pointer-events: none !important;
 }
 
 .modal-promo__body {
