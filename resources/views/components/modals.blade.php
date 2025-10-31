@@ -21,10 +21,10 @@
 </div>
 
 @php
-    $fixedModals = \App\Models\Modal::getFixedModals();
+    $allModals = \App\Models\Modal::getActiveModals();
 @endphp
 
-@foreach($fixedModals as $index => $modal)
+@foreach($allModals as $index => $modal)
 <div class="modal modal-promo modal-promo-{{ $index }}" 
      data-modal-id="{{ $modal->id }}" 
      data-delay="{{ $modal->delay_seconds }}" 
@@ -36,12 +36,31 @@
             <img src="{{ asset('images/icons/moda-close.svg') }}" alt="Close">
         </div>
         
-        <a href="{{ $modal->url }}" target="_blank" class="modal-promo__body">
-            <picture class="modal-promo__image">
-                <source media="(max-width: 768px)" srcset="{{ $modal->image_mobile }}">
-                <img src="{{ $modal->image }}" alt="Модалка {{ $index + 1 }}">
-            </picture>
-        </a>
+        @if($modal->is_fixed)
+            <a href="{{ $modal->url }}" target="_blank" class="modal-promo__body">
+                <picture class="modal-promo__image">
+                    <source media="(max-width: 768px)" srcset="{{ $modal->image_mobile }}">
+                    <img src="{{ $modal->image }}" alt="{{ $modal->title }}">
+                </picture>
+            </a>
+        @else
+            <div class="modal-promo__body" style="padding: 40px; text-align: center;">
+                @if($modal->title)
+                    <h2 style="margin-bottom: 20px; font-size: 24px; font-weight: 700;">{{ $modal->title }}</h2>
+                @endif
+                
+                @if($modal->image)
+                    <picture class="modal-promo__image" style="display: block; margin-bottom: 20px;">
+                        @if($modal->image_mobile)
+                            <source media="(max-width: 768px)" srcset="{{ $modal->image_mobile }}">
+                        @endif
+                        <img src="{{ $modal->image }}" alt="{{ $modal->title }}" style="max-width: 100%; height: auto; border-radius: 8px;">
+                    </picture>
+                @endif
+                
+                <x-modal-buttons :modal="$modal" />
+            </div>
+        @endif
     </div>
 </div>
 @endforeach

@@ -41,12 +41,6 @@ class PopupResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->hidden(fn ($record) => $record?->is_fixed),
-                        Forms\Components\Textarea::make('content')
-                            ->label('Содержимое')
-                            ->required()
-                            ->rows(5)
-                            ->columnSpanFull()
-                            ->hidden(fn ($record) => $record?->is_fixed),
                         Forms\Components\TextInput::make('url')
                             ->label('URL для перехода')
                             ->url()
@@ -136,17 +130,31 @@ class PopupResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('Изображение (Десктоп)')
                             ->image()
+                            ->imageEditor()
                             ->directory('modals')
                             ->disk('public')
+                            ->visibility('public')
                             ->helperText('Изображение для десктопной версии')
-                            ->hidden(fn ($record) => $record?->is_fixed),
+                            ->hidden(fn ($record) => $record?->is_fixed)
+                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                if ($state) {
+                                    $set('image', '/storage/' . $state);
+                                }
+                            }),
                         Forms\Components\FileUpload::make('image_mobile')
                             ->label('Изображение (Мобильная)')
                             ->image()
+                            ->imageEditor()
                             ->directory('modals')
                             ->disk('public')
+                            ->visibility('public')
                             ->helperText('Изображение для мобильной версии')
-                            ->hidden(fn ($record) => $record?->is_fixed),
+                            ->hidden(fn ($record) => $record?->is_fixed)
+                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                if ($state) {
+                                    $set('image_mobile', '/storage/' . $state);
+                                }
+                            }),
                         Forms\Components\TextInput::make('delay_seconds')
                             ->label('Задержка (секунды)')
                             ->numeric()
@@ -156,7 +164,15 @@ class PopupResource extends Resource
                             ->label('Порядок показа')
                             ->numeric()
                             ->default(0)
-                            ->helperText('Меньше число = раньше покажется'),
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function ($state, callable $get, $record) {
+                                if ($state && $record) {
+                                    \App\Models\Modal::where('id', '!=', $record->id)
+                                        ->where('order', '>=', $state)
+                                        ->increment('order');
+                                }
+                            })
+                            ->helperText('При установке порядка, остальные модалки автоматически сдвинутся'),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Активна')
                             ->default(false)
