@@ -44,21 +44,27 @@
                 </picture>
             </a>
         @else
-            <div class="modal-promo__body" style="padding: 40px; text-align: center;">
+            <div class="modal-promo__body" style="background: white; border-radius: 16px; overflow: hidden; max-width: 600px; margin: 0 auto;">
                 @if($modal->title)
-                    <h2 style="margin-bottom: 20px; font-size: 24px; font-weight: 700;">{{ $modal->title }}</h2>
+                    <div style="padding: 20px 30px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+                        <h2 style="margin: 0; font-size: 24px; font-weight: 700; color: #1f2937; text-align: left;">{{ $modal->title }}</h2>
+                    </div>
                 @endif
                 
                 @if($modal->image)
-                    <picture class="modal-promo__image" style="display: block; margin-bottom: 20px;">
-                        @if($modal->image_mobile)
-                            <source media="(max-width: 768px)" srcset="{{ $modal->image_mobile }}">
-                        @endif
-                        <img src="{{ $modal->image }}" alt="{{ $modal->title }}" style="max-width: 100%; height: auto; border-radius: 8px;">
-                    </picture>
+                    <div style="width: 100%;">
+                        <picture class="modal-promo__image">
+                            @if($modal->image_mobile)
+                                <source media="(max-width: 768px)" srcset="{{ $modal->image_mobile }}">
+                            @endif
+                            <img src="{{ $modal->image }}" alt="{{ $modal->title }}" style="width: 100%; height: auto; display: block;">
+                        </picture>
+                    </div>
                 @endif
                 
-                <x-modal-buttons :modal="$modal" />
+                <div style="padding: 25px 30px; background: white;">
+                    <x-modal-buttons :modal="$modal" />
+                </div>
             </div>
         @endif
     </div>
