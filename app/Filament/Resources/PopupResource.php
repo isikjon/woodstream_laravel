@@ -220,12 +220,11 @@ class PopupResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->action(function ($records) {
-                            $records->each(function ($record) {
-                                if (!$record->is_fixed) {
-                                    $record->delete();
-                                }
-                            });
+                        ->before(function ($records) {
+                            $fixed = $records->filter(fn ($record) => $record->is_fixed);
+                            if ($fixed->count() > 0) {
+                                throw new \Exception('Нельзя удалять фиксированные модальные окна');
+                            }
                         }),
                 ]),
             ])
