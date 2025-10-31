@@ -33,6 +33,7 @@ class PopupResource extends Resource
                             ->label('Уникальный код')
                             ->required()
                             ->unique(ignoreRecord: true)
+                            ->disabled(fn ($record) => $record?->is_fixed)
                             ->helperText('Например: telegram-info')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('title')
@@ -44,9 +45,16 @@ class PopupResource extends Resource
                             ->required()
                             ->rows(5)
                             ->columnSpanFull(),
+                        Forms\Components\TextInput::make('url')
+                            ->label('URL для перехода')
+                            ->url()
+                            ->maxLength(255)
+                            ->visible(fn ($record) => $record?->is_fixed)
+                            ->helperText('Ссылка, на которую ведёт модальное окно'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Кнопки')
+                    ->hidden(fn ($record) => $record?->is_fixed)
                     ->schema([
                         Forms\Components\TextInput::make('button_1_text')
                             ->label('Текст кнопки 1')
@@ -161,6 +169,13 @@ class PopupResource extends Resource
                     ->searchable()
                     ->badge()
                     ->color('gray'),
+                Tables\Columns\IconColumn::make('is_fixed')
+                    ->label('Фиксированная')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-lock-closed')
+                    ->falseIcon('heroicon-o-lock-open')
+                    ->trueColor('warning')
+                    ->falseColor('gray'),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Активна')
                     ->boolean()
@@ -170,6 +185,9 @@ class PopupResource extends Resource
                     ->falseColor('danger'),
                 Tables\Columns\TextColumn::make('delay_seconds')
                     ->label('Задержка (сек)')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('order')
+                    ->label('Порядок')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Обновлено')
@@ -187,11 +205,19 @@ class PopupResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->hidden(fn ($record) => $record->is_fixed),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->action(function ($records) {
+                            $records->each(function ($record) {
+                                if (!$record->is_fixed) {
+                                    $record->delete();
+                                }
+                            });
+                        }),
                 ]),
             ])
             ->emptyStateHeading('Нет модальных окон')

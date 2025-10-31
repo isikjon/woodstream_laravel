@@ -20,45 +20,31 @@
     </div>
 </div>
 
-<div class="modal modal-promo modal-promo-0" 
-     data-modal-id="1" 
-     data-delay="3" 
-     data-order="0" 
-     data-active="true"
-     data-index="0">
-    <div class="modal-content">
-        <div class="modal-close modal-promo__close" data-modal-index="0">
-            <img src="{{ asset('images/icons/moda-close.svg') }}" alt="Close">
-        </div>
-        
-        <a href="https://t.me/woodstream63bot" target="_blank" class="modal-promo__body">
-            <picture class="modal-promo__image">
-                <source media="(max-width: 768px)" srcset="{{ asset('images/mobile1.png') }}">
-                <img src="{{ asset('images/desktop1.svg') }}" alt="Woodstream в Telegram">
-            </picture>
-        </a>
-    </div>
-</div>
+@php
+    $fixedModals = \App\Models\Modal::getFixedModals();
+@endphp
 
-<div class="modal modal-promo modal-promo-1" 
-     data-modal-id="2" 
-     data-delay="5" 
-     data-order="1" 
+@foreach($fixedModals as $index => $modal)
+<div class="modal modal-promo modal-promo-{{ $index }}" 
+     data-modal-id="{{ $modal->id }}" 
+     data-delay="{{ $modal->delay_seconds }}" 
+     data-order="{{ $modal->order }}" 
      data-active="true"
-     data-index="1">
+     data-index="{{ $index }}">
     <div class="modal-content">
-        <div class="modal-close modal-promo__close" data-modal-index="1">
+        <div class="modal-close modal-promo__close" data-modal-index="{{ $index }}">
             <img src="{{ asset('images/icons/moda-close.svg') }}" alt="Close">
         </div>
         
-        <a href="https://t.me/woodstream63bot" target="_blank" class="modal-promo__body">
+        <a href="{{ $modal->url }}" target="_blank" class="modal-promo__body">
             <picture class="modal-promo__image">
-                <source media="(max-width: 768px)" srcset="{{ asset('images/mobile2.png') }}">
-                <img src="{{ asset('images/desktop2.svg') }}" alt="Больше не нужно ждать">
+                <source media="(max-width: 768px)" srcset="{{ asset($modal->image_mobile) }}">
+                <img src="{{ asset($modal->image) }}" alt="{{ $modal->title }}">
             </picture>
         </a>
     </div>
 </div>
+@endforeach
 
 <div class="modal modal-login ">
     <div class="modal-content">

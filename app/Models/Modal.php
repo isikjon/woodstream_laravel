@@ -18,13 +18,16 @@ class Modal extends Model
         'button_2_type',
         'image',
         'image_mobile',
+        'url',
         'is_active',
+        'is_fixed',
         'delay_seconds',
         'order'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_fixed' => 'boolean',
         'delay_seconds' => 'integer',
         'order' => 'integer'
     ];
@@ -37,6 +40,15 @@ class Modal extends Model
     public static function getActiveModals()
     {
         return self::where('is_active', true)
+            ->orderBy('order')
+            ->orderBy('id')
+            ->get();
+    }
+
+    public static function getFixedModals()
+    {
+        return self::where('is_fixed', true)
+            ->where('is_active', true)
             ->orderBy('order')
             ->get();
     }

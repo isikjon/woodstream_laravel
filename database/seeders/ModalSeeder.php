@@ -14,17 +14,19 @@ class ModalSeeder extends Seeder
             [
                 'title' => 'Woodstream в Telegram!',
                 'content' => "Будьте в курсе самых горячих новинок, скидок и эксклюзивных поступлений, подпишитесь на наш канал @woodstream",
-                'button_1_text' => 'Следить за новинками',
-                'button_1_url' => '@woodstream',
-                'button_1_type' => 'telegram',
+                'button_1_text' => null,
+                'button_1_url' => null,
+                'button_1_type' => null,
                 'button_2_text' => null,
                 'button_2_url' => null,
                 'button_2_type' => null,
-                'image' => 'images/desktop1.png',
+                'image' => 'images/desktop1.svg',
                 'image_mobile' => 'images/mobile1.png',
+                'url' => 'https://t.me/woodstream63bot',
                 'is_active' => true,
+                'is_fixed' => true,
                 'delay_seconds' => 3,
-                'order' => 0,
+                'order' => 1,
             ]
         );
 
@@ -33,17 +35,19 @@ class ModalSeeder extends Seeder
             [
                 'title' => 'Больше не нужно ждать!',
                 'content' => 'В нашем Telegram-боте @woodstream63bot представлен полный и актуальный каталог винтажной мебели. Выбирайте, добавляйте в избранное и оформляйте заказ в пару касаний',
-                'button_1_text' => 'Выбирать и заказывать',
-                'button_1_url' => '@woodstream63bot',
-                'button_1_type' => 'telegram',
+                'button_1_text' => null,
+                'button_1_url' => null,
+                'button_1_type' => null,
                 'button_2_text' => null,
                 'button_2_url' => null,
                 'button_2_type' => null,
-                'image' => 'images/desktop2.png',
+                'image' => 'images/desktop2.svg',
                 'image_mobile' => 'images/mobile2.png',
+                'url' => 'https://t.me/woodstream63bot',
                 'is_active' => true,
+                'is_fixed' => true,
                 'delay_seconds' => 5,
-                'order' => 1,
+                'order' => 2,
             ]
         );
     }
