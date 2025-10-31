@@ -53,16 +53,11 @@ class PopupResource extends Resource
                             ->maxLength(255)
                             ->visible(fn ($record) => $record?->is_fixed)
                             ->helperText('Ссылка, на которую ведёт модальное окно'),
-                        Forms\Components\TextInput::make('image')
-                            ->label('Desktop изображение (URL)')
-                            ->maxLength(255)
+                        Forms\Components\ViewField::make('modal_preview')
+                            ->label('Превью модального окна')
+                            ->view('filament.forms.components.modal-preview')
                             ->visible(fn ($record) => $record?->is_fixed)
-                            ->helperText('Например: /images/desktop1.svg'),
-                        Forms\Components\TextInput::make('image_mobile')
-                            ->label('Mobile изображение (URL)')
-                            ->maxLength(255)
-                            ->visible(fn ($record) => $record?->is_fixed)
-                            ->helperText('Например: /images/mobile1.png'),
+                            ->columnSpanFull(),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Кнопки')
