@@ -32,11 +32,10 @@
      data-active="true"
      data-index="{{ $index }}">
     <div class="modal-content">
-        <div class="modal-close modal-promo__close" data-modal-index="{{ $index }}">
-            <img src="{{ asset('images/icons/moda-close.svg') }}" alt="Close">
-        </div>
-        
         @if($modal->is_fixed)
+            <div class="modal-close modal-promo__close" data-modal-index="{{ $index }}">
+                <img src="{{ asset('images/icons/moda-close.svg') }}" alt="Close">
+            </div>
             <a href="{{ $modal->url }}" target="_blank" class="modal-promo__body">
                 <picture class="modal-promo__image">
                     <source media="(max-width: 768px)" srcset="{{ $modal->image_mobile }}">
@@ -46,7 +45,10 @@
         @else
             <div class="modal-promo__body" style="background: white; border-radius: 10px !important; overflow: hidden; max-width: 310px; margin: 0 auto;">
                 @if($modal->title)
-                    <div style="padding: 10px 15px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+                    <div style="padding: 10px 15px; background: #f9fafb; border-bottom: 1px solid #e5e7eb; position: relative;">
+                        <div class="modal-close modal-promo__close" data-modal-index="{{ $index }}">
+                            <img src="{{ asset('images/icons/moda-close.svg') }}" alt="Close">
+                        </div>
                         <h2 style="margin: 0; font-size: 18px; font-weight: 500; color: #1D2229; text-align: left;">{{ $modal->title }}</h2>
                     </div>
                 @endif
