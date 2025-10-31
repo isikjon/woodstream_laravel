@@ -135,12 +135,7 @@ class PopupResource extends Resource
                             ->disk('public')
                             ->visibility('public')
                             ->helperText('Изображение для десктопной версии')
-                            ->hidden(fn ($record) => $record?->is_fixed)
-                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                if ($state) {
-                                    $set('image', '/storage/' . $state);
-                                }
-                            }),
+                            ->hidden(fn ($record) => $record?->is_fixed),
                         Forms\Components\FileUpload::make('image_mobile')
                             ->label('Изображение (Мобильная)')
                             ->image()
@@ -149,12 +144,7 @@ class PopupResource extends Resource
                             ->disk('public')
                             ->visibility('public')
                             ->helperText('Изображение для мобильной версии')
-                            ->hidden(fn ($record) => $record?->is_fixed)
-                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                if ($state) {
-                                    $set('image_mobile', '/storage/' . $state);
-                                }
-                            }),
+                            ->hidden(fn ($record) => $record?->is_fixed),
                         Forms\Components\TextInput::make('delay_seconds')
                             ->label('Задержка (секунды)')
                             ->numeric()

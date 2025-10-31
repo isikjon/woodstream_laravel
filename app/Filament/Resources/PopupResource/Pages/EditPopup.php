@@ -18,6 +18,28 @@ class EditPopup extends EditRecord
         ];
     }
 
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        if (!empty($data['image']) && str_starts_with($data['image'], '/storage/')) {
+            $data['image'] = str_replace('/storage/', '', $data['image']);
+        }
+        if (!empty($data['image_mobile']) && str_starts_with($data['image_mobile'], '/storage/')) {
+            $data['image_mobile'] = str_replace('/storage/', '', $data['image_mobile']);
+        }
+        return $data;
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (!empty($data['image']) && !str_starts_with($data['image'], 'http') && !str_starts_with($data['image'], '/storage/')) {
+            $data['image'] = '/storage/' . $data['image'];
+        }
+        if (!empty($data['image_mobile']) && !str_starts_with($data['image_mobile'], 'http') && !str_starts_with($data['image_mobile'], '/storage/')) {
+            $data['image_mobile'] = '/storage/' . $data['image_mobile'];
+        }
+        return $data;
+    }
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
