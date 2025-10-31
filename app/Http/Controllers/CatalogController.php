@@ -22,7 +22,8 @@ class CatalogController extends Controller
     {
         try {
             $category = null;
-            $query = OldProduct::with(['categories', 'city', 'country', 'status', 'styles']);
+            $query = OldProduct::with(['categories', 'city', 'country', 'status', 'styles'])
+                ->where('availability', '!=', 9);
 
             if ($categorySlug) {
                 $category = OldCategory::where('slug', $categorySlug)->first();

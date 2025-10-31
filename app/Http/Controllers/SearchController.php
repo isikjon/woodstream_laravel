@@ -21,6 +21,7 @@ class SearchController extends Controller
             
             $products = Cache::remember($cacheKey, 600, function() use ($query) {
                 $productsQuery = OldProduct::where('availability', '!=', 5)
+                    ->where('availability', '!=', 9)
                     ->where(function($q) use ($query) {
                         $q->where('name', 'LIKE', "%{$query}%")
                           ->orWhere('model', 'LIKE', "%{$query}%");
@@ -35,7 +36,8 @@ class SearchController extends Controller
                     ->get(['id', 'name', 'model', 'price', 'special', 'availability', 'avatar']);
                 
                 if ($productsQuery->isEmpty()) {
-                    $productsQuery = OldProduct::where(function($q) use ($query) {
+                    $productsQuery = OldProduct::where('availability', '!=', 9)
+                        ->where(function($q) use ($query) {
                             $q->where('name', 'LIKE', "%{$query}%")
                               ->orWhere('model', 'LIKE', "%{$query}%");
                         })
@@ -97,6 +99,7 @@ class SearchController extends Controller
         }
         
         $products = OldProduct::where('availability', '!=', 5)
+            ->where('availability', '!=', 9)
             ->where(function($q) use ($query) {
                 $q->where('name', 'LIKE', "%{$query}%")
                   ->orWhere('model', 'LIKE', "%{$query}%")

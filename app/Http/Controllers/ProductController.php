@@ -18,15 +18,17 @@ class ProductController extends Controller
             
             \Log::info('ProductController: Товар найден в продакшн БД: ' . $product->name);
 
-            $similarProducts = OldProduct::whereHas('categories', function($q) use ($product) {
-                $q->whereIn('categories.id', $product->categories->pluck('id'));
-            })
+            $similarProducts = OldProduct::where('availability', '!=', 9)
+                ->whereHas('categories', function($q) use ($product) {
+                    $q->whereIn('categories.id', $product->categories->pluck('id'));
+                })
             ->where('products.id', '!=', $product->id)
             ->whereIn('availability', [7, 8])
             ->limit(8)
             ->get();
 
             $weeklyProducts = OldProduct::where('products.id', '!=', $product->id)
+                ->where('availability', '!=', 9)
                 ->orderBy('priority', 'desc')
                 ->limit(24)
                 ->get();

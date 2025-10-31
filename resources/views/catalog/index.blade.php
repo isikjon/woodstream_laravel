@@ -219,10 +219,6 @@
                            class="catalog-quick__filter {{ in_array('custom_order', (array)request('status', [])) ? 'catalog-quick__filter--active' : '' }}">
                             Под заказ
                         </a>
-                        <a href="{{ request()->fullUrlWithQuery(['status' => ['reserved'], 'page' => null]) }}" 
-                           class="catalog-quick__filter {{ in_array('reserved', (array)request('status', [])) ? 'catalog-quick__filter--active' : '' }}">
-                            Забронировано
-                        </a>
                         <a href="{{ request()->fullUrlWithQuery(['status' => ['sold'], 'page' => null]) }}" 
                            class="catalog-quick__filter {{ in_array('sold', (array)request('status', [])) ? 'catalog-quick__filter--active' : '' }}">
                             Продано

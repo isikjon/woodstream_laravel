@@ -10,7 +10,8 @@ class OldProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = OldProduct::with(['categories', 'city', 'country', 'status']);
+        $query = OldProduct::with(['categories', 'city', 'country', 'status'])
+            ->where('availability', '!=', 9);
 
         if ($request->has('category') && $request->category) {
             $query->whereHas('categories', function($q) use ($request) {
@@ -43,9 +44,10 @@ class OldProductController extends Controller
     public function show($id)
     {
         $product = OldProduct::with(['categories', 'city', 'country', 'status'])->findOrFail($id);
-        $relatedProducts = OldProduct::whereHas('categories', function($q) use ($product) {
-            $q->whereIn('id', $product->categories->pluck('id'));
-        })->where('id', '!=', $product->id)->limit(4)->get();
+        $relatedProducts = OldProduct::where('availability', '!=', 9)
+            ->whereHas('categories', function($q) use ($product) {
+                $q->whereIn('id', $product->categories->pluck('id'));
+            })->where('id', '!=', $product->id)->limit(4)->get();
 
         return view('products.show', compact('product', 'relatedProducts'));
     }
