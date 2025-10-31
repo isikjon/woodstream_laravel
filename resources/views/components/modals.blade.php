@@ -38,8 +38,8 @@
         
         <a href="{{ $modal->url }}" target="_blank" class="modal-promo__body">
             <picture class="modal-promo__image">
-                <source media="(max-width: 768px)" srcset="{{ asset($modal->image_mobile) }}">
-                <img src="{{ asset($modal->image) }}" alt="{{ $modal->title }}">
+                <source media="(max-width: 768px)" srcset="{{ $modal->image_mobile }}">
+                <img src="{{ $modal->image }}" alt="Модалка {{ $index + 1 }}">
             </picture>
         </a>
     </div>

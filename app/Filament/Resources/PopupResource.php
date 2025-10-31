@@ -39,18 +39,30 @@ class PopupResource extends Resource
                         Forms\Components\TextInput::make('title')
                             ->label('Заголовок')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->hidden(fn ($record) => $record?->is_fixed),
                         Forms\Components\Textarea::make('content')
                             ->label('Содержимое')
                             ->required()
                             ->rows(5)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->hidden(fn ($record) => $record?->is_fixed),
                         Forms\Components\TextInput::make('url')
                             ->label('URL для перехода')
                             ->url()
                             ->maxLength(255)
                             ->visible(fn ($record) => $record?->is_fixed)
                             ->helperText('Ссылка, на которую ведёт модальное окно'),
+                        Forms\Components\TextInput::make('image')
+                            ->label('Desktop изображение (URL)')
+                            ->maxLength(255)
+                            ->visible(fn ($record) => $record?->is_fixed)
+                            ->helperText('Например: /images/desktop1.svg'),
+                        Forms\Components\TextInput::make('image_mobile')
+                            ->label('Mobile изображение (URL)')
+                            ->maxLength(255)
+                            ->visible(fn ($record) => $record?->is_fixed)
+                            ->helperText('Например: /images/mobile1.png'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Кнопки')
@@ -131,13 +143,15 @@ class PopupResource extends Resource
                             ->image()
                             ->directory('modals')
                             ->disk('public')
-                            ->helperText('Изображение для десктопной версии'),
+                            ->helperText('Изображение для десктопной версии')
+                            ->hidden(fn ($record) => $record?->is_fixed),
                         Forms\Components\FileUpload::make('image_mobile')
                             ->label('Изображение (Мобильная)')
                             ->image()
                             ->directory('modals')
                             ->disk('public')
-                            ->helperText('Изображение для мобильной версии'),
+                            ->helperText('Изображение для мобильной версии')
+                            ->hidden(fn ($record) => $record?->is_fixed),
                         Forms\Components\TextInput::make('delay_seconds')
                             ->label('Задержка (секунды)')
                             ->numeric()
