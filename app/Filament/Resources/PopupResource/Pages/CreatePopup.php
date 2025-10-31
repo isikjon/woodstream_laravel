@@ -11,11 +11,13 @@ class CreatePopup extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        $data['content'] = $data['content'] ?? '';
+        
         if (!empty($data['image']) && !str_starts_with($data['image'], 'http')) {
-            $data['image'] = '/storage/' . $data['image'];
+            $data['image'] = 'https://dev.woodstream.online/storage/' . $data['image'];
         }
         if (!empty($data['image_mobile']) && !str_starts_with($data['image_mobile'], 'http')) {
-            $data['image_mobile'] = '/storage/' . $data['image_mobile'];
+            $data['image_mobile'] = 'https://dev.woodstream.online/storage/' . $data['image_mobile'];
         }
         return $data;
     }

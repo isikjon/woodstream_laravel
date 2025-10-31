@@ -20,22 +20,30 @@ class EditPopup extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        if (!empty($data['image']) && str_starts_with($data['image'], '/storage/')) {
+        if (!empty($data['image']) && str_starts_with($data['image'], 'https://dev.woodstream.online/storage/')) {
+            $data['image'] = str_replace('https://dev.woodstream.online/storage/', '', $data['image']);
+        } elseif (!empty($data['image']) && str_starts_with($data['image'], '/storage/')) {
             $data['image'] = str_replace('/storage/', '', $data['image']);
         }
-        if (!empty($data['image_mobile']) && str_starts_with($data['image_mobile'], '/storage/')) {
+        
+        if (!empty($data['image_mobile']) && str_starts_with($data['image_mobile'], 'https://dev.woodstream.online/storage/')) {
+            $data['image_mobile'] = str_replace('https://dev.woodstream.online/storage/', '', $data['image_mobile']);
+        } elseif (!empty($data['image_mobile']) && str_starts_with($data['image_mobile'], '/storage/')) {
             $data['image_mobile'] = str_replace('/storage/', '', $data['image_mobile']);
         }
+        
         return $data;
     }
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if (!empty($data['image']) && !str_starts_with($data['image'], 'http') && !str_starts_with($data['image'], '/storage/')) {
-            $data['image'] = '/storage/' . $data['image'];
+        $data['content'] = $data['content'] ?? '';
+        
+        if (!empty($data['image']) && !str_starts_with($data['image'], 'http')) {
+            $data['image'] = 'https://dev.woodstream.online/storage/' . $data['image'];
         }
-        if (!empty($data['image_mobile']) && !str_starts_with($data['image_mobile'], 'http') && !str_starts_with($data['image_mobile'], '/storage/')) {
-            $data['image_mobile'] = '/storage/' . $data['image_mobile'];
+        if (!empty($data['image_mobile']) && !str_starts_with($data['image_mobile'], 'http')) {
+            $data['image_mobile'] = 'https://dev.woodstream.online/storage/' . $data['image_mobile'];
         }
         return $data;
     }
