@@ -53,18 +53,20 @@ class ReviewResource extends Resource
                         $filename = uniqid() . '.' . $file->getClientOriginalExtension();
                         
                         if ($record && $record->image) {
-                            $oldPath = public_path('images/content/' . basename($record->image));
+                            $oldBasename = basename($record->image);
+                            $oldPath = public_path('images/content/' . $oldBasename);
                             if (file_exists($oldPath)) {
                                 @unlink($oldPath);
                             }
                         }
                         
                         $file->storeAs('images/content', $filename, 'public_images');
-                        return $filename;
+                        return 'images/content/' . $filename;
                     })
                     ->deleteUploadedFileUsing(function ($file, $record) {
                         if ($record && $record->image) {
-                            $path = public_path('images/content/' . basename($record->image));
+                            $basename = basename($record->image);
+                            $path = public_path('images/content/' . $basename);
                             if (file_exists($path)) {
                                 @unlink($path);
                             }
