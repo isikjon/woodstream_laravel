@@ -13,6 +13,11 @@ class CreateOldProduct extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        \Log::info('=== НАЧАЛО mutateFormDataBeforeCreate ===');
+        \Log::info('Incoming data keys:', ['keys' => array_keys($data)]);
+        \Log::info('avatar_upload:', ['avatar_upload' => $data['avatar_upload'] ?? 'НЕ УСТАНОВЛЕНО']);
+        \Log::info('gallery_upload:', ['gallery_upload' => $data['gallery_upload'] ?? 'НЕ УСТАНОВЛЕНО']);
+        
         $watermarkService = app(WatermarkService::class);
 
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
@@ -63,6 +68,10 @@ class CreateOldProduct extends CreateRecord
             }
         }
 
+        \Log::info('=== КОНЕЦ mutateFormDataBeforeCreate ===');
+        \Log::info('Final avatar:', ['avatar' => $data['avatar'] ?? 'NULL']);
+        \Log::info('Final images:', ['images' => $data['images'] ?? 'NULL']);
+        
         return $data;
     }
 }
