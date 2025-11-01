@@ -34,13 +34,13 @@ class EditOldProduct extends EditRecord
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
             $path = $data['avatar_upload'];
             if (is_string($path)) {
-                $fullPath = storage_path('app/public/' . $path);
+                $fullPath = public_path($path);
                 if (file_exists($fullPath)) {
                     $watermarkService = app(WatermarkService::class);
                     $watermarkService->applyWatermark($fullPath);
                 }
                 $cleanPath = str_replace('\\', '/', $path);
-                $data['avatar'] = '/storage/' . $cleanPath;
+                $data['avatar'] = '/' . $cleanPath;
             }
         }
         
@@ -104,12 +104,12 @@ class EditOldProduct extends EditRecord
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
             $watermarkService = app(WatermarkService::class);
             $newImages = array_map(function($path) use ($watermarkService) {
-                $fullPath = storage_path('app/public/' . $path);
+                $fullPath = public_path($path);
                 if (file_exists($fullPath)) {
                     $watermarkService->applyWatermark($fullPath);
                 }
                 $cleanPath = str_replace('\\', '/', $path);
-                return '/storage/' . $cleanPath;
+                return '/' . $cleanPath;
             }, $data['gallery_upload']);
 
             $currentImages = array_merge($currentImages, $newImages);

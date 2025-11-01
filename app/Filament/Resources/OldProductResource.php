@@ -250,8 +250,8 @@ class OldProductResource extends Resource
                                     '1:1',
                                 ])
                                 ->maxSize(5120)
-                                ->directory('products/main')
-                                ->disk('public')
+                                ->directory('images/uploads')
+                                ->disk('public_images')
                                 ->visibility('public')
                                 ->helperText('Загрузите изображение (макс. 5МБ)')
                                 ->columnSpanFull(),
@@ -279,8 +279,8 @@ class OldProductResource extends Resource
                                 ->reorderable()
                                 ->maxSize(5120)
                                 ->maxFiles(20)
-                                ->directory('products/gallery')
-                                ->disk('public')
+                                ->directory('images/uploads')
+                                ->disk('public_images')
                                 ->visibility('public')
                                 ->helperText('Загрузите до 20 изображений (макс. 5МБ каждое)')
                                 ->columnSpanFull(),

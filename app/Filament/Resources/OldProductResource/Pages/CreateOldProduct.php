@@ -18,24 +18,24 @@ class CreateOldProduct extends CreateRecord
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
             $path = $data['avatar_upload'];
             if (is_string($path)) {
-                $fullPath = storage_path('app/public/' . $path);
+                $fullPath = public_path($path);
                 if (file_exists($fullPath)) {
                     $watermarkService->applyWatermark($fullPath);
                 }
                 $cleanPath = str_replace('\\', '/', $path);
-                $data['avatar'] = '/storage/' . $cleanPath;
+                $data['avatar'] = '/' . $cleanPath;
             }
             unset($data['avatar_upload']);
         }
 
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
             $newImages = array_map(function($path) use ($watermarkService) {
-                $fullPath = storage_path('app/public/' . $path);
+                $fullPath = public_path($path);
                 if (file_exists($fullPath)) {
                     $watermarkService->applyWatermark($fullPath);
                 }
                 $cleanPath = str_replace('\\', '/', $path);
-                return '/storage/' . $cleanPath;
+                return '/' . $cleanPath;
             }, $data['gallery_upload']);
 
             $data['images'] = json_encode($newImages);
