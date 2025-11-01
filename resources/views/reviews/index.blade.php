@@ -2,6 +2,62 @@
 
 @section('title', 'Отзывы - WoodStream')
 
+@push('styles')
+<style>
+.reviews-item a {
+  display: block;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+.reviews-item a:hover {
+  opacity: 0.9;
+}
+.reviews-item__content {
+  margin-top: 12px;
+}
+.reviews-item__title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%;
+  margin-bottom: 8px;
+  color: var(--color-text);
+}
+@media (max-width: 1190px) {
+  .reviews-item__title {
+    font-size: 14px;
+  }
+}
+.reviews-item__text {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  margin-bottom: 8px;
+  color: var(--color-text-secondary, #666);
+}
+@media (max-width: 1190px) {
+  .reviews-item__text {
+    font-size: 13px;
+  }
+}
+.reviews-item__date {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  display: block;
+  color: var(--color-text-muted, #999);
+  opacity: 0.7;
+}
+@media (max-width: 1190px) {
+  .reviews-item__date {
+    font-size: 11px;
+  }
+}
+</style>
+@endpush
+
 @section('content')
 <x-breadcrumbs.index :items="[
     ['title' => 'Главная', 'url' => route('home')],
