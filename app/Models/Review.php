@@ -50,28 +50,16 @@ class Review extends Model
 
         $imagePath = $this->image;
         $imagePath = str_replace('\\', '/', $imagePath);
-        
-        // Убираем начальный слеш если есть
         $imagePath = ltrim($imagePath, '/');
         
-        // Все изображения отзывов берем с продакшн сервера
-        // Формат в БД: "uploads/xxx.jpg" или "images/uploads/xxx.jpg"
+        // В БД: images/content/uploads/xxx.jpg
+        // На диске: images/uploads/xxx.jpg
+        // Убираем "/content" из пути
+        $imagePath = str_replace('images/content/uploads/', 'images/uploads/', $imagePath);
         
-        // Если путь содержит uploads - это изображение отзыва
+        // Все изображения с uploads/ грузим с продакшна
         if (str_contains($imagePath, 'uploads/')) {
-            // Нормализуем путь
-            if (str_starts_with($imagePath, 'images/uploads/')) {
-                // images/uploads/xxx.jpg -> images/uploads/xxx.jpg
-                return 'https://woodstream.online/' . $imagePath;
-            } elseif (str_starts_with($imagePath, 'uploads/')) {
-                // uploads/xxx.jpg -> images/uploads/xxx.jpg
-                return 'https://woodstream.online/images/' . $imagePath;
-            }
-        }
-        
-        // Если только имя файла (hash.jpg) - ищем в images/uploads/
-        if (!str_contains($imagePath, '/') && str_ends_with($imagePath, '.jpg')) {
-            return 'https://woodstream.online/images/uploads/' . $imagePath;
+            return 'https://woodstream.online/' . $imagePath;
         }
         
         // Все остальное - локальные ассеты
