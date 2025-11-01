@@ -92,6 +92,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->databaseNotifications(false)
             ->databaseNotificationsPolling(false)
+            ->renderHook(
+                'panels::head.end',
+                fn () => '<link rel="stylesheet" href="' . asset('css/fancybox.css') . '">'
+            )
+            ->renderHook(
+                'panels::body.end',
+                fn () => '<script src="' . asset('js/fancybox.umd.js') . '"></script>'
+            )
             ->spa();
     }
 }
