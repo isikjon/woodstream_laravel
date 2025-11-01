@@ -3,13 +3,17 @@
     $imageUrl = $record ? $record->image_url : null;
 @endphp
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/fancybox.css') }}">
+@endpush
+
 @if($imageUrl)
 <div class="w-full">
     <div class="relative w-full rounded-lg overflow-hidden shadow-lg" style="max-width: 100%;">
         <a href="{{ $imageUrl }}" 
-           target="_blank" 
-           class="review-lightbox-trigger block cursor-pointer hover:opacity-90 transition-opacity"
-           onclick="openReviewLightbox(event, '{{ $imageUrl }}', '{{ addslashes($record->name ?? '') }}')">
+           data-fancybox="review-gallery"
+           data-caption="{{ $record->name ?? 'Review image' }}"
+           class="block cursor-pointer hover:opacity-90 transition-opacity">
             <img src="{{ $imageUrl }}" 
                  alt="{{ $record->name ?? 'Review image' }}" 
                  class="w-full h-auto object-contain"
@@ -34,39 +38,23 @@
     </div>
 </div>
 
-<!-- Lightbox Modal -->
-<div id="review-lightbox" class="review-lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; cursor: pointer;" onclick="closeReviewLightbox()">
-    <div style="position: relative; max-width: 95%; max-height: 95vh;">
-        <button onclick="closeReviewLightbox()" style="position: absolute; top: -40px; right: 0; background: white; border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
-            ×
-        </button>
-        <img id="review-lightbox-img" src="" alt="" style="max-width: 100%; max-height: 95vh; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-    </div>
-</div>
-
+@push('scripts')
+<script src="{{ asset('js/fancybox.umd.js') }}"></script>
 <script>
-function openReviewLightbox(event, imageUrl, imageName) {
-    event.preventDefault();
-    const lightbox = document.getElementById('review-lightbox');
-    const img = document.getElementById('review-lightbox-img');
-    img.src = imageUrl;
-    img.alt = imageName;
-    lightbox.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeReviewLightbox() {
-    const lightbox = document.getElementById('review-lightbox');
-    lightbox.style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-// Close on Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeReviewLightbox();
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof Fancybox !== 'undefined') {
+        Fancybox.bind('[data-fancybox="review-gallery"]', {
+            Toolbar: {
+                display: {
+                    left: [],
+                    middle: [],
+                    right: ["close"],
+                },
+            },
+        });
     }
 });
 </script>
+@endpush
 @endif
 
