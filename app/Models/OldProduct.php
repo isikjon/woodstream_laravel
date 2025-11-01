@@ -86,12 +86,11 @@ class OldProduct extends Model
         }
         
         // Добавляем полные URL для изображений
-        $images = array_map(function($img) {
+        $baseUrl = rtrim(config('app.url'), '/');
+        $images = array_map(function($img) use ($baseUrl) {
             if (!str_starts_with($img, 'http')) {
-                $img = 'https://woodstream.online' . $img;
+                $img = $baseUrl . $img;
             }
-            // Исправляем неправильные пути
-            $img = str_replace('woodstream.onlineimages', 'woodstream.online/images', $img);
             return $img;
         }, $images ?: []);
         
@@ -100,9 +99,11 @@ class OldProduct extends Model
 
     public function getMainImageAttribute()
     {
+        $baseUrl = rtrim(config('app.url'), '/');
         $avatar = $this->avatar;
+        
         if ($avatar && !str_starts_with($avatar, 'http')) {
-            $avatar = 'https://woodstream.online' . $avatar;
+            $avatar = $baseUrl . $avatar;
         }
         
         if (!$avatar) {
@@ -110,17 +111,9 @@ class OldProduct extends Model
             if ($images && count($images) > 0) {
                 $avatar = $images[0];
                 if (!str_starts_with($avatar, 'http')) {
-                    $avatar = 'https://woodstream.online' . $avatar;
+                    $avatar = $baseUrl . $avatar;
                 }
             }
-        }
-        
-        // Исправляем неправильные пути
-        if ($avatar) {
-            $avatar = str_replace('img/products/', '/img/products/', $avatar);
-            $avatar = str_replace('//', '/', $avatar);
-            $avatar = str_replace('https:/woodstream.online', 'https://woodstream.online', $avatar);
-            $avatar = str_replace('woodstream.onlineimages', 'woodstream.online/images', $avatar);
         }
         
         // Fallback изображение если основное недоступно
