@@ -111,7 +111,7 @@ class EditOldProduct extends EditRecord
 
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
             $watermarkService = app(WatermarkService::class);
-            $disk = \Storage::disk('public');
+            $disk = \Storage::disk('local');
             $newImages = [];
             
             foreach ($data['gallery_upload'] as $tempPath) {
