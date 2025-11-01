@@ -177,7 +177,17 @@ class OldProductResource extends Resource
                             ->label('Внутренние заметки')
                             ->rows(4)
                             ->columnSpanFull()
-                            ->helperText('Секретные заметки, видны только в админке'),
+                            ->helperText('Секретные заметки, видны только в админке')
+                            ->formatStateUsing(function ($state) {
+                                if (!$state) return $state;
+                                $decoded = html_entity_decode($state, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                return strip_tags($decoded);
+                            })
+                            ->dehydrateStateUsing(function ($state) {
+                                if (!$state) return $state;
+                                $decoded = html_entity_decode($state, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                return strip_tags($decoded);
+                            }),
                     ]),
                 
                 Forms\Components\Section::make('Характеристики')
