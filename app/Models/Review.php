@@ -51,6 +51,14 @@ class Review extends Model
         
         $imagePath = str_replace('\\', '/', $imagePath);
         
+        if (str_starts_with($imagePath, '/img/products/')) {
+            return 'https://woodstream.online' . $imagePath;
+        }
+        
+        if (str_starts_with($imagePath, 'img/products/')) {
+            return 'https://woodstream.online/' . $imagePath;
+        }
+        
         if (str_starts_with($imagePath, 'images/content/images/')) {
             $imagePath = str_replace('images/content/images/', 'images/', $imagePath);
         }
@@ -65,6 +73,10 @@ class Review extends Model
         
         if (str_starts_with($imagePath, 'images/content/')) {
             return asset($imagePath);
+        }
+        
+        if (str_starts_with($imagePath, '/')) {
+            return asset(ltrim($imagePath, '/'));
         }
 
         return asset('images/content/' . $imagePath);
