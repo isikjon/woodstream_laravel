@@ -19,54 +19,130 @@ class CreateOldProduct extends CreateRecord
         \Log::info('avatar_upload:', ['avatar_upload' => $data['avatar_upload'] ?? 'НЕ УСТАНОВЛЕНО']);
         \Log::info('gallery_upload:', ['gallery_upload' => $data['gallery_upload'] ?? 'НЕ УСТАНОВЛЕНО']);
         
+        // Логируем конфигурацию Livewire
+        \Log::info('Livewire config:', [
+            'disk' => config('livewire.temporary_file_upload.disk'),
+            'directory' => config('livewire.temporary_file_upload.directory')
+        ]);
+        
         $watermarkService = app(WatermarkService::class);
 
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
             $tempPath = $data['avatar_upload'];
+            \Log::info('Avatar: Processing', ['type' => gettype($tempPath), 'value' => $tempPath]);
+            
             if (is_string($tempPath)) {
-                $disk = \Storage::disk('local');
-                \Log::info('Avatar: Checking file', ['path' => $tempPath, 'disk' => $disk->path($tempPath), 'exists' => $disk->exists($tempPath)]);
+                // Пробуем оба диска
+                $disksToTry = ['public', 'local'];
+                $found = false;
                 
-                if ($disk->exists($tempPath)) {
-                    $filename = uniqid() . '.png';
-                    $finalPath = public_path('images/uploads/' . $filename);
+                foreach ($disksToTry as $diskName) {
+                    $disk = \Storage::disk($diskName);
+                    $fullPath = $disk->path($tempPath);
+                    $exists = $disk->exists($tempPath);
                     
-                    $tempFullPath = $disk->path($tempPath);
-                    copy($tempFullPath, $finalPath);
+                    \Log::info("Avatar: Checking disk '$diskName'", [
+                        'path' => $tempPath,
+                        'full_path' => $fullPath,
+                        'exists' => $exists,
+                        'is_file' => file_exists($fullPath)
+                    ]);
                     
-                    $watermarkService->applyWatermark($finalPath);
-                    $disk->delete($tempPath);
+                    if ($exists) {
+                        $found = true;
+                        \Log::info("Avatar: FOUND on disk '$diskName'!");
+                        
+                        $filename = uniqid() . '.png';
+                        $finalPath = public_path('images/uploads/' . $filename);
+                        
+                        $tempFullPath = $disk->path($tempPath);
+                        \Log::info('Avatar: Copying', [
+                            'from' => $tempFullPath,
+                            'to' => $finalPath,
+                            'source_exists' => file_exists($tempFullPath)
+                        ]);
+                        
+                        copy($tempFullPath, $finalPath);
+                        
+                        \Log::info('Avatar: Applying watermark', ['path' => $finalPath]);
+                        $watermarkService->applyWatermark($finalPath);
+                        
+                        $disk->delete($tempPath);
+                        
+                        $data['avatar'] = '/images/uploads/' . $filename;
+                        \Log::info('Avatar: SUCCESS!', ['avatar' => $data['avatar']]);
+                        break;
+                    }
+                }
+                
+                if (!$found) {
+                    \Log::error('Avatar: NOT FOUND on any disk!');
                     
-                    $data['avatar'] = '/images/uploads/' . $filename;
-                    \Log::info('Avatar: Copied & watermarked', ['avatar' => $data['avatar']]);
-                } else {
-                    \Log::error('Avatar: File not found', ['disk_path' => $disk->path($tempPath)]);
+                    // Ищем файл везде
+                    $searchPaths = [
+                        storage_path('app/public/livewire-tmp/' . $tempPath),
+                        storage_path('app/private/livewire-tmp/' . $tempPath),
+                        storage_path('app/livewire-tmp/' . $tempPath),
+                        storage_path('app/public/' . $tempPath),
+                        storage_path('app/private/' . $tempPath),
+                        storage_path('app/' . $tempPath),
+                    ];
+                    
+                    foreach ($searchPaths as $searchPath) {
+                        \Log::info('Avatar: Manual search', [
+                            'path' => $searchPath,
+                            'exists' => file_exists($searchPath)
+                        ]);
+                    }
                 }
             }
             unset($data['avatar_upload']);
         }
 
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
-            $disk = \Storage::disk('local');
             $newImages = [];
+            \Log::info('Gallery: Processing', ['count' => count($data['gallery_upload'])]);
             
-            foreach ($data['gallery_upload'] as $tempPath) {
-                \Log::info('Gallery: Checking file', ['path' => $tempPath, 'disk_path' => $disk->path($tempPath), 'exists' => $disk->exists($tempPath)]);
+            foreach ($data['gallery_upload'] as $index => $tempPath) {
+                \Log::info("Gallery[$index]: Processing", ['type' => gettype($tempPath), 'value' => $tempPath]);
                 
-                if ($disk->exists($tempPath)) {
-                    $filename = uniqid() . '.png';
-                    $finalPath = public_path('images/uploads/' . $filename);
+                // Пробуем оба диска
+                $disksToTry = ['public', 'local'];
+                $found = false;
+                
+                foreach ($disksToTry as $diskName) {
+                    $disk = \Storage::disk($diskName);
+                    $fullPath = $disk->path($tempPath);
+                    $exists = $disk->exists($tempPath);
                     
-                    $tempFullPath = $disk->path($tempPath);
-                    copy($tempFullPath, $finalPath);
+                    \Log::info("Gallery[$index]: Checking disk '$diskName'", [
+                        'path' => $tempPath,
+                        'full_path' => $fullPath,
+                        'exists' => $exists,
+                        'is_file' => file_exists($fullPath)
+                    ]);
                     
-                    $watermarkService->applyWatermark($finalPath);
-                    $disk->delete($tempPath);
-                    
-                    $newImages[] = '/images/uploads/' . $filename;
-                    \Log::info('Gallery: Copied & watermarked', ['image' => '/images/uploads/' . $filename]);
-                } else {
-                    \Log::error('Gallery: File not found', ['disk_path' => $disk->path($tempPath)]);
+                    if ($exists) {
+                        $found = true;
+                        \Log::info("Gallery[$index]: FOUND on disk '$diskName'!");
+                        
+                        $filename = uniqid() . '.png';
+                        $finalPath = public_path('images/uploads/' . $filename);
+                        
+                        $tempFullPath = $disk->path($tempPath);
+                        copy($tempFullPath, $finalPath);
+                        
+                        $watermarkService->applyWatermark($finalPath);
+                        $disk->delete($tempPath);
+                        
+                        $newImages[] = '/images/uploads/' . $filename;
+                        \Log::info("Gallery[$index]: SUCCESS!", ['image' => '/images/uploads/' . $filename]);
+                        break;
+                    }
+                }
+                
+                if (!$found) {
+                    \Log::error("Gallery[$index]: NOT FOUND on any disk!");
                 }
             }
             
