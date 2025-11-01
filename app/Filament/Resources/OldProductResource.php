@@ -148,34 +148,15 @@ class OldProductResource extends Resource
                             ->live()
                             ->helperText('Выберите менеджера, который забронировал товар'),
                         
-                        Forms\Components\DatePicker::make('booked_at')
+                        Forms\Components\Placeholder::make('booked_at_display')
                             ->label('Дата бронирования')
-                            ->format('Y-m-d')
-                            ->displayFormat('d.m.Y')
-                            ->native(false)
-                            ->hidden(function (callable $get) {
-                                $availability = (int) $get('availability');
-                                $isHidden = $availability !== 9;
-                                \Log::info('booked_at->hidden():', ['availability' => $availability, 'type' => gettype($availability), 'isHidden' => $isHidden]);
-                                return $isHidden;
-                            })
-                            ->live()
-                            ->default(now())
-                            ->helperText('Формат: ДД.ММ.ГГГГ'),
+                            ->content(fn (callable $get) => $get('booked_at') ? \Carbon\Carbon::parse($get('booked_at'))->format('d.m.Y') : now()->format('d.m.Y'))
+                            ->hidden(fn (callable $get) => (int) $get('availability') !== 9),
                         
-                        Forms\Components\DatePicker::make('booked_expire')
-                            ->label('Бронь до')
-                            ->format('Y-m-d')
-                            ->displayFormat('d.m.Y')
-                            ->native(false)
-                            ->hidden(function (callable $get) {
-                                $availability = (int) $get('availability');
-                                $isHidden = $availability !== 9;
-                                \Log::info('booked_expire->hidden():', ['availability' => $availability, 'type' => gettype($availability), 'isHidden' => $isHidden]);
-                                return $isHidden;
-                            })
-                            ->live()
-                            ->helperText('Дата окончания бронирования (Формат: ДД.ММ.ГГГГ)'),
+                        Forms\Components\Placeholder::make('booked_expire_display')
+                            ->label('Бронь истекает')
+                            ->content(fn (callable $get) => $get('booked_expire') ? \Carbon\Carbon::parse($get('booked_expire'))->format('d.m.Y') : now()->addDays(4)->format('d.m.Y'))
+                            ->hidden(fn (callable $get) => (int) $get('availability') !== 9),
                         
                         Forms\Components\Toggle::make('online')
                             ->label('Показывать на сайте')
