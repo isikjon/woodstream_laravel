@@ -3,10 +3,6 @@
     $imageUrl = $record ? $record->image_url : null;
 @endphp
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/fancybox.css') }}">
-@endpush
-
 @if($imageUrl)
 <div class="w-full">
     <div class="relative w-full rounded-lg overflow-hidden shadow-lg" style="max-width: 100%;">
@@ -38,10 +34,9 @@
     </div>
 </div>
 
-@push('scripts')
-<script src="{{ asset('js/fancybox.umd.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Инициализация Fancybox для изображений отзывов
     if (typeof Fancybox !== 'undefined') {
         Fancybox.bind('[data-fancybox="review-gallery"]', {
             Toolbar: {
@@ -55,6 +50,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-@endpush
 @endif
 
