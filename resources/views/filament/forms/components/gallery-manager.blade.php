@@ -18,23 +18,21 @@
         
         $images = array_map(function($img) {
             $img = str_replace('\\', '/', $img);
-            
+
             if (str_starts_with($img, 'http')) {
                 return $img;
             }
-            
+
             if (!str_starts_with($img, '/')) {
                 $img = '/' . $img;
             }
-            
+
             $img = preg_replace('#/+#', '/', $img);
-            
-            if (str_contains($img, '/images/')) {
-                $img = 'https://woodstream.online' . $img;
-            } else {
-                $img = 'https://dev.woodstream.online' . $img;
-            }
-            
+
+            // Используем config('app.url') вместо жестко прописанного домена
+            $baseUrl = rtrim(config('app.url'), '/');
+            $img = $baseUrl . $img;
+
             return $img;
         }, $images ?: []);
     }
