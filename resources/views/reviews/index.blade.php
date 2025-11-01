@@ -13,20 +13,24 @@
         <h2 class="section-title">Отзывы</h2>
         <div class="reviews-grid">
             @foreach($reviews as $review)
-                <a href="#" class="reviews-item {{ !$review->is_moderated ? 'reviews-item--moderation' : '' }}">
-                    <img src="{{ $review->image_url }}" alt="" class="reviews-item__img">
-                    <p class="reviews-item__text">
-                        {{ $review->text }}
-                    </p>
-                    <span class="reviews-item__date">
-                        {{ $review->created_at->format('Y-m-d H:i:s') }}
-                    </span>
-                    @if(!$review->is_moderated)
-                        <div class="reviews-item__status" style="background: #fff3cd; color: #856404; padding: 5px 10px; border-radius: 3px; font-size: 12px; margin-top: 5px;">
-                            На модерации
-                        </div>
-                    @endif
-                </a>
+                <div class="reviews-item">
+                    <a href="{{ $review->image_url }}" 
+                       data-fancybox="reviews-gallery"
+                       data-caption="{{ $review->name }}">
+                        <img src="{{ $review->image_url }}" alt="{{ $review->name }}" class="reviews-item__img">
+                    </a>
+                    <div class="reviews-item__content">
+                        <h3 class="reviews-item__title">{{ $review->name }}</h3>
+                        @if($review->text)
+                            <p class="reviews-item__text">
+                                {{ Str::limit(strip_tags($review->text), 150) }}
+                            </p>
+                        @endif
+                        <span class="reviews-item__date">
+                            Опубликовано: {{ $review->created_at->format('d.m.Y') }}
+                        </span>
+                    </div>
+                </div>
             @endforeach
         </div>
         <div class="reviews-form">

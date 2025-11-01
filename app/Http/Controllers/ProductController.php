@@ -20,8 +20,8 @@ class ProductController extends Controller
 
             $similarProducts = OldProduct::where('availability', '!=', 9)
                 ->whereHas('categories', function($q) use ($product) {
-                    $q->whereIn('categories.id', $product->categories->pluck('id'));
-                })
+                $q->whereIn('categories.id', $product->categories->pluck('id'));
+            })
             ->where('products.id', '!=', $product->id)
             ->whereIn('availability', [7, 8])
             ->limit(8)
