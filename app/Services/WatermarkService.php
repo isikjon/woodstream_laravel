@@ -18,7 +18,7 @@ class WatermarkService
         $this->watermarkPath = public_path('images/watermark.svg');
         $this->watermarkOpacity = 30;
         $this->watermarkPosition = 'center';
-        $this->watermarkScale = 0.3;
+        $this->watermarkScale = 1.0;
     }
 
     public function applyWatermark(string $imagePath): bool
