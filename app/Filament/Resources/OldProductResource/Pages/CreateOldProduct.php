@@ -75,7 +75,8 @@ class CreateOldProduct extends CreateRecord
                             \Log::info('Avatar: Applying watermark', ['path' => $finalPath]);
                             $watermarkService->applyWatermark($finalPath);
                             
-                            $disk->delete($path);
+                            // НЕ удаляем временный файл - Livewire почистит сам через 24ч
+                            // $disk->delete($path);
                             
                             $data['avatar'] = '/images/uploads/' . $filename;
                             \Log::info('Avatar: SUCCESS!', ['avatar' => $data['avatar']]);
@@ -152,7 +153,9 @@ class CreateOldProduct extends CreateRecord
                             copy($tempFullPath, $finalPath);
                             
                             $watermarkService->applyWatermark($finalPath);
-                            $disk->delete($path);
+                            
+                            // НЕ удаляем временный файл - Livewire почистит сам через 24ч
+                            // $disk->delete($path);
                             
                             $newImages[] = '/images/uploads/' . $filename;
                             \Log::info("Gallery[$index]: SUCCESS!", ['image' => '/images/uploads/' . $filename]);
@@ -167,7 +170,7 @@ class CreateOldProduct extends CreateRecord
                     \Log::error("Gallery[$index]: NOT FOUND on any disk!");
                 }
             }
-            
+
             $data['images'] = json_encode($newImages);
             unset($data['gallery_upload']);
         } else {

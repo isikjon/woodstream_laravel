@@ -47,7 +47,9 @@ class EditOldProduct extends EditRecord
                     $watermarkService->applyWatermark($finalPath);
                     
                     $data['avatar'] = '/images/uploads/' . $filename;
-                    $disk->delete($tempPath);
+                    
+                    // НЕ удаляем временный файл - Livewire почистит сам через 24ч
+                    // $disk->delete($tempPath);
                 }
             }
         }
@@ -125,7 +127,9 @@ class EditOldProduct extends EditRecord
                     $watermarkService->applyWatermark($finalPath);
                     
                     $newImages[] = '/images/uploads/' . $filename;
-                    $disk->delete($tempPath);
+                    
+                    // НЕ удаляем временный файл - Livewire почистит сам через 24ч
+                    // $disk->delete($tempPath);
                 }
             }
 
