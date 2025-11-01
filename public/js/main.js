@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = sessionStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        const headerTheme = document.querySelector('.header__theme');
+        const headerMenuTheme = document.querySelector('.header-menu__contacts-item--theme');
+        if (headerTheme) headerTheme.querySelector('.header__theme-mode').textContent = 'Тёмная';
+        if (headerMenuTheme) headerMenuTheme.querySelector('span').textContent = 'Тёмная';
+    }
+    
     // header
     const headerCatalog = document.querySelector('.header__catalog');
     const headerCatalogModal = document.querySelector('.header-catalog__modal');
@@ -65,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('dark');
         headerTheme.querySelector('.header__theme-mode').textContent = 'Светлая';
         headerMenuTheme.querySelector('span').textContent = 'Светлая';
+        sessionStorage.setItem('theme', 'light');
     });
 
     themeDark.addEventListener('click', (e) => {
@@ -73,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('dark');
         headerTheme.querySelector('.header__theme-mode').textContent = 'Тёмная';
         headerMenuTheme.querySelector('span').textContent = 'Тёмная';
+        sessionStorage.setItem('theme', 'dark');
     });
 
     const antiqueSwiper = new Swiper('.antique-swiper .swiper', {
@@ -275,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Modal system with queue and close counter
+    // Modal system with queue and session storage
     const modalInfo = document.querySelector('.modal-info');
     const promoModals = document.querySelectorAll('.modal-promo');
     const allModals = [];
@@ -285,23 +296,24 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (allModals.length > 0) {
         let currentModalIndex = 0;
-        const CLOSE_LIMIT = 3;
         
-        function getModalCloseCount() {
-            const closeData = localStorage.getItem('modal_close_count');
-            return closeData ? JSON.parse(closeData) : {};
+        function getClosedModals() {
+            const closedData = sessionStorage.getItem('closed_modals');
+            return closedData ? JSON.parse(closedData) : [];
         }
         
-        function setModalCloseCount(modalId, count) {
-            const closeData = getModalCloseCount();
-            closeData[modalId] = count;
-            localStorage.setItem('modal_close_count', JSON.stringify(closeData));
+        function markModalAsClosed(modalId) {
+            const closedModals = getClosedModals();
+            if (!closedModals.includes(modalId)) {
+                closedModals.push(modalId);
+                sessionStorage.setItem('closed_modals', JSON.stringify(closedModals));
+            }
         }
         
         function shouldShowModal(modal) {
             const modalId = modal.dataset.modalId;
-            const closeCount = getModalCloseCount()[modalId] || 0;
-            return closeCount < CLOSE_LIMIT;
+            const closedModals = getClosedModals();
+            return !closedModals.includes(modalId);
         }
         
         function showNextModal() {
@@ -329,9 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (closeBtn) {
                 closeBtn.addEventListener('click', () => {
                     modalInfo.classList.remove('modal--show');
-                    
-                    const closeCount = getModalCloseCount()[modalId] || 0;
-                    setModalCloseCount(modalId, closeCount + 1);
+                    markModalAsClosed(modalId);
                     
                     currentModalIndex++;
                     setTimeout(() => showNextModal(), 500);
@@ -341,9 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.addEventListener('click', (e) => {
                 if (e.target === modalInfo) {
                     modalInfo.classList.remove('modal--show');
-                    
-                    const closeCount = getModalCloseCount()[modalId] || 0;
-                    setModalCloseCount(modalId, closeCount + 1);
+                    markModalAsClosed(modalId);
                     
                     currentModalIndex++;
                     setTimeout(() => showNextModal(), 500);
@@ -362,9 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     e.preventDefault();
                     e.stopPropagation();
                     modal.classList.remove('modal--show');
-                    
-                    const closeCount = getModalCloseCount()[modalId] || 0;
-                    setModalCloseCount(modalId, closeCount + 1);
+                    markModalAsClosed(modalId);
                     
                     currentModalIndex++;
                     setTimeout(() => showNextModal(), 500);
@@ -384,9 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     modal.classList.remove('modal--show');
-                    
-                    const closeCount = getModalCloseCount()[modalId] || 0;
-                    setModalCloseCount(modalId, closeCount + 1);
+                    markModalAsClosed(modalId);
                     
                     currentModalIndex++;
                     setTimeout(() => showNextModal(), 500);
