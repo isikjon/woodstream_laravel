@@ -32,15 +32,23 @@ class EditOldProduct extends EditRecord
         }
         
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
-            $path = $data['avatar_upload'];
-            if (is_string($path)) {
-                $fullPath = public_path($path);
-                if (file_exists($fullPath)) {
+            $tempPath = $data['avatar_upload'];
+            if (is_string($tempPath)) {
+                $disk = \Storage::disk(config('livewire.temporary_file_upload.disk') ?: 'local');
+                
+                if ($disk->exists($tempPath)) {
+                    $filename = uniqid() . '.png';
+                    $finalPath = public_path('images/uploads/' . $filename);
+                    
+                    $tempFullPath = $disk->path($tempPath);
+                    copy($tempFullPath, $finalPath);
+                    
                     $watermarkService = app(WatermarkService::class);
-                    $watermarkService->applyWatermark($fullPath);
+                    $watermarkService->applyWatermark($finalPath);
+                    
+                    $data['avatar'] = '/images/uploads/' . $filename;
+                    $disk->delete($tempPath);
                 }
-                $cleanPath = str_replace('\\', '/', $path);
-                $data['avatar'] = '/' . $cleanPath;
             }
         }
         
@@ -103,14 +111,23 @@ class EditOldProduct extends EditRecord
 
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
             $watermarkService = app(WatermarkService::class);
-            $newImages = array_map(function($path) use ($watermarkService) {
-                $fullPath = public_path($path);
-                if (file_exists($fullPath)) {
-                    $watermarkService->applyWatermark($fullPath);
+            $disk = \Storage::disk(config('livewire.temporary_file_upload.disk') ?: 'local');
+            $newImages = [];
+            
+            foreach ($data['gallery_upload'] as $tempPath) {
+                if ($disk->exists($tempPath)) {
+                    $filename = uniqid() . '.png';
+                    $finalPath = public_path('images/uploads/' . $filename);
+                    
+                    $tempFullPath = $disk->path($tempPath);
+                    copy($tempFullPath, $finalPath);
+                    
+                    $watermarkService->applyWatermark($finalPath);
+                    
+                    $newImages[] = '/images/uploads/' . $filename;
+                    $disk->delete($tempPath);
                 }
-                $cleanPath = str_replace('\\', '/', $path);
-                return '/' . $cleanPath;
-            }, $data['gallery_upload']);
+            }
 
             $currentImages = array_merge($currentImages, $newImages);
             unset($data['gallery_upload']);
