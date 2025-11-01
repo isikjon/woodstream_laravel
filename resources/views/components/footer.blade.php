@@ -190,7 +190,7 @@
                     </div>
                     <div class="footer-contacts">
                         <h4 class="footer-columns__name">Звоните:</h4>
-                        <ul class="footer-contacts__phones">
+                        <ul class="footer-contacts__phones" style="list-style: none; padding-left: 0;">
                             <li>
                                 <x-duty-phone class="footer-contacts__phone" />
                             </li>
