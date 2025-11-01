@@ -40,6 +40,10 @@ class CreateOldProduct extends CreateRecord
 
             $data['images'] = json_encode($newImages);
             unset($data['gallery_upload']);
+        } else {
+            if (empty($data['images'])) {
+                $data['images'] = '[]';
+            }
         }
 
         return $data;
