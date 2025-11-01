@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Resources\ArticleResource;
 use App\Filament\Resources\BannerResource;
 use App\Filament\Resources\BlogResource;
+use App\Filament\Resources\BookingManagerResource;
 use App\Filament\Resources\CategoryResource;
 use App\Filament\Resources\ClientResource;
 use App\Filament\Resources\ContactResource;
@@ -52,6 +53,7 @@ class AdminPanelProvider extends PanelProvider
             ->resources([
                 ArticleResource::class,
                 BlogResource::class,
+                BookingManagerResource::class,
                 CategoryResource::class,
                 ClientResource::class,
                 ContactResource::class,
