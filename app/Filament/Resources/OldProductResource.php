@@ -242,18 +242,11 @@ class OldProductResource extends Resource
                             Forms\Components\FileUpload::make('avatar_upload')
                                 ->label('Загрузить новое главное изображение')
                                 ->image()
-                                ->imageEditor()
-                                ->imageEditorAspectRatios([
-                                    null,
-                                    '16:9',
-                                    '4:3',
-                                    '1:1',
-                                ])
                                 ->maxSize(5120)
                                 ->directory('images/uploads')
                                 ->disk('public_images')
                                 ->visibility('public')
-                                ->helperText('Загрузите изображение (макс. 5МБ)')
+                                ->helperText('Загрузите изображение (макс. 5МБ). Водяной знак применяется автоматически при сохранении.')
                                 ->columnSpanFull(),
                             
                             Forms\Components\Hidden::make('avatar')
@@ -282,7 +275,7 @@ class OldProductResource extends Resource
                                 ->directory('images/uploads')
                                 ->disk('public_images')
                                 ->visibility('public')
-                                ->helperText('Загрузите до 20 изображений (макс. 5МБ каждое)')
+                                ->helperText('Загрузите до 20 изображений (макс. 5МБ каждое). Водяной знак применяется автоматически при сохранении.')
                                 ->columnSpanFull(),
                             
                             Forms\Components\Hidden::make('images_to_delete')
