@@ -121,6 +121,13 @@
                             <span class="product-details__value">{{ $product->century }}</span>
                         </div>
                     @endif
+                    @if($product->arrived_at)
+                        <div class="product-details__item">
+                            <span class="product-details__title">Дата поступления:</span>
+                            <span class="product-details__line"></span>
+                            <span class="product-details__value">{{ $product->arrived_at->format('d.m.Y') }}</span>
+                        </div>
+                    @endif
                 </div>
             </div>
 
