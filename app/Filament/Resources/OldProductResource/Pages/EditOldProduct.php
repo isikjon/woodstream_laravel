@@ -34,7 +34,7 @@ class EditOldProduct extends EditRecord
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
             $tempPath = $data['avatar_upload'];
             if (is_string($tempPath)) {
-                $disk = \Storage::disk(config('livewire.temporary_file_upload.disk') ?: 'local');
+                $disk = \Storage::disk('public');
                 
                 if ($disk->exists($tempPath)) {
                     $filename = uniqid() . '.png';
@@ -111,7 +111,7 @@ class EditOldProduct extends EditRecord
 
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
             $watermarkService = app(WatermarkService::class);
-            $disk = \Storage::disk(config('livewire.temporary_file_upload.disk') ?: 'local');
+            $disk = \Storage::disk('public');
             $newImages = [];
             
             foreach ($data['gallery_upload'] as $tempPath) {

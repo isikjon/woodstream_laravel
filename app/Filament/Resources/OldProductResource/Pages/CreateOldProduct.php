@@ -24,7 +24,7 @@ class CreateOldProduct extends CreateRecord
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
             $tempPath = $data['avatar_upload'];
             if (is_string($tempPath)) {
-                $disk = \Storage::disk(config('livewire.temporary_file_upload.disk') ?: 'local');
+                $disk = \Storage::disk('public');
                 \Log::info('Avatar: Checking file', ['path' => $tempPath, 'disk' => $disk->path($tempPath), 'exists' => $disk->exists($tempPath)]);
                 
                 if ($disk->exists($tempPath)) {
@@ -47,7 +47,7 @@ class CreateOldProduct extends CreateRecord
         }
 
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
-            $disk = \Storage::disk(config('livewire.temporary_file_upload.disk') ?: 'local');
+            $disk = \Storage::disk('public');
             $newImages = [];
             
             foreach ($data['gallery_upload'] as $tempPath) {
@@ -81,7 +81,7 @@ class CreateOldProduct extends CreateRecord
         \Log::info('=== КОНЕЦ mutateFormDataBeforeCreate ===');
         \Log::info('Final avatar:', ['avatar' => $data['avatar'] ?? 'NULL']);
         \Log::info('Final images:', ['images' => $data['images'] ?? 'NULL']);
-        
+
         return $data;
     }
 }
