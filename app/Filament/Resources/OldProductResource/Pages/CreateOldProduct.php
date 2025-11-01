@@ -32,47 +32,58 @@ class CreateOldProduct extends CreateRecord
             \Log::info('Avatar: Processing', ['type' => gettype($tempPath), 'value' => $tempPath]);
             
             if (is_string($tempPath)) {
-                // Пробуем оба диска
+                // Пробуем оба диска с папкой livewire-tmp
                 $disksToTry = ['public', 'local'];
                 $found = false;
                 
                 foreach ($disksToTry as $diskName) {
                     $disk = \Storage::disk($diskName);
-                    $fullPath = $disk->path($tempPath);
-                    $exists = $disk->exists($tempPath);
                     
-                    \Log::info("Avatar: Checking disk '$diskName'", [
-                        'path' => $tempPath,
-                        'full_path' => $fullPath,
-                        'exists' => $exists,
-                        'is_file' => file_exists($fullPath)
-                    ]);
+                    // Пробуем с папкой livewire-tmp и без
+                    $pathsToTry = [
+                        'livewire-tmp/' . $tempPath,
+                        $tempPath
+                    ];
                     
-                    if ($exists) {
-                        $found = true;
-                        \Log::info("Avatar: FOUND on disk '$diskName'!");
+                    foreach ($pathsToTry as $path) {
+                        $fullPath = $disk->path($path);
+                        $exists = $disk->exists($path);
                         
-                        $filename = uniqid() . '.png';
-                        $finalPath = public_path('images/uploads/' . $filename);
-                        
-                        $tempFullPath = $disk->path($tempPath);
-                        \Log::info('Avatar: Copying', [
-                            'from' => $tempFullPath,
-                            'to' => $finalPath,
-                            'source_exists' => file_exists($tempFullPath)
+                        \Log::info("Avatar: Checking disk '$diskName' with path", [
+                            'path' => $path,
+                            'full_path' => $fullPath,
+                            'exists' => $exists,
+                            'is_file' => file_exists($fullPath)
                         ]);
-                        
-                        copy($tempFullPath, $finalPath);
-                        
-                        \Log::info('Avatar: Applying watermark', ['path' => $finalPath]);
-                        $watermarkService->applyWatermark($finalPath);
-                        
-                        $disk->delete($tempPath);
-                        
-                        $data['avatar'] = '/images/uploads/' . $filename;
-                        \Log::info('Avatar: SUCCESS!', ['avatar' => $data['avatar']]);
-                        break;
+                    
+                        if ($exists) {
+                            $found = true;
+                            \Log::info("Avatar: FOUND on disk '$diskName' at path '$path'!");
+                            
+                            $filename = uniqid() . '.png';
+                            $finalPath = public_path('images/uploads/' . $filename);
+                            
+                            $tempFullPath = $disk->path($path);
+                            \Log::info('Avatar: Copying', [
+                                'from' => $tempFullPath,
+                                'to' => $finalPath,
+                                'source_exists' => file_exists($tempFullPath)
+                            ]);
+                            
+                            copy($tempFullPath, $finalPath);
+                            
+                            \Log::info('Avatar: Applying watermark', ['path' => $finalPath]);
+                            $watermarkService->applyWatermark($finalPath);
+                            
+                            $disk->delete($path);
+                            
+                            $data['avatar'] = '/images/uploads/' . $filename;
+                            \Log::info('Avatar: SUCCESS!', ['avatar' => $data['avatar']]);
+                            break 2; // Выходим из обоих циклов
+                        }
                     }
+                    
+                    if ($found) break;
                 }
                 
                 if (!$found) {
@@ -106,39 +117,50 @@ class CreateOldProduct extends CreateRecord
             foreach ($data['gallery_upload'] as $index => $tempPath) {
                 \Log::info("Gallery[$index]: Processing", ['type' => gettype($tempPath), 'value' => $tempPath]);
                 
-                // Пробуем оба диска
+                // Пробуем оба диска с папкой livewire-tmp
                 $disksToTry = ['public', 'local'];
                 $found = false;
                 
                 foreach ($disksToTry as $diskName) {
                     $disk = \Storage::disk($diskName);
-                    $fullPath = $disk->path($tempPath);
-                    $exists = $disk->exists($tempPath);
                     
-                    \Log::info("Gallery[$index]: Checking disk '$diskName'", [
-                        'path' => $tempPath,
-                        'full_path' => $fullPath,
-                        'exists' => $exists,
-                        'is_file' => file_exists($fullPath)
-                    ]);
+                    // Пробуем с папкой livewire-tmp и без
+                    $pathsToTry = [
+                        'livewire-tmp/' . $tempPath,
+                        $tempPath
+                    ];
                     
-                    if ($exists) {
-                        $found = true;
-                        \Log::info("Gallery[$index]: FOUND on disk '$diskName'!");
+                    foreach ($pathsToTry as $path) {
+                        $fullPath = $disk->path($path);
+                        $exists = $disk->exists($path);
                         
-                        $filename = uniqid() . '.png';
-                        $finalPath = public_path('images/uploads/' . $filename);
+                        \Log::info("Gallery[$index]: Checking disk '$diskName' with path", [
+                            'path' => $path,
+                            'full_path' => $fullPath,
+                            'exists' => $exists,
+                            'is_file' => file_exists($fullPath)
+                        ]);
                         
-                        $tempFullPath = $disk->path($tempPath);
-                        copy($tempFullPath, $finalPath);
-                        
-                        $watermarkService->applyWatermark($finalPath);
-                        $disk->delete($tempPath);
-                        
-                        $newImages[] = '/images/uploads/' . $filename;
-                        \Log::info("Gallery[$index]: SUCCESS!", ['image' => '/images/uploads/' . $filename]);
-                        break;
+                        if ($exists) {
+                            $found = true;
+                            \Log::info("Gallery[$index]: FOUND on disk '$diskName' at path '$path'!");
+                            
+                            $filename = uniqid() . '.png';
+                            $finalPath = public_path('images/uploads/' . $filename);
+                            
+                            $tempFullPath = $disk->path($path);
+                            copy($tempFullPath, $finalPath);
+                            
+                            $watermarkService->applyWatermark($finalPath);
+                            $disk->delete($path);
+                            
+                            $newImages[] = '/images/uploads/' . $filename;
+                            \Log::info("Gallery[$index]: SUCCESS!", ['image' => '/images/uploads/' . $filename]);
+                            break 2; // Выходим из обоих циклов
+                        }
                     }
+                    
+                    if ($found) break;
                 }
                 
                 if (!$found) {

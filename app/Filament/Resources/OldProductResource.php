@@ -243,6 +243,9 @@ class OldProductResource extends Resource
                                 ->label('Загрузить новое главное изображение')
                                 ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/jpg', 'image/webp'])
                                 ->maxSize(5120)
+                                ->disk('public')
+                                ->directory('livewire-tmp')
+                                ->visibility('public')
                                 ->imagePreviewHeight('0')
                                 ->helperText('Загрузите изображение (макс. 5МБ). Водяной знак применяется автоматически при сохранении.')
                                 ->columnSpanFull(),
@@ -270,6 +273,9 @@ class OldProductResource extends Resource
                                 ->reorderable()
                                 ->maxSize(5120)
                                 ->maxFiles(20)
+                                ->disk('public')
+                                ->directory('livewire-tmp')
+                                ->visibility('public')
                                 ->imagePreviewHeight('0')
                                 ->helperText('Загрузите до 20 изображений (макс. 5МБ каждое). Водяной знак применяется автоматически при сохранении.')
                                 ->columnSpanFull(),
