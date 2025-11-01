@@ -19,15 +19,15 @@ class BookingManagerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     
-    protected static ?string $navigationLabel = 'Менеджеры брони';
+    protected static ?string $navigationLabel = 'Бронирщики';
     
-    protected static ?string $modelLabel = 'Менеджер брони';
+    protected static ?string $modelLabel = 'Бронирщик';
     
-    protected static ?string $pluralModelLabel = 'Менеджеры брони';
+    protected static ?string $pluralModelLabel = 'Бронирщики';
     
     protected static ?int $navigationSort = 11;
     
-    protected static ?string $navigationGroup = 'Товары';
+    protected static ?string $navigationGroup = 'Управление';
 
     public static function form(Form $form): Form
     {
