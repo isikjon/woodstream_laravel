@@ -23,19 +23,15 @@ class CreateOldProduct extends CreateRecord
         if (isset($data['avatar_upload']) && $data['avatar_upload']) {
             $tempPath = $data['avatar_upload'];
             if (is_string($tempPath)) {
-                $disk = \Storage::disk(config('livewire.temporary_file_upload.disk') ?: 'local');
+                $fullPath = public_path($tempPath);
+                \Log::info('Avatar: Checking file', ['path' => $tempPath, 'fullPath' => $fullPath, 'exists' => file_exists($fullPath)]);
                 
-                if ($disk->exists($tempPath)) {
-                    $filename = uniqid() . '.png';
-                    $finalPath = public_path('images/uploads/' . $filename);
-                    
-                    $tempFullPath = $disk->path($tempPath);
-                    copy($tempFullPath, $finalPath);
-                    
-                    $watermarkService->applyWatermark($finalPath);
-                    
-                    $data['avatar'] = '/images/uploads/' . $filename;
-                    $disk->delete($tempPath);
+                if (file_exists($fullPath)) {
+                    $watermarkService->applyWatermark($fullPath);
+                    $data['avatar'] = '/' . $tempPath;
+                    \Log::info('Avatar: Watermark applied', ['avatar' => $data['avatar']]);
+                } else {
+                    \Log::error('Avatar: File not found', ['path' => $fullPath]);
                 }
             }
             unset($data['avatar_upload']);
@@ -43,20 +39,17 @@ class CreateOldProduct extends CreateRecord
 
         if (isset($data['gallery_upload']) && is_array($data['gallery_upload']) && count($data['gallery_upload']) > 0) {
             $newImages = [];
-            $disk = \Storage::disk(config('livewire.temporary_file_upload.disk') ?: 'local');
             
             foreach ($data['gallery_upload'] as $tempPath) {
-                if ($disk->exists($tempPath)) {
-                    $filename = uniqid() . '.png';
-                    $finalPath = public_path('images/uploads/' . $filename);
-                    
-                    $tempFullPath = $disk->path($tempPath);
-                    copy($tempFullPath, $finalPath);
-                    
-                    $watermarkService->applyWatermark($finalPath);
-                    
-                    $newImages[] = '/images/uploads/' . $filename;
-                    $disk->delete($tempPath);
+                $fullPath = public_path($tempPath);
+                \Log::info('Gallery: Checking file', ['path' => $tempPath, 'fullPath' => $fullPath, 'exists' => file_exists($fullPath)]);
+                
+                if (file_exists($fullPath)) {
+                    $watermarkService->applyWatermark($fullPath);
+                    $newImages[] = '/' . $tempPath;
+                    \Log::info('Gallery: Watermark applied', ['image' => '/' . $tempPath]);
+                } else {
+                    \Log::error('Gallery: File not found', ['path' => $fullPath]);
                 }
             }
             
