@@ -43,42 +43,38 @@ class Review extends Model
             return asset('images/content/antique_1.png');
         }
 
+        // Если уже полный URL - возвращаем как есть
         if (str_starts_with($this->image, 'http')) {
             return $this->image;
         }
 
         $imagePath = $this->image;
-        
         $imagePath = str_replace('\\', '/', $imagePath);
         
-        if (str_starts_with($imagePath, '/img/products/')) {
-            return 'https://woodstream.online' . $imagePath;
+        // Убираем начальный слеш если есть
+        $imagePath = ltrim($imagePath, '/');
+        
+        // Все изображения отзывов берем с продакшн сервера
+        // Формат в БД: "uploads/xxx.jpg" или "images/uploads/xxx.jpg"
+        
+        // Если путь содержит uploads - это изображение отзыва
+        if (str_contains($imagePath, 'uploads/')) {
+            // Нормализуем путь
+            if (str_starts_with($imagePath, 'images/uploads/')) {
+                // images/uploads/xxx.jpg -> images/uploads/xxx.jpg
+                return 'https://woodstream.online/' . $imagePath;
+            } elseif (str_starts_with($imagePath, 'uploads/')) {
+                // uploads/xxx.jpg -> images/uploads/xxx.jpg
+                return 'https://woodstream.online/images/' . $imagePath;
+            }
         }
         
-        if (str_starts_with($imagePath, 'img/products/')) {
-            return 'https://woodstream.online/' . $imagePath;
+        // Если только имя файла (hash.jpg) - ищем в images/uploads/
+        if (!str_contains($imagePath, '/') && str_ends_with($imagePath, '.jpg')) {
+            return 'https://woodstream.online/images/uploads/' . $imagePath;
         }
         
-        if (str_starts_with($imagePath, 'images/content/images/')) {
-            $imagePath = str_replace('images/content/images/', 'images/', $imagePath);
-        }
-        
-        if (str_starts_with($imagePath, 'images/uploads/')) {
-            $imagePath = str_replace('images/uploads/', 'images/content/uploads/', $imagePath);
-        }
-        
-        if (str_starts_with($imagePath, 'uploads/')) {
-            $imagePath = 'images/content/' . $imagePath;
-        }
-        
-        if (str_starts_with($imagePath, 'images/content/')) {
-            return asset($imagePath);
-        }
-        
-        if (str_starts_with($imagePath, '/')) {
-            return asset(ltrim($imagePath, '/'));
-        }
-
+        // Все остальное - локальные ассеты
         return asset('images/content/' . $imagePath);
     }
 
