@@ -4,19 +4,17 @@
     
     if ($avatarUrl) {
         $avatarUrl = str_replace('\\', '/', $avatarUrl);
-        
+
         if (!str_starts_with($avatarUrl, 'http')) {
             if (!str_starts_with($avatarUrl, '/')) {
                 $avatarUrl = '/' . $avatarUrl;
             }
-            
+
             $avatarUrl = preg_replace('#/+#', '/', $avatarUrl);
-            
-            if (str_contains($avatarUrl, '/images/') || str_contains($avatarUrl, '/img/')) {
-                $avatarUrl = 'https://woodstream.online' . $avatarUrl;
-            } else {
-                $avatarUrl = 'https://dev.woodstream.online' . $avatarUrl;
-            }
+
+            // Используем config('app.url') вместо жестко прописанного домена
+            $baseUrl = rtrim(config('app.url'), '/');
+            $avatarUrl = $baseUrl . $avatarUrl;
         }
     }
 @endphp
