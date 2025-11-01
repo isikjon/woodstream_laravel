@@ -28,18 +28,42 @@ class ReviewResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Имя')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
-                    ->label('Slug')
-                    ->maxLength(255),
-                Forms\Components\RichEditor::make('text')
-                    ->label('Текст отзыва')
-                    ->required(),
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Имя')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan(1),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('Slug')
+                            ->maxLength(255)
+                            ->columnSpan(1),
+                    ]),
+                
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('type')
+                            ->label('Тип')
+                            ->default('feedback')
+                            ->disabled()
+                            ->columnSpan(1),
+                        Forms\Components\Toggle::make('status')
+                            ->label('Опубликован')
+                            ->default(true)
+                            ->columnSpan(1),
+                    ]),
+                
+                // Превью изображения (если уже есть)
+                Forms\Components\ViewField::make('image_preview')
+                    ->label('Текущее изображение')
+                    ->view('filament.forms.components.review-image-preview')
+                    ->visible(fn ($record) => $record && $record->image)
+                    ->columnSpanFull(),
+                
+                // Загрузка нового изображения
                 Forms\Components\FileUpload::make('image')
-                    ->label('Изображение')
+                    ->label('Загрузить новое изображение')
                     ->image()
                     ->directory('images/content')
                     ->disk('public_images')
@@ -71,21 +95,8 @@ class ReviewResource extends Resource
                                 @unlink($path);
                             }
                         }
-                    }),
-                Forms\Components\TextInput::make('tags')
-                    ->label('Теги')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('type')
-                    ->label('Тип')
-                    ->default('feedback')
-                    ->disabled(),
-                Forms\Components\Toggle::make('status')
-                    ->label('Опубликован')
-                    ->default(true),
-                Forms\Components\TextInput::make('order')
-                    ->label('Порядок')
-                    ->numeric()
-                    ->default(0),
+                    })
+                    ->columnSpanFull(),
             ]);
     }
 
