@@ -41,16 +41,30 @@
 @endphp
 
 @if(!empty($images))
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+    
     <div class="rounded-lg border border-gray-300 dark:border-gray-700 p-4 bg-white dark:bg-gray-800">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="gallery-grid-{{ $getRecord()->id }}">
             @foreach($images as $index => $imageUrl)
                 <div class="flex flex-col" data-image-url="{{ $imageUrl }}">
-                    <img 
-                        src="{{ $imageUrl }}" 
-                        alt="Изображение {{ $index + 1 }}" 
-                        class="w-full h-32 object-cover rounded-lg shadow-md mb-2"
-                        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Crect fill=\'%23ddd\' width=\'100\' height=\'100\'/%3E%3Ctext fill=\'%23999\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' font-size=\'12\'%3EОшибка%3C/text%3E%3C/svg%3E'"
+                    <a 
+                        href="{{ $imageUrl }}" 
+                        data-fancybox="gallery-{{ $getRecord()->id }}"
+                        data-caption="Изображение {{ $index + 1 }}"
+                        class="block mb-2 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-200 cursor-zoom-in relative group"
                     >
+                        <img 
+                            src="{{ $imageUrl }}" 
+                            alt="Изображение {{ $index + 1 }}" 
+                            class="w-full h-48 object-contain bg-gray-50 dark:bg-gray-900"
+                            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Crect fill=\'%23ddd\' width=\'100\' height=\'100\'/%3E%3Ctext fill=\'%23999\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' font-size=\'12\'%3EОшибка%3C/text%3E%3C/svg%3E'"
+                        >
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                            </svg>
+                        </div>
+                    </a>
                     <div class="flex gap-2 justify-center">
                         <a 
                             href="javascript:void(0)" 
@@ -76,7 +90,23 @@
         </p>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
+        if (typeof Fancybox !== 'undefined') {
+            Fancybox.bind('[data-fancybox="gallery-{{ $getRecord()->id }}"]', {
+                Toolbar: {
+                    display: {
+                        left: ["infobar"],
+                        middle: [],
+                        right: ["slideshow", "thumbs", "close"]
+                    }
+                },
+                Thumbs: {
+                    autoStart: false
+                }
+            });
+        }
+        
         window.setAsMainImage{{ $getRecord()->id }} = function(imageUrl) {
             if (!confirm('Сделать это изображение главным?')) {
                 return;
