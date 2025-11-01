@@ -42,9 +42,34 @@ class ReviewResource extends Resource
                     ->label('Изображение')
                     ->image()
                     ->directory('images/content')
-                    ->disk('public')
+                    ->disk('public_images')
+                    ->visibility('public')
                     ->maxSize(10240)
-                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/jpg', 'image/gif']),
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/jpg', 'image/gif'])
+                    ->getUploadedFileNameForStorageUsing(function ($file) {
+                        return uniqid() . '.' . $file->getClientOriginalExtension();
+                    })
+                    ->saveUploadedFileUsing(function ($file, $record) {
+                        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+                        
+                        if ($record && $record->image) {
+                            $oldPath = public_path('images/content/' . basename($record->image));
+                            if (file_exists($oldPath)) {
+                                @unlink($oldPath);
+                            }
+                        }
+                        
+                        $file->storeAs('images/content', $filename, 'public_images');
+                        return $filename;
+                    })
+                    ->deleteUploadedFileUsing(function ($file, $record) {
+                        if ($record && $record->image) {
+                            $path = public_path('images/content/' . basename($record->image));
+                            if (file_exists($path)) {
+                                @unlink($path);
+                            }
+                        }
+                    }),
                 Forms\Components\TextInput::make('tags')
                     ->label('Теги')
                     ->maxLength(255),

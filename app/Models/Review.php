@@ -47,11 +47,27 @@ class Review extends Model
             return $this->image;
         }
 
-        if (str_starts_with($this->image, 'images/content/')) {
-            return asset($this->image);
+        $imagePath = $this->image;
+        
+        $imagePath = str_replace('\\', '/', $imagePath);
+        
+        if (str_starts_with($imagePath, 'images/content/images/')) {
+            $imagePath = str_replace('images/content/images/', 'images/', $imagePath);
+        }
+        
+        if (str_starts_with($imagePath, 'images/uploads/')) {
+            $imagePath = str_replace('images/uploads/', 'images/content/uploads/', $imagePath);
+        }
+        
+        if (str_starts_with($imagePath, 'uploads/')) {
+            $imagePath = 'images/content/' . $imagePath;
+        }
+        
+        if (str_starts_with($imagePath, 'images/content/')) {
+            return asset($imagePath);
         }
 
-        return asset('images/content/' . $this->image);
+        return asset('images/content/' . $imagePath);
     }
 
     public function getStatusLabelAttribute()
