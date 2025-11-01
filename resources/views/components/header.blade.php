@@ -342,7 +342,6 @@
                                 <li><a href="{{ route('about') }}">О нас</a></li>
                                 <li><a href="{{ route('blog') }}">Блог</a></li>
                                 <li><a href="{{ route('reviews') }}" class="header__link">Отзывы</a></li>
-                                        <li><a href="{{ route('online') }}">Онлайн-закупки на сайте</a></li>
                             </ul>
                         </div>
                         <div class="header-menu__item">

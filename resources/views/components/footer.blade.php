@@ -32,7 +32,6 @@
                     <li><a href="{{ route('about') }}">О нас</a></li>
                     <li><a href="{{ route('blog') }}">Блог</a></li>
                     <li><a href="{{ route('reviews') }}" class="footer-columns__link">Отзывы</a></li>
-                            <li><a href="{{ route('online') }}">Онлайн-закупки на сайте</a></li>
                 </ul>
             </div>
         </div>
@@ -105,9 +104,6 @@
                             <li class="footer-columns__item"><a href="{{ route('blog') }}" class="footer-columns__link">Блог</a>
                             </li>
                             <li class="footer-columns__item"><a href="{{ route('reviews') }}" class="footer-columns__link">Отзывы</a>
-                            </li>
-                            <li class="footer-columns__item">
-                                <a href="{{ route('online') }}" class="footer-columns__link">Онлайн-закупки на сайте</a>
                             </li>
                         </ul>
                     </div>
